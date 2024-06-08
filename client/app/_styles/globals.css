@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Primary Colors */
+    --color-purple: 124, 93, 250; /* rgb(124, 93, 250) */
+    --color-heliotrope: 146, 119, 255; /* rgb(146, 119, 255) */
+
+    --color-orange: 255, 143, 0; /* rgb(255, 143, 0) */
+    --color-green: 51, 214, 159; /* rgb(51, 214, 159) */
+    --color-gray: 55, 59, 83; /* rgb(55, 59, 83) */
+
+    --color-faded-orange: 255, 143, 0, 0.0571; /* rgba(255, 143, 0, 0.0571) */
+
+    /* Dark Shades */
+    --color-mirage: 30, 33, 57; /* rgb(30, 33, 57) */
+    --color-ebony: 37, 41, 69; /* rgb(37, 41, 69) */
+    --color-vulcan: 12, 14, 22; /* rgb(12, 14, 22) */
+    --color-mirage2: 20, 22, 37; /* rgb(20, 22, 37) */
+    --color-dark-accent: 73, 78, 110; /* rgb(73, 78, 110) */
+    --color-black: 0, 0, 0; /* rgb(0, 0, 0) */
+
+    /* Light Shades */
+    --color-selago: 223, 227, 250; /* rgb(223, 227, 250) */
+    --color-whisper: 248, 248, 251; /* rgb(248, 248, 251) */
+    --color-off-white: 249, 250, 254; /* rgb(249, 250, 254) */
+    --color-white: 255, 255, 255; /* rgb(255, 255, 255) */
+
+    /* Other Colors */
+    --color-bali-hai: 136, 142, 176; /* rgb(136, 142, 176) */
+    --color-ship-cove: 126, 136, 195; /* rgb(126, 136, 195) */
+    --color-burnt-sienna: 236, 87, 87; /* rgb(236, 87, 87) */
+    --color-mona-lisa: 255, 151, 151; /* rgb(255, 151, 151) */
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --color-bali-hai: 255, 255, 255;
+    --color-whisper: 20, 22, 37;
+
+    --color-black: 255, 255, 255;
+    --color-white: 30, 33, 57;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .dark {
+      --color-bali-hai: 255, 255, 255;
+      --color-whisper: 20, 22, 37;
+
+      --color-black: 255, 255, 255;
+      --color-white: 30, 33, 57;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
