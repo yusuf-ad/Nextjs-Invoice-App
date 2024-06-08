@@ -139,3 +139,37 @@
     animation: spin 2s linear infinite;
   }
 }
+
+@layer utilities {
+  .center-xy {
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .center-x {
+    @apply left-1/2 -translate-x-1/2;
+  }
+
+  .center-y {
+    @apply top-1/2 -translate-y-1/2;
+  }
+
+  .transition-1 {
+    @apply transition-all duration-100;
+  }
+  .transition-2 {
+    @apply transition-all duration-200;
+  }
+  .transition-3 {
+    @apply transition-all duration-300;
+  }
+
+  .transition-colors-1 {
+    @apply transition-colors duration-100;
+  }
+  .transition-colors-2 {
+    @apply transition-colors duration-200;
+  }
+  .transition-colors-3 {
+    @apply transition-colors duration-300;
+  }
+}
