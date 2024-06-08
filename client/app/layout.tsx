@@ -18,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} min-h-screen relative bg-skin-whisper text-skin-black transition-colors duration-300 flex flex-col`}
+        className={`${inter.className} relative flex min-h-screen flex-col bg-skin-whisper text-skin-black antialiased`}
       >
         <AppHeader />
 
-        {children}
+        <div className="grid flex-1 px-8 py-12">
+          <main className="mx-auto w-full max-w-3xl">{children}</main>
+        </div>
       </body>
     </html>
   );

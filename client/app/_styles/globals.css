@@ -120,3 +120,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .btn-sm {
+    @apply transition-colors-3 rounded-full px-6 py-4 text-xs font-bold tracking-wider;
+  }
+
+  .btn-md {
+    @apply rounded-2xl px-8 py-4 text-sm font-bold transition-opacity duration-300 hover:opacity-85;
+  }
+
+  .loader-mini {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    width: 18px;
+    height: 18px;
+    animation: spin 2s linear infinite;
+  }
+}
