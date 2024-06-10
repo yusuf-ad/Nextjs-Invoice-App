@@ -3,7 +3,7 @@ import Link from "next/link";
 import rightChevron from "@/public/assets/icon-arrow-right.svg";
 import Image from "next/image";
 import InvoiceStatus from "./InvoiceStatus";
-import { formatDate, formatMoney } from "../_lib/utils";
+import { formatDate, formatMoney } from "../../lib/utils";
 
 export type InvoiceProps = {
   invoiceId: string;

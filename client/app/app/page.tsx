@@ -2,7 +2,7 @@ import InvoicesCount from "../_components/InvoicesCount";
 import Filter from "../_components/Filter";
 import ButtonNewInvoice from "../_components/ButtonNewInvoice";
 import InvoicesList from "../_components/InvoicesList";
-import { getInvoices } from "../_lib/data-service";
+import { getInvoices } from "../../lib/data-service";
 
 async function Page() {
   const { invoices } = await getInvoices();
