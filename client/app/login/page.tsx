@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login } from "@/lib/actions";
+import { login } from "@/lib/data-service";
 
 const formSchema = z.object({
   username: z.string().min(2).max(30),
@@ -26,9 +26,11 @@ function Page() {
     resolver: zodResolver(formSchema),
   });
 
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   console.log(values);
-  // }
+  async function onSubmit(loginCreds: z.infer<typeof formSchema>) {
+    await login(loginCreds);
+
+    location.href = "/app";
+  }
 
   return (
     <div className="center-x container absolute top-1/4 max-w-lg px-4">
@@ -38,8 +40,8 @@ function Page() {
 
       <Form {...form}>
         <form
-          action={login}
-          // onSubmit={form.handleSubmit(onSubmit)}
+          // action={login}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="mt-8 flex flex-col rounded-md bg-white px-8 py-6 dark:bg-skin-mirage"
         >
           <div className="flex flex-col gap-4">
