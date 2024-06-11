@@ -7,3 +7,11 @@ export const getInvoices = async function () {
 
   return data;
 };
+
+// export const hasAuth = async function () {
+//   const res = await fetch(`${BASE_URL}/users/check-auth`);
+
+//   const data = await res.json();
+
+//   console.log(data);
+// };

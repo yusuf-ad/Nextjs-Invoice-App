@@ -30,3 +30,17 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.isAuthenticated = catchAsync(async (req, res, next) => {
+  if (req.user) {
+    res.status(200).json({
+      isAuthenticated: true,
+      message: "You are authenticated.",
+    });
+  } else {
+    res.status(401).json({
+      isAuthenticated: false,
+      message: "You are not authenticated. Please log in to get access.",
+    });
+  }
+});

@@ -22,7 +22,7 @@ export async function login(formData: FormData) {
     const data = await res.json();
 
     if (!res.ok) {
-      console.log("shalom");
+      console.log("selam");
 
       const { message } = data;
 
@@ -32,5 +32,5 @@ export async function login(formData: FormData) {
     throw new Error(`${error.message}`);
   }
 
-  redirect("/app");
+  // redirect("/app");
 }

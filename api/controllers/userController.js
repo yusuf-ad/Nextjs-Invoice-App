@@ -83,6 +83,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+  console.log("denemeser", req.body);
+
   const { username, password } = req.body;
 
   // 1. Check if username and password exist

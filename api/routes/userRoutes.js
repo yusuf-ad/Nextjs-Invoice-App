@@ -9,6 +9,12 @@ router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 
+router.get(
+  "/check-auth",
+  authController.protect,
+  authController.isAuthenticated
+);
+
 router.route("/").get(authController.protect, userController.getAllUsers);
 
 router
