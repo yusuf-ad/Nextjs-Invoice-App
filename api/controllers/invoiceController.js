@@ -7,7 +7,9 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 exports.getAllInvoices = catchAsync(async (req, res, next) => {
-  const { invoices } = await req.user.populate("invoices");
+  const { invoices } = await User.findById("66349de8e445f0130ad4fc1f").populate(
+    "invoices"
+  );
 
   res.status(200).json({
     status: "success",

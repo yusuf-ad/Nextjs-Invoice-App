@@ -1,9 +1,7 @@
 export const BASE_URL = "http://localhost:8000/api/v1";
 
 export const getInvoices = async function () {
-  const res = await fetch(`${BASE_URL}/invoices`);
-
-  console.log(res);
+  const res = await fetch(`http://localhost:3000/api/invoices`);
 
   const { data } = await res.json();
 
@@ -35,7 +33,7 @@ export async function login({
   password: string;
 }) {
   try {
-    const res = await fetch(`${BASE_URL}/users/login`, {
+    const res = await fetch(`http://localhost:3000/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
