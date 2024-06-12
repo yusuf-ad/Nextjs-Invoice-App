@@ -3,18 +3,29 @@ export const BASE_URL = "http://localhost:8000/api/v1";
 export const getInvoices = async function () {
   const res = await fetch(`${BASE_URL}/invoices`);
 
+  console.log(res);
+
   const { data } = await res.json();
 
   return data;
 };
 
-// export const hasAuth = async function () {
-//   const res = await fetch(`${BASE_URL}/users/check-auth`);
+export const hasAuth = async function (jwt: string): Promise<{
+  isAuthenticated: boolean;
+  message: string;
+}> {
+  const res = await fetch(`${BASE_URL}/users/check-auth`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: jwt,
+    },
+  });
 
-//   const data = await res.json();
+  const data = await res.json();
 
-//   console.log(data);
-// };
+  return data;
+};
 
 export async function login({
   username,

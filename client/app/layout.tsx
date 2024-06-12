@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/_styles/globals.css";
 import AppHeader from "./_components/AppHeader";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         className={`${inter.className} relative flex min-h-screen flex-col bg-skin-whisper text-skin-black antialiased`}
       >
         <AppHeader />
+        <Toaster />
 
         <div className="grid flex-1 px-8 py-12">
           <main className="mx-auto w-full max-w-3xl">{children}</main>

@@ -14,7 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+// import { login } from "@/lib/actions";
 import { login } from "@/lib/data-service";
+import { toast } from "react-hot-toast";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   username: z.string().min(2).max(30),
@@ -31,6 +34,14 @@ function Page() {
 
     location.href = "/app";
   }
+
+  useEffect(() => {
+    const showToast = localStorage.getItem("showToast");
+    if (showToast === "true") {
+      toast.success("You are already logged in.");
+      localStorage.removeItem("showToast"); // Clear the flag after showing toast
+    }
+  }, []);
 
   return (
     <div className="center-x container absolute top-1/4 max-w-lg px-4">
