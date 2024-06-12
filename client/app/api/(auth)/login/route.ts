@@ -1,16 +1,7 @@
 import { connect } from "@/lib/database";
 import User from "@/lib/models/userModel";
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-
-const createToken = (userId: string) => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-
-  // Return the set-cookie header
-  return `jwt=${token}; HttpOnly; Path=/; Max-Age=${1 * 24 * 60 * 60}; SameSite=Strict; ${process.env.NODE_ENV === "production" ? "Secure;" : ""}`;
-};
+import { createToken } from "@/lib/createToken";
 
 export async function POST(request: Request) {
   try {
@@ -36,10 +27,7 @@ export async function POST(request: Request) {
       throw new Error("You entered wrong password!");
     }
 
-    // 3. Send token to client
-    // createToken(res, user._id);
-
-    // Generate token and set it in cookie
+    // 3. Generate token and set it in cookie
     const tokenCookie = createToken(user._id.toString());
 
     user.password = undefined;

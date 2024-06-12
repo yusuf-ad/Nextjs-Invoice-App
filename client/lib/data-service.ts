@@ -1,7 +1,7 @@
-export const BASE_URL = "http://localhost:8000/api/v1";
+export const BASE_URL = "http://localhost:3000/api";
 
 export const getInvoices = async function () {
-  const res = await fetch(`http://localhost:3000/api/invoices`);
+  const res = await fetch(`${BASE_URL}/invoices`);
 
   const { data } = await res.json();
 
@@ -12,7 +12,7 @@ export const hasAuth = async function (jwt: string): Promise<{
   isAuthenticated: boolean;
   message: string;
 }> {
-  const res = await fetch(`${BASE_URL}/users/check-auth`, {
+  const res = await fetch(`http://localhost:8000/api/v1/users/check-auth`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export async function login({
   password: string;
 }) {
   try {
-    const res = await fetch(`http://localhost:3000/api/login`, {
+    const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

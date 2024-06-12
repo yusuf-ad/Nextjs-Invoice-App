@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 //   const password = loginCreds.get("password");
 
 //   try {
-//     const res = await fetch(`${BASE_URL}/users/login`, {
+//     const res = await fetch(`${BASE_URL}/login`, {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -19,7 +19,6 @@ import { redirect } from "next/navigation";
 //     const data = await res.json();
 
 //     if (!res.ok) {
-//       console.log("selam");
 
 //       const { message } = data;
 

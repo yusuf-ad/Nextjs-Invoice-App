@@ -1,24 +1,21 @@
 import jwt from "jsonwebtoken";
 
-const createToken = (res, userId) => {
-  const token = jwt.sign(
-    // payload
-    { userId },
-    // secret
-    process.env.JWT_SECRET,
-    // options
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    },
-  );
-
-  // set JWT as HTTP-only cookie
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 1 * 24 * 60 * 60 * 1000, // 1 days
+export const createToken = (userId: string) => {
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
-};
 
-module.exports = createToken;
+  // Construct cookie attributes in a structured manner
+  const cookieAttributes = [
+    `jwt=${token}`,
+    "HttpOnly",
+    "Path=/",
+    `Max-Age=${1 * 24 * 60 * 60}`, // 1 day in seconds
+    "SameSite=Strict",
+    process.env.NODE_ENV === "production" ? "Secure" : "",
+  ]
+    .filter(Boolean)
+    .join("; "); // Filter out any empty strings and join
+
+  return cookieAttributes;
+};
