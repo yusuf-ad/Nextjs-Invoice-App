@@ -9,16 +9,30 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/app" && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/", request.url));
+    const response = NextResponse.redirect(new URL("/", request.url));
+
+    response.cookies.set(
+      "showToast",
+      "ERR:You are not logged in! Please log in to get access to the app.",
+      {
+        path: "/",
+        httpOnly: false,
+        sameSite: "strict",
+        expires: new Date(Date.now() + 5 * 1000),
+      },
+    );
+
+    return response;
   }
 
   if ((pathname === "/" || pathname === "/login") && isAuthenticated) {
     const response = NextResponse.redirect(new URL("/app", request.url));
 
-    response.cookies.set("showToast", "true", {
-      path: "/",
+    response.cookies.set("showToast", `SUC:You are already logged in.`, {
+      path: "/app",
       httpOnly: false,
       sameSite: "strict",
+      expires: new Date(Date.now() + 5 * 1000),
     });
 
     return response;
