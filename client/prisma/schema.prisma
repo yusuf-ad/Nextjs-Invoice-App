@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName  String
+  email     String    @unique
+  photo     String?   @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg")
+  username  String    @unique
+  password  String
+  // invoices  
+}
+
+// model Address {
+//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
+//   street   String
+//   city     String
+//   postCode String
+//   country  String
+//   senderInvoices  Invoice[] @relation("SenderAddress")
+//   clientInvoices  Invoice[] @relation("ClientAddress")
+// }
+
+// model Invoice {
+//   id            String   @id @default(auto()) @map("_id") @db.ObjectId
+//   invoiceId     String?
+//   description   String   @default("Invoice description")
+//   status        String   @default("pending")
+//   paymentDue    String
+//   paymentTerms  String?
+//   total         Float    @default(0)
+//   items         Json
+//   senderAddress Address  @relation("SenderAddress", fields: [senderAddressId], references: [id])
+//   senderAddressId String @db.ObjectId
+//   clientName    String?
+//   clientEmail   String?
+//   clientAddress Address  @relation("ClientAddress", fields: [clientAddressId], references: [id])
+//   clientAddressId String @db.ObjectId
+//   user          User     @relation("UserInvoices", fields: [userId], references: [id])
+//   userId        String   @db.ObjectId
+//   createdAt     DateTime @default(now()) @db.Date
+//   updatedAt     DateTime @updatedAt @db.Date
+// }
+
