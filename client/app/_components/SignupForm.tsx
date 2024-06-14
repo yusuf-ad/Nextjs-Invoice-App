@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { SignupFormSchema } from "@/lib/definitions";
+import { SignupFormSchema } from "@/lib/auth/definitions";
 
 import Link from "next/link";
 import { signupAction } from "@/lib/actions";
@@ -42,7 +42,10 @@ function SignupForm() {
       formData.append("email", data.email);
       formData.append("password", data.password);
 
-      const { status, message } = await signupAction(formData);
+      const { status, message } = (await signupAction(formData)) ?? {
+        status: "",
+        message: "",
+      };
 
       if (status === "error") {
         toast.error(message);
@@ -75,6 +78,7 @@ function SignupForm() {
                 <FormLabel>Your fullname</FormLabel>
                 <FormControl>
                   <Input
+                    className="capitalize"
                     type="text"
                     placeholder="John Doe"
                     {...field}

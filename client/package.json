@@ -19,6 +19,7 @@
     "cookies-next": "^4.2.1",
     "date-and-time": "^3.3.0",
     "format-money-js": "^1.6.3",
+    "jose": "^5.4.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.381.0",
     "mongoose": "^8.4.1",

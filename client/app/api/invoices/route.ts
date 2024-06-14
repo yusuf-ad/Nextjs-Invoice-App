@@ -1,4 +1,4 @@
-import { connect } from "@/lib/database";
+import { connect } from "@/lib/auth/database";
 import { NextResponse } from "next/server";
 import Invoice from "@/lib/models/invoiceModel"; // Ensure this import is correct
 import User from "@/lib/models/userModel";

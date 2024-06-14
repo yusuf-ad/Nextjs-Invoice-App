@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/lib/database";
+import { connectToDatabase } from "@/lib/auth/database";
 import prisma from "@/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";

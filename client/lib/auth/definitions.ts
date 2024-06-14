@@ -6,3 +6,8 @@ export const SignupFormSchema = z.object({
   email: z.string({ message: "Can't be empty." }).email(),
   password: z.string({ message: "Can't be empty." }).min(4).max(24),
 });
+
+export type SessionPayload = {
+  userId: string | number;
+  expiresAt: Date;
+};

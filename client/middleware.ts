@@ -1,43 +1,28 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { hasAuth } from "./lib/data-service";
+import { cookies } from "next/headers";
+import { decrypt } from "./lib/auth/session";
 
 export async function middleware(request: NextRequest) {
-  const cookies = request.headers.get("cookie");
+  // 1. Check if route is protected
+  const protectedRoutes = ["/app"];
 
-  const { isAuthenticated, message } = await hasAuth(cookies || "");
+  const currentPath = request.nextUrl.pathname;
 
-  const { pathname } = request.nextUrl;
+  const isProtectedRoute = protectedRoutes.includes(currentPath);
 
-  if (pathname === "/app" && !isAuthenticated) {
-    const response = NextResponse.redirect(new URL("/", request.url));
+  if (isProtectedRoute) {
+    // 2. Check for valid session
+    const cookie = cookies().get("session")?.value;
+    const session = await decrypt(cookie);
 
-    response.cookies.set(
-      "showToast",
-      "ERR:You are not logged in! Please log in to get access to the app.",
-      {
-        path: "/",
-        httpOnly: false,
-        sameSite: "strict",
-        expires: new Date(Date.now() + 5 * 1000),
-      },
-    );
-
-    return response;
+    // 3. Redirect unauthed users
+    if (!session?.userId) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
   }
 
-  if ((pathname === "/" || pathname === "/login") && isAuthenticated) {
-    const response = NextResponse.redirect(new URL("/app", request.url));
-
-    response.cookies.set("showToast", `SUC:You are already logged in.`, {
-      path: "/app",
-      httpOnly: false,
-      sameSite: "strict",
-      expires: new Date(Date.now() + 5 * 1000),
-    });
-
-    return response;
-  }
-
+  //  4. Render route
   NextResponse.next();
 }
 
