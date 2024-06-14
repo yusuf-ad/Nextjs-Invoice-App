@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useActionState, useRef, useState } from "react";
 
 import {
   FormControl,
@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { SignupFormSchema } from "@/lib/definitions";
 
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { signupAction } from "@/lib/actions";
 
 export type FormState = {
@@ -50,7 +50,7 @@ function SignupForm() {
   //   formData.append("email", data.email);
   //   formData.append("password", data.password);
 
-  //   console.log(await signup(formData));
+  //   formAction(formData);
   // }
 
   return (
@@ -58,10 +58,10 @@ function SignupForm() {
       <form
         ref={formRef}
         className="mt-8 flex flex-col rounded-md bg-white px-10 py-8 dark:bg-skin-mirage"
-        action={formAction}
         onSubmit={form.handleSubmit(() => formRef.current?.submit())}
+        action={formAction}
       >
-        {/* <p className="text-red-400">{state.message}</p> */}
+        <p className="text-red-400">{state.message}</p>
 
         <div className="flex flex-col gap-5">
           <FormField

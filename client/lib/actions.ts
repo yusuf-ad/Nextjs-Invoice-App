@@ -33,6 +33,8 @@ import { redirect } from "next/navigation";
 
 import { SignupFormSchema } from "@/lib/definitions";
 import { FormState } from "@/app/_components/SignupForm";
+import bcrypt from "bcrypt";
+import prisma from "@/prisma";
 
 export async function signupAction(prevState: FormState, formData: FormData) {
   const signupData = Object.fromEntries(formData);
@@ -54,7 +56,23 @@ export async function signupAction(prevState: FormState, formData: FormData) {
 
   const { username, fullName, email, password } = validationResult.data;
 
-  return { message: "Signup successful!" };
+  // 2. Create user
+
+  // const hashedPassword = await bcrypt.hash(password, 12);
+
+  // const newUser = await prisma.user.create({
+  //   data: {
+  //     fullName,
+  //     email,
+  //     password: hashedPassword,
+  //     username,
+  //   },
+  // });
+
+  return {
+    message: "User created successfully.",
+    isLoading: false,
+  };
 
   //   try {
   //     const res = await fetch(`${BASE_URL}/signup`, {
