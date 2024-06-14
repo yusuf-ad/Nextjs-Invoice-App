@@ -1,98 +1,68 @@
 "use server";
 
-import { BASE_URL } from "./data-service";
 import { redirect } from "next/navigation";
-
-// export async function login(loginCreds: FormData) {
-//   const username = loginCreds.get("username");
-//   const password = loginCreds.get("password");
-
-//   try {
-//     const res = await fetch(`${BASE_URL}/login`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ username, password }),
-//       credentials: "include",
-//     });
-//     const data = await res.json();
-
-//     if (!res.ok) {
-
-//       const { message } = data;
-
-//       throw new Error(message || "An error occurred!");
-//     }
-//   } catch (error) {
-//     throw new Error(`${error.message}`);
-//   }
-
-//   redirect("/app");
-// }
-
 import { SignupFormSchema } from "@/lib/definitions";
-import { FormState } from "@/app/_components/SignupForm";
 import bcrypt from "bcrypt";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import prisma from "@/prisma";
 
-export async function signupAction(prevState: FormState, formData: FormData) {
-  const signupData = Object.fromEntries(formData);
+export async function signupAction(formData: FormData) {
+  try {
+    const signupData = Object.fromEntries(formData);
 
-  // 1. validate fields on server
-  const validationResult = SignupFormSchema.safeParse(signupData);
+    // 1. validate fields on server
+    const validationResult = SignupFormSchema.safeParse(signupData);
 
-  if (!validationResult.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(signupData)) {
-      fields[key] = signupData[key].toString();
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    if (!validationResult.success) {
+      return {
+        status: "error",
+        message: "Invalid data. Please check the fields.",
+      };
     }
 
+    const { username, fullName, email, password } = validationResult.data;
+
+    // 2. Create user
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.user.create({
+      data: {
+        fullName,
+        email,
+        password: hashedPassword,
+        username,
+      },
+    });
+
+    console.log(newUser);
+
     return {
-      message: "Invalid form data.",
-      fields,
+      status: "success",
+      message: "User created successfully.",
+    };
+  } catch (error: any) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        const target = error.meta?.target;
+
+        let message = "A user with this value already exists.";
+        if (typeof target === "string") {
+          message = `A user with this ${target.split("_").at(1)} already exists.`;
+        } else if (Array.isArray(target)) {
+          message = `A user with this ${target.join(", ")} already exists.`;
+        }
+        return {
+          status: "error",
+          message,
+        };
+      }
+    }
+    return {
+      status: "error",
+      message: "An unexpected error occurred.",
     };
   }
-
-  const { username, fullName, email, password } = validationResult.data;
-
-  // 2. Create user
-
-  // const hashedPassword = await bcrypt.hash(password, 12);
-
-  // const newUser = await prisma.user.create({
-  //   data: {
-  //     fullName,
-  //     email,
-  //     password: hashedPassword,
-  //     username,
-  //   },
-  // });
-
-  return {
-    message: "User created successfully.",
-    isLoading: false,
-  };
-
-  //   try {
-  //     const res = await fetch(`${BASE_URL}/signup`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ username, fullName, email, password }),
-  //       credentials: "include",
-  //     });
-  //     const data = await res.json();
-
-  //     if (!res.ok) {
-  //       const { message } = data;
-
-  //       throw new Error(message || "An error occurred!");
-  //     }
-  //   } catch (error) {
-  //     throw new Error(`${error.message}`);
-  //   }
-
-  //   redirect("/app");
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useState } from "react";
 
 import {
   FormControl,
@@ -17,18 +17,11 @@ import { useForm } from "react-hook-form";
 import { SignupFormSchema } from "@/lib/definitions";
 
 import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
 import { signupAction } from "@/lib/actions";
-
-export type FormState = {
-  message: string;
-  fields?: Record<string, string>;
-};
+import toast from "react-hot-toast";
 
 function SignupForm() {
-  const [state, formAction] = useFormState(signupAction, {
-    message: "",
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.output<typeof SignupFormSchema>>({
     resolver: zodResolver(SignupFormSchema),
@@ -37,32 +30,42 @@ function SignupForm() {
       fullName: "",
       email: "",
       password: "",
-      ...(state?.fields ?? {}),
     },
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
+  async function onSubmit(data: z.output<typeof SignupFormSchema>) {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("fullName", data.fullName);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
 
-  // async function onSubmit(data: z.output<typeof SignupFormSchema>) {
-  //   const formData = new FormData();
-  //   formData.append("username", data.username);
-  //   formData.append("fullName", data.fullName);
-  //   formData.append("email", data.email);
-  //   formData.append("password", data.password);
+      const { status, message } = await signupAction(formData);
 
-  //   formAction(formData);
-  // }
+      if (status === "error") {
+        toast.error(message);
+      }
+
+      if (status === "success") {
+        toast.success(message);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <Form {...form}>
       <form
-        ref={formRef}
         className="mt-8 flex flex-col rounded-md bg-white px-10 py-8 dark:bg-skin-mirage"
-        onSubmit={form.handleSubmit(() => formRef.current?.submit())}
-        action={formAction}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
-        <p className="text-red-400">{state.message}</p>
-
         <div className="flex flex-col gap-5">
           <FormField
             control={form.control}
@@ -141,7 +144,7 @@ function SignupForm() {
           />
         </div>
         <button className="btn-md mt-10 w-full bg-skin-purple font-extrabold text-skin-white disabled:cursor-not-allowed disabled:opacity-50">
-          Sign up
+          {isLoading ? "Signing up..." : "Sign up"}
         </button>
 
         <p className="mt-8 text-skin-black">
