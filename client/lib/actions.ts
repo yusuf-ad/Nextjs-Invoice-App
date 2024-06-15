@@ -5,17 +5,12 @@ import bcrypt from "bcrypt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import prisma from "@/prisma";
 import { createSession } from "./auth/session";
-import { redirect } from "next/navigation";
 
-function extractStringBetweenUnderscores(input: string) {
-  const match = input.match(/_(.*?)_/);
-  return match ? match[1] : null;
-}
+// Auth actions
 
 export async function signupAction(formData: FormData) {
-  const signupData = Object.fromEntries(formData);
-
   // 1. validate fields on server
+  const signupData = Object.fromEntries(formData);
   const validationResult = SignupFormSchema.safeParse(signupData);
 
   if (!validationResult.success) {
@@ -28,7 +23,6 @@ export async function signupAction(formData: FormData) {
   const { username, fullName, email, password } = validationResult.data;
 
   // 2. Create user
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
   let newUser;
@@ -65,3 +59,5 @@ export async function signupAction(formData: FormData) {
   // 3. Create session
   await createSession(newUser!.id.toString());
 }
+
+// Invoice actions

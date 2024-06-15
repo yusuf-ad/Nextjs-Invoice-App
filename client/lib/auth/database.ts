@@ -1,7 +1,5 @@
 // import mongoose from "mongoose";
 
-import prisma from "@/prisma";
-
 // const MONGODB_URI = process.env.MONGODB_URI;
 
 // export const connect = async () => {
@@ -27,6 +25,7 @@ import prisma from "@/prisma";
 //     throw new Error("Error connecting to the database");
 //   }
 // };
+import prisma from "@/prisma";
 
 export const connectToDatabase = async () => {
   try {
