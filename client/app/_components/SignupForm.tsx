@@ -21,8 +21,6 @@ import { signup } from "@/lib/actions";
 import toast from "react-hot-toast";
 
 function SignupForm() {
-  const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<z.output<typeof SignupFormSchema>>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
@@ -34,8 +32,9 @@ function SignupForm() {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   async function onSubmit(data: z.output<typeof SignupFormSchema>) {
-    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("username", data.username);
@@ -55,12 +54,8 @@ function SignupForm() {
       if (status === "success") {
         toast.success(message);
       }
-
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -149,7 +144,7 @@ function SignupForm() {
           />
         </div>
         <button className="btn-md mt-10 w-full bg-skin-purple font-extrabold text-skin-white disabled:cursor-not-allowed disabled:opacity-50">
-          {isLoading ? "Signing up..." : "Sign up"}
+          {isSubmitting ? "Signing up..." : "Sign up"}
         </button>
 
         <p className="mt-8 text-skin-black">

@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { LoginFormSchema } from "@/lib/auth/definitions";
 import { login } from "@/lib/actions";
+import toast from "react-hot-toast";
 
 function LoginForm() {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -29,6 +30,15 @@ function LoginForm() {
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("password", data.password);
+
+    const { status, message } = (await login(formData)) ?? {
+      status: "",
+      message: "",
+    };
+
+    if (status === "error") {
+      toast.error(message);
+    }
 
     await login(formData);
   }
