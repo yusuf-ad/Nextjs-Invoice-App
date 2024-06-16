@@ -4,6 +4,8 @@ import User from "@/lib/models/userModel";
 
 import { customAlphabet } from "nanoid";
 import prisma from "@/prisma";
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/auth/session";
 
 // export async function GET() {
 //   try {
@@ -36,58 +38,67 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 // Create a nanoid generator with the desired length and alphabet
 const nanoid = customAlphabet(alphabet, 6);
-
-// Generate the ID
-const invoiceId = nanoid(); // Example: 'AbC123'
-
 export async function POST(request: Request) {
   try {
+    // const cookie = cookies().get("session")?.value;
+
+    // const session = await decrypt(cookie);
+
+    // console.log(session);
+
+    // if (!session?.userId) {
+    //   return new Response(
+    //     JSON.stringify({ status: "error", message: "Unauthorized" }),
+    //     {
+    //       status: 401,
+    //       headers: { "Content-Type": "application/json" },
+    //     },
+    //   );
+    // }
+
     const body = await request.json();
 
-    const paymentTerms = body.paymentTerms.split(" ").at(1);
+    // Assuming `paymentTerms` is a string that you want to directly assign
+    const paymentTerms = body.paymentTerms;
 
     console.log(body);
 
     const invoiceTemplate = {
-      invoiceId: nanoid(),
+      invoiceId: nanoid(), // Ensure you have imported `nanoid`
       description: body.description,
-      status: body.status,
+      status: body.status, // Make sure this matches one of the enum values: 'pending', 'paid', 'draft'
       paymentDue: body.paymentDue,
       paymentTerms,
       clientName: body.clientName,
       clientEmail: body.clientEmail,
-      // senderAddress: body.senderAddress,
-      items: {
-        create: body.items.map((item: any) => ({
-          name: item.name,
-          qty: item.qty,
-          price: item.price,
-          totalPrice: item.totalPrice,
-          itemId: nanoid(),
-          // id field should be omitted or handled appropriately if it's not auto-generated
-        })),
-      },
+      clientAddress: body.clientAddress, // Directly assigning JSON object
+      senderAddress: body.senderAddress, // Directly assigning JSON object
+      items: body.items, // Directly assigning JSON array
       total: body.total,
+      userId: "666dadcad23ece684be02b5a",
+      // If you have a userId, include it here. Otherwise, remove this line.
+      // userId: "someUserId",
     };
 
     const newInvoice = await prisma.invoice.create({
       data: invoiceTemplate,
-      include: {
-        items: true,
-      },
+      // Assuming you want to return the created invoice without relations (since they are JSON fields)
     });
 
-    return Response.json(
-      {
+    return new Response(
+      JSON.stringify({
         status: "success",
         data: newInvoice,
-      },
-      { status: 201 },
+      }),
+      { status: 201, headers: { "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    return Response.json(
-      { status: "error", message: error.message },
-      { status: 500 },
+    return new Response(
+      JSON.stringify({
+        status: "error",
+        message: error.message,
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }

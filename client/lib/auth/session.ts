@@ -24,7 +24,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1hr")
+    .setExpirationTime("24hr")
     .sign(key);
 }
 
@@ -33,8 +33,6 @@ export async function decrypt(session: string | undefined = "") {
     const { payload } = await jwtVerify(session, key, {
       algorithms: ["HS256"],
     });
-
-    console.log(payload);
 
     return payload;
   } catch (error) {

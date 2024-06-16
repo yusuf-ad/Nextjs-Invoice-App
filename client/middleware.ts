@@ -1,47 +1,33 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { decrypt, deleteSession } from "./lib/auth/session";
 
-export async function middleware(request: NextRequest) {
-  // 1. Check if route is protected
-  const protectedRoutes = ["/app"];
+// 1. Specify protected and public routes
+const protectedRoutes = ["/app"];
+const publicRoutes = ["/login", "/signup", "/"];
 
-  const currentPath = request.nextUrl.pathname;
+export default async function middleware(req: NextRequest) {
+  // 2. Check if the current route is protected or public
+  const path = req.nextUrl.pathname;
+  const isProtectedRoute = protectedRoutes.includes(path);
+  const isPublicRoute = publicRoutes.includes(path);
 
-  const isProtectedRoute = protectedRoutes.includes(currentPath);
-
-  // 2. Check for valid session
+  // 3. Decrypt the session from the cookie
   const cookie = cookies().get("session")?.value;
   const session = await decrypt(cookie);
 
-  if (Date.now() > session?.expiresAt) {
-    return await deleteSession();
+  // 4. Redirect
+  if (isProtectedRoute && !session?.userId) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  if (isProtectedRoute) {
-    // 3. Redirect unauthed users
-    if (!session?.userId) {
-      return NextResponse.redirect(new URL("/login", request.nextUrl));
-    }
+  if (
+    isPublicRoute &&
+    session?.userId &&
+    !req.nextUrl.pathname.startsWith("/app")
+  ) {
+    return NextResponse.redirect(new URL("/app", req.nextUrl));
   }
 
-  // Define an array of paths that require session validation
-  const authRequiredPaths = ["/", "/login", "/signup"];
-
-  if (authRequiredPaths.includes(currentPath)) {
-    console.log(session);
-    console.log(session?.userId);
-
-    // If a valid session exists, redirect authenticated users to the /app page
-    if (session?.userId) {
-      return NextResponse.redirect(new URL("/app", request.nextUrl));
-    }
-  }
-
-  //  4. Render route
-  NextResponse.next();
+  return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/app", "/login", "/"],
-};

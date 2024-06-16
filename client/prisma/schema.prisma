@@ -3,90 +3,46 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  fullName String
-  email    String  @unique
-  photo    String? @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg")
-  username String  @unique
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName String    @unique
+  email    String    @unique
+  photo    String?   @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg")
+  username String    @unique
   password String
-  // invoices Invoice[]
+  invoices Invoice[]
 }
 
 model Invoice {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  invoiceId    String?
-  description  String   @default("Invoice description")
-  status       Status   @default(pending)
-  paymentDue   String
-  paymentTerms String?
-  clientName   String?
-  clientEmail  String?
-  total        Float    @default(0)
-  items        Item[]
-  createdAt    DateTime @default(now()) @db.Date
-  updatedAt    DateTime @updatedAt @db.Date
-
-  // addressId String  @db.ObjectId
-  // senderAddress Address @relation(fields: [addressId], references: [id])
-  // User   User?   @relation(fields: [userId], references: [id])
-  // userId String? @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  invoiceId     String?
+  description   String   @default("Invoice description")
+  status        Status   @default(pending)
+  paymentDue    String
+  paymentTerms  String?
+  clientName    String?
+  clientEmail   String?
+  total         Float    @default(0)
+  items         Json[]
+  senderAddress Json
+  clientAddress Json
+  createdAt     DateTime @default(now()) @db.Date
+  updatedAt     DateTime @updatedAt @db.Date
+  User          User?    @relation(fields: [userId], references: [id])
+  userId        String?  @db.ObjectId
 }
-
-model Item {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  qty        Int
-  price      Float
-  totalPrice Float
-  itemId     String
-
-  Invoice   Invoice? @relation(fields: [invoiceId], references: [id])
-  invoiceId String?  @db.ObjectId
-}
-
-// model Address {
-//   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-//   street   String
-//   city     String
-//   postCode String
-//   country  String
-//   Invoice  Invoice[]
-// }
 
 enum Status {
   pending
   paid
   draft
 }
-
-// model Invoice {
-//   description   String   @default("Invoice description")
-//   senderAddress Address  @relation("SenderAddress", fields: [senderAddressId], references: [id])
-//   senderAddressId String @db.ObjectId
-//   clientAddress Address  @relation("ClientAddress", fields: [clientAddressId], references: [id])
-//   clientAddressId String @db.ObjectId
-//   user          User     @relation("UserInvoices", fields: [userId], references: [id])
-//   userId        String   @db.ObjectId
-
-// }
-
-// model Address {
-//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-//   street   String
-//   city     String
-//   postCode String
-//   country  String
-//   senderInvoices  Invoice[] @relation("SenderAddress")
-//   clientInvoices  Invoice[] @relation("ClientAddress")
-// }
