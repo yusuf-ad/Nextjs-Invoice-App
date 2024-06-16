@@ -1,58 +1,30 @@
-export const BASE_URL = "http://localhost:3000/api";
+import prisma from "@/prisma";
+import { verifySession } from "./auth/session";
 
-export const getInvoices = async function () {
-  const res = await fetch(`${BASE_URL}/invoices`);
-
-  const { data } = await res.json();
-
-  return data;
-};
-
-export const hasAuth = async function (jwt: string): Promise<{
-  isAuthenticated: boolean;
-  message: string;
-}> {
-  const res = await fetch(`http://localhost:8000/api/v1/users/check-auth`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: jwt,
-    },
-  });
-
-  const data = await res.json();
-
-  return data;
-};
-
-export async function login({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) {
+export async function getInvoices() {
   try {
-    const res = await fetch(`${BASE_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-      credentials: "include",
-    });
-    const data = await res.json();
+    // 1. Check authentication
+    const session = await verifySession();
 
-    if (!res.ok) {
-      console.log("selam");
-
-      const { message } = data;
-
-      throw new Error(message || "An error occurred!");
+    if (!session) {
+      return {
+        status: "error",
+        message: "Unauthorized",
+      };
     }
-  } catch (error) {
-    throw new Error(`${error.message}`);
-  }
 
-  // redirect("/app");
+    // 2. Fetch invoices from database
+    const invoices = await prisma.invoice.findMany({
+      where: {
+        userId: session.userId,
+      },
+    });
+
+    return invoices;
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Failed to fetch invoices",
+    };
+  }
 }

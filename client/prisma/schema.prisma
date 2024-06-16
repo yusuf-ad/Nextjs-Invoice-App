@@ -19,7 +19,7 @@ model User {
   photo    String?   @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg")
   username String    @unique
   password String
-  invoices Invoice[]
+  Invoice  Invoice[]
 }
 
 model Invoice {

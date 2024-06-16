@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { SignupFormSchema } from "@/lib/auth/definitions";
 
 import Link from "next/link";
-import { signupAction } from "@/lib/actions";
+import { signup } from "@/lib/actions";
 import toast from "react-hot-toast";
 
 function SignupForm() {
@@ -28,6 +28,7 @@ function SignupForm() {
     defaultValues: {
       username: "",
       fullName: "",
+
       email: "",
       password: "",
     },
@@ -42,7 +43,7 @@ function SignupForm() {
       formData.append("email", data.email);
       formData.append("password", data.password);
 
-      const { status, message } = (await signupAction(formData)) ?? {
+      const { status, message } = (await signup(formData)) ?? {
         status: "",
         message: "",
       };

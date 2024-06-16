@@ -12,30 +12,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login } from "@/lib/data-service";
+// import { login } from "@/lib/data-service";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-
-const formSchema = z.object({
-  username: z.string().min(2).max(30),
-  password: z.string().min(4).max(24),
-});
+import { LoginFormSchema } from "@/lib/auth/definitions";
+import { login } from "@/lib/actions";
 
 function LoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
+    resolver: zodResolver(LoginFormSchema),
   });
 
-  async function onSubmit(loginCreds: z.infer<typeof formSchema>) {
-    await login(loginCreds);
+  const { isSubmitting } = form.formState;
 
-    location.href = "/app";
+  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("password", data.password);
+
+    await login(formData);
   }
 
   return (
     <Form {...form}>
       <form
-        // action={login}
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-8 flex flex-col rounded-md bg-white px-8 py-6 dark:bg-skin-mirage"
       >
@@ -70,7 +70,7 @@ function LoginForm() {
                     type="password"
                     placeholder="password"
                     {...field}
-                    value={field.value || ""}
+                    value={field.value?.trim() || ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -79,7 +79,7 @@ function LoginForm() {
           />
 
           <button className="btn-md mt-2 w-full bg-skin-purple font-extrabold text-skin-white disabled:cursor-not-allowed disabled:opacity-50">
-            Log in
+            {isSubmitting ? "Logging..." : "Login"}
           </button>
         </div>
 

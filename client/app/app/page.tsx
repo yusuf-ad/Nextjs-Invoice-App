@@ -5,18 +5,18 @@ import InvoicesList from "../_components/InvoicesList";
 import { getInvoices } from "../../lib/data-service";
 
 async function Page() {
-  // const { invoices } = await getInvoices();
+  const invoices = await getInvoices();
 
   return (
     <div className="container mt-4 max-w-3xl xl:mt-0">
       <header className="flex items-center gap-5">
-        <InvoicesCount numInvoices={0} />
+        <InvoicesCount numInvoices={invoices.length} />
 
         <Filter />
         <ButtonNewInvoice />
       </header>
 
-      <InvoicesList invoices={[]} />
+      <InvoicesList invoices={invoices} />
     </div>
   );
 }

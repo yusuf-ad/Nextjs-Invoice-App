@@ -1,14 +1,14 @@
 "use server";
 
-import { SignupFormSchema } from "@/lib/auth/definitions";
+import { LoginFormSchema, SignupFormSchema } from "@/lib/auth/definitions";
 import bcrypt from "bcrypt";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import prisma from "@/prisma";
 import { createSession } from "./auth/session";
+import { handlePrismaError } from "./handlePrismaError";
 
 // Auth actions
 
-export async function signupAction(formData: FormData) {
+export async function signup(formData: FormData) {
   // 1. validate fields on server
   const signupData = Object.fromEntries(formData);
   const validationResult = SignupFormSchema.safeParse(signupData);
@@ -38,26 +38,54 @@ export async function signupAction(formData: FormData) {
     });
     // Handle successful user creation (e.g., return newUser or a success message)
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        const target = error.meta?.target;
-
-        let message = "A user with this value already exists.";
-        if (typeof target === "string") {
-          message = `A user with this ${target.split("_").at(1)} already exists.`;
-        } else if (Array.isArray(target)) {
-          message = `A user with this ${target.join(", ")} already exists.`;
-        }
-        return {
-          status: "error",
-          message,
-        };
-      }
-    }
+    return handlePrismaError(error);
   }
 
   // 3. Create session
   await createSession(newUser!.id.toString());
+}
+
+export async function login(formData: FormData) {
+  // 1. validate fields on server
+  const loginData = Object.fromEntries(formData);
+
+  const validationResult = LoginFormSchema.safeParse(loginData);
+
+  if (!validationResult.success) {
+    return {
+      status: "error",
+      message: "Invalid data. Please check the fields.",
+    };
+  }
+
+  const { username, password } = validationResult.data;
+
+  // 2. Query the database for the user with the given username
+  const user = await prisma.user.findFirst({
+    where: {
+      username: username,
+    },
+  });
+
+  if (!user) {
+    return {
+      status: "error",
+      message: "Invalid credentials",
+    };
+  }
+
+  // 3. Compare the password with the hashed password
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    return {
+      status: "error",
+      message: "Invalid credentials",
+    };
+  }
+
+  // 4. If login successful, create a session for the user and redirect
+  await createSession(user.id);
 }
 
 // Invoice actions
