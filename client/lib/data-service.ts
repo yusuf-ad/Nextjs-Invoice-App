@@ -7,10 +7,7 @@ export async function getInvoices() {
     const session = await verifySession();
 
     if (!session) {
-      return {
-        status: "error",
-        message: "Unauthorized",
-      };
+      throw new Error("Unauthorized");
     }
 
     // 2. Fetch invoices from database
@@ -20,11 +17,10 @@ export async function getInvoices() {
       },
     });
 
+    console.log(typeof invoices.at(0)?.paymentDue);
+
     return invoices;
   } catch (error) {
-    return {
-      status: "error",
-      message: "Failed to fetch invoices",
-    };
+    throw new Error("Failed to fetch invoices");
   }
 }

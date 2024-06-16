@@ -28,9 +28,9 @@ model Invoice {
   description   String   @default("Invoice description")
   status        Status   @default(pending)
   paymentDue    String
-  paymentTerms  String?
-  clientName    String?
-  clientEmail   String?
+  paymentTerms  String
+  clientName    String
+  clientEmail   String
   total         Float    @default(0)
   items         Json[]
   senderAddress Json
@@ -38,7 +38,7 @@ model Invoice {
   createdAt     DateTime @default(now()) @db.Date
   updatedAt     DateTime @updatedAt @db.Date
   User          User?    @relation(fields: [userId], references: [id])
-  userId        String?  @db.ObjectId
+  userId        String   @db.ObjectId
 }
 
 enum Status {

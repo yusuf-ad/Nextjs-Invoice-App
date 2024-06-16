@@ -9,7 +9,7 @@ export type InvoiceProps = {
   invoiceId: string;
   clientName: string;
   total: number;
-  paymentDue: Date;
+  paymentDue: string;
   status: "paid" | "pending" | "draft";
 };
 
