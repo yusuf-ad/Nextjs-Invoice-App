@@ -3,8 +3,9 @@
 import { LoginFormSchema, SignupFormSchema } from "@/lib/auth/definitions";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
-import { createSession } from "./auth/session";
+import { createSession, deleteSession } from "./auth/session";
 import { handlePrismaError } from "./handlePrismaError";
+import { redirect } from "next/navigation";
 
 // Auth actions
 
@@ -86,6 +87,12 @@ export async function login(formData: FormData) {
 
   // 4. If login successful, create a session for the user and redirect
   await createSession(user.id);
+}
+
+export async function logout() {
+  await deleteSession();
+
+  redirect("/");
 }
 
 // Invoice actions

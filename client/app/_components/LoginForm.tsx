@@ -40,7 +40,7 @@ function LoginForm() {
       toast.error(message);
     }
 
-    await login(formData);
+    toast.success("Logged in succesfully.");
   }
 
   return (
