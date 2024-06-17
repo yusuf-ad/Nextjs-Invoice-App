@@ -1,5 +1,7 @@
+"use client";
+
 import { logout } from "@/lib/actions";
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useTransition } from "react";
 import toast from "react-hot-toast";
 
 const UserMenu = forwardRef(
@@ -7,20 +9,18 @@ const UserMenu = forwardRef(
     {
       isActive,
       setIsActive,
+      handleLogout,
+      isPending,
     }: {
       isActive: boolean;
       setIsActive: (isOpen: boolean) => void;
+      handleLogout: () => void;
+      isPending: boolean;
     },
     ref,
   ) => {
     const logOutButton = useRef(null);
     const profileButton = useRef(null);
-
-    async function handleLogout() {
-      logout();
-
-      toast.success("Logged out succesfully");
-    }
 
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
@@ -39,7 +39,7 @@ const UserMenu = forwardRef(
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, []);
+    }, [setIsActive, ref]);
 
     return (
       <div
@@ -63,7 +63,7 @@ const UserMenu = forwardRef(
           ref={logOutButton}
           onClick={handleLogout}
         >
-          Log out
+          {isPending ? "Logging out..." : "Log out"}
         </button>
       </div>
     );
