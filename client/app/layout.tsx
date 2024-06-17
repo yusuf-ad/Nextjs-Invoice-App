@@ -27,7 +27,9 @@ export default function RootLayout({
 
         <ToastProvider>
           <div className="grid flex-1 px-8 py-12">
-            <main className="mx-auto w-full max-w-3xl">{children}</main>
+            <main className="relative mx-auto w-full max-w-3xl">
+              {children}
+            </main>
           </div>
         </ToastProvider>
       </body>
