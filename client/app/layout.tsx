@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/_styles/globals.css";
 import AppHeader from "./_components/AppHeader";
-import { ToastProvider } from "./_components/ToastContext";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,20 +18,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.className} relative flex min-h-screen flex-col bg-skin-whisper text-skin-black antialiased`}
       >
-        <AppHeader />
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster />
+          <AppHeader />
 
-        <ToastProvider>
           <div className="grid flex-1 px-8 py-12">
             <main className="relative mx-auto w-full max-w-3xl">
               {children}
             </main>
           </div>
-        </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
