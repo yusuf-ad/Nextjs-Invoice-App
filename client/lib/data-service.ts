@@ -1,5 +1,6 @@
 import prisma from "@/prisma";
-import { verifySession } from "./auth/session";
+import { decrypt, verifySession } from "./auth/session";
+import { cookies } from "next/headers";
 
 export async function getInvoices() {
   try {
@@ -23,4 +24,26 @@ export async function getInvoices() {
   } catch (error) {
     throw new Error("Failed to fetch invoices");
   }
+}
+
+export async function hasAuth(): Promise<{
+  status: string;
+  userId?: string;
+  message?: string;
+}> {
+  const cookie = cookies().get("session")?.value;
+
+  const session = await decrypt(cookie);
+
+  if (!session) {
+    return {
+      status: "error",
+      message: "Unauthorized",
+    };
+  }
+
+  return {
+    status: "success",
+    userId: session.userId as string,
+  };
 }

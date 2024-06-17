@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import {
   FormControl,
   Form,
@@ -26,7 +24,6 @@ function SignupForm() {
     defaultValues: {
       username: "",
       fullName: "",
-
       email: "",
       password: "",
     },
