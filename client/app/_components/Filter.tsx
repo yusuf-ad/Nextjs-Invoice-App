@@ -1,6 +1,5 @@
 "use client";
 
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -8,16 +7,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
-
 import iconDown from "@/public/assets/icon-arrow-down.svg";
 import Image from "next/image";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function Filter() {
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
-  const [showPanel, setShowPanel] = useState<Checked>(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  function handleFilter(filter: string) {
+    const params = new URLSearchParams(searchParams);
+
+    // 1. add or remove the filter from the search params
+    if (searchParams.has(filter)) {
+      params.delete(filter);
+    } else {
+      params.set(filter, "true");
+    }
+
+    // 2. update the URL with the new search params
+    replace(`${pathname}?${params.toString()}`);
+  }
 
   return (
     <div className="ml-auto flex items-center text-sm font-bold text-skin-black">
@@ -36,20 +47,23 @@ function Filter() {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-12 mt-2 w-48 space-y-1 p-5 text-xs font-bold text-skin-black">
           <DropdownMenuCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}
+            checked={searchParams.get("draft") === "true"}
+            defaultChecked={searchParams.get("draft") === "true"}
+            onCheckedChange={() => handleFilter("draft")}
           >
             <span className="ml-2">Draft</span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
+            checked={searchParams.get("pending") === "true"}
+            defaultChecked={searchParams.get("pending") === "true"}
+            onCheckedChange={() => handleFilter("pending")}
           >
             <span className="ml-2">Pending</span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
-            checked={showPanel}
-            onCheckedChange={setShowPanel}
+            checked={searchParams.get("paid") === "true"}
+            defaultChecked={searchParams.get("paid") === "true"}
+            onCheckedChange={() => handleFilter("paid")}
           >
             <span className="ml-2">Paid</span>
           </DropdownMenuCheckboxItem>
