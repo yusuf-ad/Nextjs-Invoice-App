@@ -45,7 +45,7 @@ function Filter() {
             />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-12 mt-2 w-48 space-y-1 p-5 text-xs font-bold text-skin-black">
+        <DropdownMenuContent className="mr-12 mt-2 w-48 p-4 text-xs font-bold text-skin-black">
           <DropdownMenuCheckboxItem
             checked={searchParams.get("draft") === "true"}
             defaultChecked={searchParams.get("draft") === "true"}

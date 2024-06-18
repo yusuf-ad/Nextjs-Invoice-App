@@ -18,8 +18,6 @@ export async function getInvoices() {
       },
     });
 
-    console.log(typeof invoices.at(0)?.paymentDue);
-
     return invoices;
   } catch (error) {
     throw new Error("Failed to fetch invoices");
