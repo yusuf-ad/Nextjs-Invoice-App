@@ -45,7 +45,7 @@ function SignupForm() {
       };
 
       if (status === "error") {
-        toast.error(message);
+        return toast.error(message);
       }
 
       toast.success("Signed up succesfully.");

@@ -37,7 +37,7 @@ function LoginForm() {
     };
 
     if (status === "error") {
-      toast.error(message);
+      return toast.error(message);
     }
 
     toast.success("Logged in succesfully.");
