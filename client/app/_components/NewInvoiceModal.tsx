@@ -17,7 +17,7 @@ function NewInvoiceModal() {
           <ButtonNewInvoice />
         </SheetTrigger>
         <SheetContent
-          className="top-20 w-full overflow-y-scroll bg-white transition-all duration-300 dark:bg-skin-mirage2 md:w-3/4 lg:max-w-3xl xl:top-0 xl:pl-28"
+          className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 md:w-3/4 lg:max-w-3xl xl:top-0 xl:pl-36"
           side={"left"}
         >
           <SheetHeader>
