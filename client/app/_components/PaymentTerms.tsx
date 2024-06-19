@@ -1,11 +1,8 @@
 import * as React from "react";
-
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -18,6 +15,14 @@ import {
 } from "@/components/ui/form";
 
 export function PaymentTerms({ form }) {
+  function handleValueChange(value: string) {
+    const paymentDays = parseInt(value.split(" ")[1], 10);
+    const paymentDueDate = new Date(Date.now());
+    paymentDueDate.setDate(paymentDueDate.getDate() + paymentDays);
+
+    form.setValue("paymentDue", paymentDueDate);
+  }
+
   return (
     <FormField
       control={form.control}
@@ -30,25 +35,20 @@ export function PaymentTerms({ form }) {
             </FormLabel>
             <FormMessage />
           </div>
-          <Select onValueChange={field.onChange} defaultValue={"Net 7 Days"}>
+          <Select onValueChange={handleValueChange} defaultValue={"Net 7 Days"}>
             <FormControl>
               <SelectTrigger className="h-12 px-4 font-bold dark:bg-skin-mirage">
                 <SelectValue placeholder="Net 7 Days" />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem className="h-10" value="Net 1 Day">
-                Net 1 Day
-              </SelectItem>
-              <SelectItem className="h-10" value="Net 7 Days">
-                Net 7 Days
-              </SelectItem>
-              <SelectItem className="h-10" value="Net 14 Days">
-                Net 14 Days
-              </SelectItem>
-              <SelectItem className="h-10" value="Net 30 Days">
-                Net 30 Days
-              </SelectItem>
+              {["Net 1 Day", "Net 7 Days", "Net 14 Days", "Net 30 Days"].map(
+                (term) => (
+                  <SelectItem key={term} className="h-10" value={term}>
+                    {term}
+                  </SelectItem>
+                ),
+              )}
             </SelectContent>
           </Select>
         </FormItem>

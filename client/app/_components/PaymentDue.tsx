@@ -43,14 +43,10 @@ export function PaymentDue({ form }) {
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "PPP")
+                    format(field.value, "dd MMM yyyy")
                   ) : (
                     <span className="text-skin-black">
-                      {new Date(Date.now()).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
+                      {format(new Date(Date.now()), "dd MMM yyyy")}
                     </span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -62,9 +58,6 @@ export function PaymentDue({ form }) {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
-                disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
-                }
                 initialFocus
               />
             </PopoverContent>

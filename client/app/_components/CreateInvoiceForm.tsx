@@ -46,6 +46,33 @@ const invoiceSchema = z.object({
 function CreateInvoiceForm() {
   const form = useForm<z.output<typeof invoiceSchema>>({
     resolver: zodResolver(invoiceSchema),
+    defaultValues: {
+      clientName: "",
+      clientEmail: "",
+      paymentDue: new Date(),
+      paymentTerms: "Net 7 Days",
+      description: "",
+      senderAddress: {
+        street: "",
+        city: "",
+        postCode: "",
+        country: "",
+      },
+      clientAddress: {
+        street: "",
+        city: "",
+        postCode: "",
+        country: "",
+      },
+      items: [
+        {
+          name: "",
+          qty: 1,
+          price: 0,
+          totalPrice: 0,
+        },
+      ],
+    },
   });
 
   function onSubmit(data: z.output<typeof invoiceSchema>) {
