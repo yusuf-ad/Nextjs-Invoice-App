@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FormControl,
   FormField,
@@ -7,8 +9,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, TrashIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function ItemsList({ form }) {
+  const [total, setTotal] = useState(0);
+
+  const qty = form.watch("items[0].qty");
+  const price = form.watch("items[0].price");
+
+  useEffect(() => {
+    const numericQty = isNaN(+qty) ? 0 : +qty;
+    const numericPrice = isNaN(+price) ? 0 : +price;
+    const calculatedTotal = numericQty * numericPrice;
+
+    form.setValue("items[0].totalPrice", calculatedTotal);
+
+    setTotal(calculatedTotal);
+  }, [qty, price, form]);
+
   return (
     <div>
       <h3 className="mb-5 mt-8 text-lg font-bold capitalize text-skin-baliHai">
@@ -18,25 +36,28 @@ function ItemsList({ form }) {
       <ul>
         <li className="flex gap-4">
           <FormField
-            name="description"
+            name="items[0].name"
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex-[2] space-y-3">
-                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                  Item Name
-                </FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                    Item Name
+                  </FormLabel>
+                  <FormMessage />
+                </div>
                 <FormControl>
                   <Input
+                    defaultValue={"New Item"}
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
-            name="description"
+            name="items[0].qty"
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex-1 space-y-3">
@@ -45,6 +66,8 @@ function ItemsList({ form }) {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
+                    defaultValue={1}
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
@@ -54,7 +77,7 @@ function ItemsList({ form }) {
             )}
           />
           <FormField
-            name="description"
+            name="items[0].price"
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex-1 space-y-3">
@@ -63,6 +86,8 @@ function ItemsList({ form }) {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
+                    defaultValue={0}
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
@@ -71,19 +96,18 @@ function ItemsList({ form }) {
               </FormItem>
             )}
           />
-          <div className="flex flex-[2] justify-around sm:col-span-3">
-            <div className="flex flex-col gap-5">
-              <label className="text-xs font-medium capitalize text-gray-400">
-                Total
-              </label>
-              <span className="mb-3 font-bold text-skin-shipCove">0.00</span>
+          <div className="flex flex-[2] flex-col sm:col-span-3">
+            <label className="mb-6 ml-8 mt-1 text-sm font-normal capitalize text-skin-baliHai">
+              Total
+            </label>
+            <div className="flex justify-around gap-7">
+              <span className="mb-3 font-bold text-skin-shipCove">
+                {total.toFixed(2)}
+              </span>
+              <button className="col-span-1 hidden sm:flex" type="button">
+                <TrashIcon className="h-5 w-5" />
+              </button>
             </div>
-            <button
-              className="col-span-1 mt-4 hidden items-center justify-center sm:mb-4 sm:flex"
-              type="button"
-            >
-              <TrashIcon className="h-5 w-5" />
-            </button>
           </div>
         </li>
       </ul>

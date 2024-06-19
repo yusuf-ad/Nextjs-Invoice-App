@@ -15,16 +15,18 @@ function Address({ form, address }) {
         control={form.control}
         render={({ field }) => (
           <FormItem className="space-y-3">
-            <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-              Street Address
-            </FormLabel>
+            <div className="flex justify-between">
+              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                Street Address
+              </FormLabel>
+              <FormMessage />
+            </div>
             <FormControl>
               <Input
                 className="h-12 px-4 font-bold dark:bg-skin-mirage"
                 {...field}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -35,16 +37,18 @@ function Address({ form, address }) {
           control={form.control}
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                City
-              </FormLabel>
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  City
+                </FormLabel>
+                <FormMessage />
+              </div>
               <FormControl>
                 <Input
                   className="h-12 px-4 font-bold dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -53,16 +57,18 @@ function Address({ form, address }) {
           control={form.control}
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                Post Code
-              </FormLabel>
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  Post Code
+                </FormLabel>
+                <FormMessage />
+              </div>
               <FormControl>
                 <Input
                   className="h-12 px-4 font-bold dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -71,16 +77,18 @@ function Address({ form, address }) {
           control={form.control}
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                Country
-              </FormLabel>
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  Country
+                </FormLabel>
+                <FormMessage />
+              </div>
               <FormControl>
                 <Input
                   className="h-12 px-4 font-bold dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />

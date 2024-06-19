@@ -24,9 +24,12 @@ export function PaymentTerms({ form }) {
       name="paymentTerms"
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-            Payment Terms
-          </FormLabel>
+          <div className="flex justify-between">
+            <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+              Payment Terms
+            </FormLabel>
+            <FormMessage />
+          </div>
           <Select onValueChange={field.onChange} defaultValue={"Net 7 Days"}>
             <FormControl>
               <SelectTrigger className="h-12 px-4 font-bold dark:bg-skin-mirage">
@@ -48,7 +51,6 @@ export function PaymentTerms({ form }) {
               </SelectItem>
             </SelectContent>
           </Select>
-          <FormMessage />
         </FormItem>
       )}
     />

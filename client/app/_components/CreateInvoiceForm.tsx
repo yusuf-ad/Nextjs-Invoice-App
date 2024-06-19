@@ -25,6 +25,13 @@ const addressSchema = z.object({
   country: z.string().min(1, "Country must not be empty"),
 });
 
+const itemSchema = z.object({
+  name: z.string().min(1, "Name must not be empty"),
+  qty: z.coerce.number().min(1, "Qty must be at least 1").max(1000),
+  price: z.coerce.number().min(1, "Price must be at least 1").max(100000),
+  totalPrice: z.coerce.number().min(1, "Total price must be at least 1"),
+});
+
 const invoiceSchema = z.object({
   clientName: z.string({ message: "Can't be empty" }).min(2).max(30),
   clientEmail: z.string({ message: "Can't be empty" }).email(),
@@ -33,6 +40,7 @@ const invoiceSchema = z.object({
   description: z.string(),
   senderAddress: addressSchema,
   clientAddress: addressSchema,
+  items: z.array(itemSchema),
 });
 
 function CreateInvoiceForm() {
@@ -44,9 +52,13 @@ function CreateInvoiceForm() {
     console.log(data);
   }
 
+  function onError(errors) {
+    console.log(errors);
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit, onError)}>
         <div className="space-y-4">
           <h3 className="mb-4 mt-8 text-sm font-bold capitalize text-skin-purple">
             Bill from
@@ -62,16 +74,18 @@ function CreateInvoiceForm() {
             control={form.control}
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                  Client&lsquo;s Name
-                </FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                    Client&lsquo;s Name
+                  </FormLabel>
+                  <FormMessage />
+                </div>
                 <FormControl>
                   <Input
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -80,16 +94,18 @@ function CreateInvoiceForm() {
             control={form.control}
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                  Client&lsquo;s Email
-                </FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                    Client&lsquo;s Email
+                  </FormLabel>
+                  <FormMessage />
+                </div>
                 <FormControl>
                   <Input
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -106,16 +122,18 @@ function CreateInvoiceForm() {
             control={form.control}
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                  Project Description
-                </FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                    Project Description
+                  </FormLabel>
+                  <FormMessage />
+                </div>
                 <FormControl>
                   <Input
                     className="h-12 px-4 font-bold dark:bg-skin-mirage"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />

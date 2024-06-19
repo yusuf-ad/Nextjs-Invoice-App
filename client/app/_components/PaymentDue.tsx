@@ -1,18 +1,13 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
-  Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,9 +26,12 @@ export function PaymentDue({ form }) {
       name="paymentDue"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-            Invoice Date
-          </FormLabel>
+          <div className="flex justify-between">
+            <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+              Invoice Date
+            </FormLabel>
+            <FormMessage />
+          </div>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -71,8 +69,6 @@ export function PaymentDue({ form }) {
               />
             </PopoverContent>
           </Popover>
-
-          <FormMessage />
         </FormItem>
       )}
     />
