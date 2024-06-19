@@ -1,13 +1,11 @@
-import { verifySession } from "@/lib/auth/session";
 import DarkModeButton from "./DarkModeButton";
 import HeaderLogo from "./HeaderLogo";
 import UserAvatar from "./UserAvatar";
 import { hasAuth } from "@/lib/data-service";
-import { useEffect } from "react";
 import clsx from "clsx";
 
 async function AppHeader() {
-  const { status, message, userId } = await hasAuth();
+  const { userId } = await hasAuth();
 
   return (
     <header

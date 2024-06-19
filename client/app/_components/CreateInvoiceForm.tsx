@@ -20,26 +20,26 @@ import PaymentDue from "./PaymentDue";
 import { nanoid } from "nanoid";
 
 const addressSchema = z.object({
-  street: z.string().min(1, "Street must not be empty"),
-  city: z.string().min(1, "City must not be empty"),
-  postCode: z.string().min(1, "Post code must not be empty"),
-  country: z.string().min(1, "Country must not be empty"),
+  street: z.string().min(1, "Required"),
+  city: z.string().min(1, "Required"),
+  postCode: z.string().min(1, "Required"),
+  country: z.string().min(1, "Required"),
 });
 
 const itemSchema = z.object({
-  name: z.string().min(1, "Name must not be empty"),
-  qty: z.coerce.number().min(1, "Qty must be at least 1").max(1000),
-  price: z.coerce.number().min(1, "Price must be at least 1").max(100000),
+  name: z.string().min(1, "Required"),
+  qty: z.coerce.number().min(1, "Invalid").max(1000),
+  price: z.coerce.number().min(1, "Invalid").max(100000),
   id: z.string(),
-  totalPrice: z.coerce.number().min(1, "Total price must be at least 1"),
+  totalPrice: z.coerce.number().min(1, "Required"),
 });
 
 const invoiceSchema = z.object({
-  clientName: z.string({ message: "Can't be empty" }).min(2).max(30),
-  clientEmail: z.string({ message: "Can't be empty" }).email(),
+  clientName: z.string().min(2, "Required").max(30),
+  clientEmail: z.string().email().min(1, "Required"),
   paymentDue: z.date(),
   paymentTerms: z.string(),
-  description: z.string(),
+  description: z.string().min(1, "Required"),
   senderAddress: addressSchema,
   clientAddress: addressSchema,
   items: z.array(itemSchema).min(1, "At least one item is required!"),

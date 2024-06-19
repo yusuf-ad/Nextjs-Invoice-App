@@ -27,7 +27,7 @@ model Invoice {
   invoiceId     String?
   description   String   @default("Invoice description")
   status        Status   @default(pending)
-  paymentDue    String
+  paymentDue    DateTime
   paymentTerms  String
   clientName    String
   clientEmail   String

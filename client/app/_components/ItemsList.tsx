@@ -26,8 +26,7 @@ function ItemsList({ fields, form, append, remove }) {
           ))
         ) : (
           <p className="text-lg font-medium text-skin-heliotrope">
-            {form.formState.errors.items &&
-              form.formState.errors.items.root.message}
+            No items added yet.
           </p>
         )}
       </ul>

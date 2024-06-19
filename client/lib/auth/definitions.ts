@@ -1,4 +1,3 @@
-import { JsonValue } from "@prisma/client/runtime/library";
 import { z } from "zod";
 
 export const SignupFormSchema = z.object({
@@ -34,7 +33,7 @@ export type SessionPayload = {
 
 export type Invoice = {
   description: string;
-  paymentDue: string;
+  paymentDue: Date;
   paymentTerms: string;
   clientName: string;
   clientEmail: string;
