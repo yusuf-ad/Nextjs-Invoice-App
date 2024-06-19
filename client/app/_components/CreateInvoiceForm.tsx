@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import Address from "./Address";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import PaymentDue from "./PaymentDue";
+import { nanoid } from "nanoid";
 
 const addressSchema = z.object({
   street: z.string().min(1, "Street must not be empty"),
@@ -29,6 +30,7 @@ const itemSchema = z.object({
   name: z.string().min(1, "Name must not be empty"),
   qty: z.coerce.number().min(1, "Qty must be at least 1").max(1000),
   price: z.coerce.number().min(1, "Price must be at least 1").max(100000),
+  id: z.string(),
   totalPrice: z.coerce.number().min(1, "Total price must be at least 1"),
 });
 
@@ -40,7 +42,7 @@ const invoiceSchema = z.object({
   description: z.string(),
   senderAddress: addressSchema,
   clientAddress: addressSchema,
-  items: z.array(itemSchema),
+  items: z.array(itemSchema).min(1, "At least one item is required!"),
 });
 
 function CreateInvoiceForm() {
@@ -66,13 +68,18 @@ function CreateInvoiceForm() {
       },
       items: [
         {
-          name: "",
           qty: 1,
           price: 0,
           totalPrice: 0,
+          id: nanoid(4),
         },
       ],
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "items",
+    control: form.control,
   });
 
   function onSubmit(data: z.output<typeof invoiceSchema>) {
@@ -165,7 +172,12 @@ function CreateInvoiceForm() {
             )}
           />
 
-          <ItemsList form={form} />
+          <ItemsList
+            fields={fields}
+            append={append}
+            remove={remove}
+            form={form}
+          />
         </div>
 
         <div className="mt-10 flex items-center justify-between xs:mt-12">
