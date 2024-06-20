@@ -23,7 +23,7 @@ function Address({ form, address }) {
             </div>
             <FormControl>
               <Input
-                className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                 {...field}
               />
             </FormControl>
@@ -45,7 +45,7 @@ function Address({ form, address }) {
               </div>
               <FormControl>
                 <Input
-                  className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                  className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>
@@ -65,7 +65,7 @@ function Address({ form, address }) {
               </div>
               <FormControl>
                 <Input
-                  className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                  className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>
@@ -85,7 +85,7 @@ function Address({ form, address }) {
               </div>
               <FormControl>
                 <Input
-                  className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                  className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                   {...field}
                 />
               </FormControl>

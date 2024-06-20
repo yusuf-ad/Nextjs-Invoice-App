@@ -1,18 +1,24 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import ButtonNewInvoice from "./ButtonNewInvoice";
 import CreateInvoiceForm from "./CreateInvoiceForm";
+import { useState } from "react";
 
 function NewInvoiceModal() {
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <ButtonNewInvoice />
         </SheetTrigger>
@@ -26,7 +32,7 @@ function NewInvoiceModal() {
             </SheetTitle>
           </SheetHeader>
 
-          <CreateInvoiceForm />
+          <CreateInvoiceForm closeModal={handleClose} />
         </SheetContent>
       </Sheet>
     </div>

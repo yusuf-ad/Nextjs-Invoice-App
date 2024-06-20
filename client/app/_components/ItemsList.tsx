@@ -85,7 +85,7 @@ function Item({ form, index, remove }) {
             <FormControl>
               <Input
                 defaultValue={"New Item"}
-                className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                 {...field}
               />
             </FormControl>

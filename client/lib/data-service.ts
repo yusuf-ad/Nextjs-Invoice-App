@@ -20,6 +20,7 @@ export async function getInvoices() {
 
     return invoices;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to fetch invoices");
   }
 }

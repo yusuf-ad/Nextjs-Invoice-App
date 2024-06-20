@@ -1,14 +1,18 @@
 "use server";
 
-import { LoginFormSchema, SignupFormSchema } from "@/lib/auth/definitions";
+import {
+  InvoiceSchema,
+  LoginFormSchema,
+  SignupFormSchema,
+} from "@/lib/auth/definitions";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
-import { createSession, deleteSession } from "./auth/session";
+import { createSession, deleteSession, verifySession } from "./auth/session";
 import { handlePrismaError } from "./handlePrismaError";
-import { redirect } from "next/navigation";
+import { generateInvoiceId } from "./utils";
+import { revalidatePath } from "next/cache";
 
-// Auth actions
-
+// * Auth actions
 export async function signup(formData: FormData) {
   // 1. validate fields on server
   const signupData = Object.fromEntries(formData);
@@ -93,4 +97,57 @@ export async function logout() {
   await deleteSession();
 }
 
-// Invoice actions
+// * Invoice actions
+
+export async function createInvoice(formData: FormData) {
+  // 1. validate the user input
+  const { clientAddress, senderAddress, items, paymentDue, ...otherData } =
+    Object.fromEntries(formData);
+
+  const parsedClientAddress = JSON.parse(clientAddress as string);
+  const parsedSenderAddress = JSON.parse(senderAddress as string);
+  const parsedItems = JSON.parse(items as string);
+  const parsedPaymentDue = new Date(paymentDue as string); // Assuming paymentDue is a date string
+
+  const validationResult = InvoiceSchema.safeParse({
+    clientAddress: parsedClientAddress,
+    senderAddress: parsedSenderAddress,
+    items: parsedItems,
+    paymentDue: parsedPaymentDue,
+    ...otherData,
+  });
+
+  if (!validationResult.success) {
+    return {
+      status: "error",
+      message: "Invalid data. Please check the fields.",
+    };
+  }
+
+  const totalValue = validationResult.data.items.reduce(
+    (acc, cur) => acc + cur.totalPrice,
+    0,
+  );
+
+  // 2. check if the user is authenticated
+  const session = await verifySession();
+
+  // 3. create invoice
+  const newInvoice = await prisma.invoice.create({
+    data: {
+      invoiceId: generateInvoiceId(),
+      ...validationResult.data,
+      total: totalValue,
+      userId: session.userId,
+    },
+  });
+
+  if (!newInvoice) {
+    return {
+      status: "error",
+      message: "Failed to create invoice",
+    };
+  }
+
+  revalidatePath("/app");
+}

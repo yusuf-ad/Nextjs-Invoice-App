@@ -3,7 +3,6 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,37 +17,15 @@ import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import PaymentDue from "./PaymentDue";
 import { nanoid } from "nanoid";
+import { createInvoice } from "@/lib/actions";
+import { InvoiceSchema } from "@/lib/auth/definitions";
+import toast from "react-hot-toast";
 
-const addressSchema = z.object({
-  street: z.string().min(1, "Required"),
-  city: z.string().min(1, "Required"),
-  postCode: z.string().min(1, "Required"),
-  country: z.string().min(1, "Required"),
-});
-
-const itemSchema = z.object({
-  name: z.string().min(1, "Required"),
-  qty: z.coerce.number().min(1, "Invalid").max(1000),
-  price: z.coerce.number().min(1, "Invalid").max(100000),
-  id: z.string(),
-  totalPrice: z.coerce.number().min(1, "Required"),
-});
-
-const invoiceSchema = z.object({
-  clientName: z.string().min(2, "Required").max(30),
-  clientEmail: z.string().email().min(1, "Required"),
-  paymentDue: z.date(),
-  paymentTerms: z.string(),
-  description: z.string().min(1, "Required"),
-  senderAddress: addressSchema,
-  clientAddress: addressSchema,
-  items: z.array(itemSchema).min(1, "At least one item is required!"),
-});
-
-function CreateInvoiceForm() {
-  const form = useForm<z.output<typeof invoiceSchema>>({
-    resolver: zodResolver(invoiceSchema),
+function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
+  const form = useForm<z.output<typeof InvoiceSchema>>({
+    resolver: zodResolver(InvoiceSchema),
     defaultValues: {
+      status: "pending",
       clientName: "",
       clientEmail: "",
       paymentDue: new Date(),
@@ -82,8 +59,31 @@ function CreateInvoiceForm() {
     control: form.control,
   });
 
-  function onSubmit(data: z.output<typeof invoiceSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.output<typeof InvoiceSchema>) {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (typeof value === "object" && !(value instanceof Date)) {
+        formData.append(key, JSON.stringify(value));
+      } else if (value instanceof Date) {
+        formData.append(key, value.toISOString());
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    const { status, message } = (await createInvoice(formData)) ?? {
+      status: "",
+      message: "",
+    };
+
+    if (status === "error") {
+      return toast.error(message);
+    }
+
+    closeModal();
+
+    toast.success("Invoice created successfully.");
   }
 
   function onError(errors) {
