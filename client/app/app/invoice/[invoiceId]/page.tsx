@@ -1,3 +1,4 @@
+import BackButton from "@/app/_components/BackButton";
 import DeleteInvoiceButton from "@/app/_components/DeleteInvoiceButton";
 import EditInvoiceButton from "@/app/_components/EditInvoiceButton";
 import InvoiceAddress from "@/app/_components/InvoiceAddress";
@@ -5,8 +6,6 @@ import InvoiceDetails from "@/app/_components/InvoiceDetails";
 import InvoiceStatus from "@/app/_components/InvoiceStatus";
 import ItemsTable from "@/app/_components/ItemsTable";
 import { getInvoice } from "@/lib/data-service";
-import ArrowLeft from "@/public/assets/icon-arrow-left.svg";
-import Image from "next/image";
 
 async function Page({ params }) {
   const { invoiceId } = params;
@@ -16,12 +15,7 @@ async function Page({ params }) {
   return (
     <div className="container mt-4 max-w-3xl xl:mt-0">
       <header>
-        <button className="group flex items-center gap-4">
-          <Image src={ArrowLeft} alt="Arrow left" />
-          <span className="text-sm font-bold group-hover:text-skin-shipCove">
-            Go back
-          </span>
-        </button>
+        <BackButton />
       </header>
 
       <section className="mb-20 md:mb-4">
@@ -34,14 +28,14 @@ async function Page({ params }) {
           <div className="hidden items-center space-x-3 md:flex">
             <EditInvoiceButton />
 
-            <DeleteInvoiceButton />
+            <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
             <button className="btn-sm min-w-max bg-skin-purple text-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-70">
               Mark as Paid
             </button>
           </div>
 
-          <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white dark:bg-skin-mirage md:hidden">
+          <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
             <EditInvoiceButton />
 
             <DeleteInvoiceButton />

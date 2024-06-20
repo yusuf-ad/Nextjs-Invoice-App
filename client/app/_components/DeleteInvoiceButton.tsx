@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function DeleteInvoiceButton() {
+function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
   return (
     <Dialog>
       <DialogTrigger>
@@ -22,7 +22,7 @@ function DeleteInvoiceButton() {
         <DialogDescription className="text-sm leading-6 text-skin-baliHai">
           Are you sure you want to delete invoice{" "}
           <span className="text-xs">#</span>
-          <span className="text-base">invoiceId?</span> This action cannot be
+          <span className="text-base">{invoiceId}?</span> This action cannot be
           undone.
         </DialogDescription>
 

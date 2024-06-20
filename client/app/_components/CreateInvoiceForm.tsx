@@ -182,7 +182,8 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
 
         <div className="mt-10 flex items-center justify-between xs:mt-12">
           <button
-            type="reset"
+            onClick={closeModal}
+            type="button"
             className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
           >
             Discard
