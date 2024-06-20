@@ -19,7 +19,7 @@ function Invoice({ invoice }: { invoice: InvoiceProps }) {
       className="inline-block w-full"
       href={`/app/invoice/${invoice.invoiceId}`}
     >
-      <li className="transition-1 w-full cursor-pointer rounded-md border-2 border-transparent bg-white px-6 py-5 text-sm hover:border-skin-purple/50 dark:bg-skin-mirage">
+      <li className="transition-1 w-full cursor-pointer rounded-md border-2 border-transparent bg-white px-6 py-5 text-sm shadow-sm hover:border-skin-purple/50 dark:bg-skin-mirage">
         {/* mobil */}
         <div className="flex flex-col gap-8 md:hidden">
           <div className="flex justify-between">
