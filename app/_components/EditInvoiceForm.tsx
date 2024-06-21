@@ -11,45 +11,14 @@ import PaymentDue from "./PaymentDue";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
-import { createDraftInvoice, createInvoice } from "@/lib/actions";
+import { createInvoice } from "@/lib/actions";
 import { InvoiceSchema } from "@/lib/auth/definitions";
 import { formatToFormData } from "@/lib/utils";
 
-const initialValues = {
-  clientName: "",
-  clientEmail: "",
-  paymentDue: new Date(),
-  paymentTerms: "Net 7 Days",
-  description: "",
-  senderAddress: {
-    street: "",
-    city: "",
-    postCode: "",
-    country: "",
-  },
-  clientAddress: {
-    street: "",
-    city: "",
-    postCode: "",
-    country: "",
-  },
-  items: [
-    {
-      qty: 1,
-      price: 0,
-      totalPrice: 0,
-      id: nanoid(4),
-    },
-  ],
-};
-
-function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
+function EditInvoiceForm({ currentInvoice }) {
   const form = useForm<z.output<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
-    defaultValues: {
-      ...initialValues,
-      status: "pending",
-    },
+    defaultValues: currentInvoice,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -69,26 +38,9 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
       return toast.error(message);
     }
 
-    closeModal();
+    // closeModal();
 
     toast.success("Invoice created successfully.");
-  }
-
-  async function handleDraftInvoice() {
-    const formData = formatToFormData(form.getValues());
-
-    const { status, message } = (await createDraftInvoice(formData)) ?? {
-      status: "",
-      message: "",
-    };
-
-    if (status === "error") {
-      return toast.error(message);
-    }
-
-    closeModal();
-
-    toast.success("Invoice saved as draft.");
   }
 
   function onError(errors) {
@@ -133,28 +85,21 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
           />
         </div>
 
-        <div className="mt-10 flex items-center justify-between xs:mt-12">
-          <button
-            onClick={closeModal}
-            type="button"
-            className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
-          >
-            Discard
-          </button>
-
+        <div className="mt-10 flex items-center justify-end xs:mt-12">
           <div className="flex flex-col gap-4 xs:flex-row">
             <button
-              onClick={handleDraftInvoice}
+              // onClick={closeModal}
               type="button"
-              className="btn-sm order-2 bg-skin-gray font-bold text-skin-baliHai hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
+              className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
             >
-              Save as Draft
+              Cancel
             </button>
+
             <button
               type="submit"
               className="btn-sm order-1 bg-skin-purple text-xs font-bold text-white disabled:cursor-not-allowed disabled:opacity-90 xs:order-4"
             >
-              {form.formState.isSubmitting ? "Creating..." : "Save & Send"}
+              Save & Send
             </button>
           </div>
         </div>
@@ -163,4 +108,4 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
   );
 }
 
-export default CreateInvoiceForm;
+export default EditInvoiceForm;

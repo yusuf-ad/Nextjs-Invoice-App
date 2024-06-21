@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
@@ -5,8 +7,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import EditInvoiceForm from "./EditInvoiceForm";
 
-function EditInvoiceModal() {
+function EditInvoiceModal({ currentInvoice }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -15,14 +18,18 @@ function EditInvoiceModal() {
         </div>
       </SheetTrigger>
       <SheetContent
-        className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 sm:max-w-xl lg:max-w-3xl xl:top-0 xl:pl-36"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 sm:max-w-xl lg:max-w-3xl xl:top-0 xl:max-w-4xl xl:pl-36"
         side={"left"}
       >
         <SheetHeader>
           <SheetTitle className="text-3xl font-bold text-skin-black">
-            Edit <span className="text-skin-shipCove">#</span>RT3080
+            Edit <span className="text-skin-shipCove">#</span>
+            {currentInvoice?.invoiceId}
           </SheetTitle>
         </SheetHeader>
+
+        <EditInvoiceForm currentInvoice={currentInvoice} />
       </SheetContent>
     </Sheet>
   );
