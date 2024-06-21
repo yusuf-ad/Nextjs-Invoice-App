@@ -26,3 +26,19 @@ export function generateInvoiceId() {
 
   return nanoid().toUpperCase();
 }
+
+export function formatToFormData(data) {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (typeof value === "object" && !(value instanceof Date)) {
+      formData.append(key, JSON.stringify(value));
+    } else if (value instanceof Date) {
+      formData.append(key, value.toISOString());
+    } else {
+      formData.append(key, value);
+    }
+  });
+
+  return formData;
+}

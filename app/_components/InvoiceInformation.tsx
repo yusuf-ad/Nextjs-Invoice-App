@@ -1,12 +1,12 @@
 import DeleteInvoiceButton from "@/app/_components/DeleteInvoiceButton";
-import EditInvoiceButton from "@/app/_components/EditInvoiceButton";
 import InvoiceAddress from "@/app/_components/InvoiceAddress";
 import InvoiceDetails from "@/app/_components/InvoiceDetails";
 import InvoiceStatus from "@/app/_components/InvoiceStatus";
 import ItemsTable from "@/app/_components/ItemsTable";
-import { getInvoice } from "@/lib/data-service";
-import Link from "next/link";
 import InvoiceNotFound from "./InvoiceNotFound";
+
+import { getInvoice } from "@/lib/data-service";
+import EditInvoiceModal from "./EditInvoiceModal";
 
 async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
   const currentInvoice = await getInvoice(invoiceId);
@@ -22,7 +22,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
         </div>
 
         <div className="hidden items-center space-x-3 md:flex">
-          <EditInvoiceButton />
+          <EditInvoiceModal />
 
           <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
@@ -32,7 +32,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
         </div>
 
         <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
-          <EditInvoiceButton />
+          <EditInvoiceModal />
 
           <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 

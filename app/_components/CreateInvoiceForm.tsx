@@ -1,56 +1,54 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { nanoid } from "nanoid";
+import toast from "react-hot-toast";
 import { z } from "zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
 import Address from "./Address";
+import PaymentDue from "./PaymentDue";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
-import PaymentDue from "./PaymentDue";
-import { nanoid } from "nanoid";
+import InvoiceInput from "./InvoiceInput";
 import { createDraftInvoice, createInvoice } from "@/lib/actions";
 import { InvoiceSchema } from "@/lib/auth/definitions";
-import toast from "react-hot-toast";
+import { formatToFormData } from "@/lib/utils";
+
+const initialValues = {
+  clientName: "",
+  clientEmail: "",
+  paymentDue: new Date(),
+  paymentTerms: "Net 7 Days",
+  description: "",
+  senderAddress: {
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  },
+  clientAddress: {
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  },
+  items: [
+    {
+      qty: 1,
+      price: 0,
+      totalPrice: 0,
+      id: nanoid(4),
+    },
+  ],
+};
 
 function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
   const form = useForm<z.output<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
     defaultValues: {
+      ...initialValues,
       status: "pending",
-      clientName: "",
-      clientEmail: "",
-      paymentDue: new Date(),
-      paymentTerms: "Net 7 Days",
-      description: "",
-      senderAddress: {
-        street: "",
-        city: "",
-        postCode: "",
-        country: "",
-      },
-      clientAddress: {
-        street: "",
-        city: "",
-        postCode: "",
-        country: "",
-      },
-      items: [
-        {
-          qty: 1,
-          price: 0,
-          totalPrice: 0,
-          id: nanoid(4),
-        },
-      ],
     },
   });
 
@@ -60,17 +58,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
   });
 
   async function onSubmit(data: z.output<typeof InvoiceSchema>) {
-    const formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (typeof value === "object" && !(value instanceof Date)) {
-        formData.append(key, JSON.stringify(value));
-      } else if (value instanceof Date) {
-        formData.append(key, value.toISOString());
-      } else {
-        formData.append(key, value);
-      }
-    });
+    const formData = formatToFormData(data);
 
     const { status, message } = (await createInvoice(formData)) ?? {
       status: "",
@@ -87,19 +75,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
   }
 
   async function handleDraftInvoice() {
-    const data = form.getValues();
-
-    const formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (typeof value === "object" && !(value instanceof Date)) {
-        formData.append(key, JSON.stringify(value));
-      } else if (value instanceof Date) {
-        formData.append(key, value.toISOString());
-      } else {
-        formData.append(key, value);
-      }
-    });
+    const formData = formatToFormData(form.getValues());
 
     const { status, message } = (await createDraftInvoice(formData)) ?? {
       status: "",
@@ -132,73 +108,21 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
           <h3 className="mb-4 mt-8 text-sm font-bold capitalize text-skin-purple">
             Bill to
           </h3>
-          <FormField
-            name="clientName"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <div className="flex justify-between">
-                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                    Client&lsquo;s Name
-                  </FormLabel>
-                  <FormMessage />
-                </div>
-                <FormControl>
-                  <Input
-                    className="h-12 px-4 font-bold dark:bg-skin-mirage"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="clientEmail"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <div className="flex justify-between">
-                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                    Client&lsquo;s Email
-                  </FormLabel>
-                  <FormMessage />
-                </div>
-                <FormControl>
-                  <Input
-                    className="h-12 px-4 font-bold dark:bg-skin-mirage"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
 
-          {/* address */}
+          <InvoiceInput form={form} name="clientName" label="Client's Name" />
+
+          <InvoiceInput form={form} name="clientEmail" label="Client's Email" />
+
           <Address form={form} address={"senderAddress"} />
 
           <PaymentDue form={form} />
 
           <PaymentTerms form={form} />
 
-          <FormField
+          <InvoiceInput
+            form={form}
             name="description"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <div className="flex justify-between">
-                  <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                    Project Description
-                  </FormLabel>
-                  <FormMessage />
-                </div>
-                <FormControl>
-                  <Input
-                    className="h-12 px-4 font-bold dark:bg-skin-mirage"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label="Project Description"
           />
 
           <ItemsList
