@@ -10,7 +10,7 @@ async function AppHeader() {
   return (
     <header
       className={clsx(
-        "inset-0 top-0 z-50 flex h-20 w-full justify-between bg-skin-ebony xl:fixed xl:h-screen xl:max-w-28 xl:flex-col xl:rounded-r-3xl",
+        "sticky inset-0 top-0 z-50 flex h-20 w-full justify-between bg-skin-ebony xl:fixed xl:h-screen xl:max-w-28 xl:flex-col xl:rounded-r-3xl",
         {
           "pr-8 xl:pb-10 xl:pr-0": !userId,
         },

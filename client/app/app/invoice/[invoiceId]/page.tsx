@@ -12,6 +12,8 @@ async function Page({ params }) {
 
   const currentInvoice = await getInvoice(invoiceId);
 
+  console.log(currentInvoice);
+
   return (
     <div className="container mt-4 max-w-3xl xl:mt-0">
       <header>
@@ -38,7 +40,7 @@ async function Page({ params }) {
           <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
             <EditInvoiceButton />
 
-            <DeleteInvoiceButton />
+            <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
             <button className="btn-sm min-w-max bg-skin-purple text-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-70">
               Mark as Paid

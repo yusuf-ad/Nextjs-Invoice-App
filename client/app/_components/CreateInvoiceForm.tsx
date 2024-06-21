@@ -17,7 +17,7 @@ import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import PaymentDue from "./PaymentDue";
 import { nanoid } from "nanoid";
-import { createInvoice } from "@/lib/actions";
+import { createDraftInvoice, createInvoice } from "@/lib/actions";
 import { InvoiceSchema } from "@/lib/auth/definitions";
 import toast from "react-hot-toast";
 
@@ -84,6 +84,35 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
     closeModal();
 
     toast.success("Invoice created successfully.");
+  }
+
+  async function handleDraftInvoice() {
+    const data = form.getValues();
+
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (typeof value === "object" && !(value instanceof Date)) {
+        formData.append(key, JSON.stringify(value));
+      } else if (value instanceof Date) {
+        formData.append(key, value.toISOString());
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    const { status, message } = (await createDraftInvoice(formData)) ?? {
+      status: "",
+      message: "",
+    };
+
+    if (status === "error") {
+      return toast.error(message);
+    }
+
+    closeModal();
+
+    toast.success("Invoice saved as draft.");
   }
 
   function onError(errors) {
@@ -191,6 +220,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
 
           <div className="flex flex-col gap-4 xs:flex-row">
             <button
+              onClick={handleDraftInvoice}
               type="button"
               className="btn-sm order-2 bg-skin-gray font-bold text-skin-baliHai hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
             >

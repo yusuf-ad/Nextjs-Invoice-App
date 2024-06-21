@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  DraftInvoiceSchema,
   InvoiceSchema,
   LoginFormSchema,
   SignupFormSchema,
@@ -133,6 +134,61 @@ export async function createInvoice(formData: FormData) {
   const session = await verifySession();
 
   // 3. create invoice
+  const newInvoice = await prisma.invoice.create({
+    data: {
+      invoiceId: generateInvoiceId(),
+      ...validationResult.data,
+      total: totalValue,
+      userId: session.userId,
+    },
+  });
+
+  if (!newInvoice) {
+    return {
+      status: "error",
+      message: "Failed to create invoice",
+    };
+  }
+
+  revalidatePath("/app");
+}
+
+export async function createDraftInvoice(formData: FormData) {
+  // 1. validate the user input
+  const { clientAddress, senderAddress, items, paymentDue, ...otherData } =
+    Object.fromEntries(formData);
+
+  const parsedClientAddress = JSON.parse(clientAddress as string);
+  const parsedSenderAddress = JSON.parse(senderAddress as string);
+  const parsedItems = JSON.parse(items as string);
+  const parsedPaymentDue = new Date(paymentDue as string); // Assuming paymentDue is a date string
+
+  const validationResult = DraftInvoiceSchema.safeParse({
+    ...otherData,
+    status: "draft",
+    clientAddress: parsedClientAddress,
+    senderAddress: parsedSenderAddress,
+    items: parsedItems,
+    paymentDue: parsedPaymentDue,
+  });
+
+  if (!validationResult.success) {
+    console.log(JSON.stringify(validationResult.error));
+
+    return {
+      status: "error",
+      message: "Invalid data. Please check the fields.",
+    };
+  }
+
+  const totalValue =
+    validationResult.data.items.reduce((acc, cur) => acc + cur.totalPrice, 0) ??
+    0;
+
+  // 2. check if the user is authenticated
+  const session = await verifySession();
+
+  // 3. create draft invoice
   const newInvoice = await prisma.invoice.create({
     data: {
       invoiceId: generateInvoiceId(),

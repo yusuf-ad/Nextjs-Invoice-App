@@ -54,6 +54,33 @@ export const InvoiceSchema = z.object({
   items: z.array(ItemSchema).min(1, "At least one item is required!"),
 });
 
+const DraftAddressSchema = z.object({
+  street: z.string(),
+  city: z.string(),
+  postCode: z.string(),
+  country: z.string(),
+});
+
+const DraftItemSchema = z.object({
+  name: z.string().optional(),
+  qty: z.coerce.number().max(1000).optional(),
+  price: z.coerce.number().max(100000).optional(),
+  id: z.string().optional(),
+  totalPrice: z.coerce.number().optional(),
+});
+
+export const DraftInvoiceSchema = z.object({
+  clientName: z.string().max(30),
+  clientEmail: z.string().max(30),
+  paymentDue: z.date(),
+  paymentTerms: z.string().max(30),
+  description: z.string().max(30),
+  senderAddress: DraftAddressSchema,
+  clientAddress: DraftAddressSchema,
+  status: z.enum(["draft"]),
+  items: z.array(DraftItemSchema).min(0).max(10),
+});
+
 export type SessionPayload = {
   userId: string | number;
   expiresAt: Date;
