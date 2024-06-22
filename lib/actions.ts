@@ -12,6 +12,7 @@ import { createSession, deleteSession, verifySession } from "./auth/session";
 import { handlePrismaError } from "./handlePrismaError";
 import { generateInvoiceId } from "./utils";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 // * Auth actions
 export async function signup(formData: FormData) {
@@ -67,11 +68,17 @@ export async function login(formData: FormData) {
   const { username, password } = validationResult.data;
 
   // 2. Query the database for the user with the given username
-  const user = await prisma.user.findFirst({
-    where: {
-      username: username,
-    },
-  });
+  let user;
+
+  try {
+    user = await prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+    });
+  } catch (error) {
+    return handlePrismaError(error);
+  }
 
   if (!user) {
     return {
@@ -206,4 +213,50 @@ export async function createDraftInvoice(formData: FormData) {
   }
 
   revalidatePath("/app");
+}
+
+export async function markAsPaid(invoiceId: string) {
+  try {
+    // 1. check if the user is authenticated
+    const session = await verifySession();
+
+    // 2. update invoice status
+    const updatedInvoice = await prisma.invoice.updateMany({
+      where: {
+        invoiceId,
+        userId: session.userId,
+        status: "pending",
+      },
+      data: {
+        status: "paid",
+      },
+    });
+
+    if (updatedInvoice.count === 0) {
+      throw new Error("Invoice not found or already marked as paid");
+    }
+
+    revalidatePath(`/app/invoice/${invoiceId}`);
+  } catch (error) {
+    handlePrismaError(error);
+  }
+}
+
+export async function deleteInvoice(invoiceId: string) {
+  try {
+    // 1. check if the user is authenticated
+    const session = await verifySession();
+
+    // 2. delete invoice
+    await prisma.invoice.deleteMany({
+      where: {
+        invoiceId,
+        userId: session.userId,
+      },
+    });
+  } catch (error) {
+    handlePrismaError(error);
+  }
+
+  redirect("/app");
 }

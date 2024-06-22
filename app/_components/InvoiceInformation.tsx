@@ -7,6 +7,7 @@ import InvoiceNotFound from "./InvoiceNotFound";
 
 import { getInvoice } from "@/lib/data-service";
 import EditInvoiceModal from "./EditInvoiceModal";
+import ButtonMarkAsPaid from "./ButtonMarkAsPaid";
 
 async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
   const currentInvoice = await getInvoice(invoiceId);
@@ -26,9 +27,9 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
 
           <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
-          <button className="btn-sm min-w-max bg-skin-purple text-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-70">
-            Mark as Paid
-          </button>
+          {currentInvoice.status === "pending" && (
+            <ButtonMarkAsPaid invoiceId={currentInvoice.invoiceId} />
+          )}
         </div>
 
         <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
@@ -36,9 +37,9 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
 
           <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
-          <button className="btn-sm min-w-max bg-skin-purple text-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-70">
-            Mark as Paid
-          </button>
+          {currentInvoice.status === "pending" && (
+            <ButtonMarkAsPaid invoiceId={currentInvoice.invoiceId} />
+          )}
         </div>
       </div>
 

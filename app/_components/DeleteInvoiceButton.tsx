@@ -1,15 +1,21 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useState } from "react";
 
 function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
         <div className="btn-sm bg-skin-burntSienna text-skin-offWhite hover:opacity-70">
           Delete
@@ -28,6 +34,7 @@ function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
 
         <div className="mt-6 flex justify-end gap-3">
           <button
+            onClick={handleClose}
             type="button"
             className="btn-sm bg-skin-gray font-bold text-white hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
           >
