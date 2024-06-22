@@ -7,12 +7,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { deleteInvoice } from "@/lib/actions";
+import { useState, useTransition } from "react";
+import toast from "react-hot-toast";
 
 function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleClose = () => setIsOpen(false);
+
+  function handleDelete() {
+    startTransition(() => {
+      deleteInvoice(invoiceId);
+
+      toast.success("Invoice deleted successfully");
+    });
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -42,10 +53,11 @@ function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
           </button>
 
           <button
+            onClick={handleDelete}
             type="submit"
             className="btn-sm bg-skin-burntSienna text-skin-offWhite hover:opacity-70"
           >
-            Delete
+            {isPending ? "Deleting..." : "Delete"}
           </button>
         </div>
       </DialogContent>
