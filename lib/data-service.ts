@@ -48,6 +48,7 @@ export async function getInvoice(invoiceId: string) {
         items: true,
         createdAt: true,
         paymentDue: true,
+        paymentTerms: true,
         senderAddress: true,
         clientAddress: true,
         clientName: true,

@@ -20,10 +20,8 @@ export function PaymentTerms({ form }) {
     const paymentDueDate = new Date(Date.now());
     paymentDueDate.setDate(paymentDueDate.getDate() + paymentDays);
 
-    console.log(paymentDueDate);
-    console.log(form.getValues("paymentTerms"));
-
     form.setValue("paymentDue", paymentDueDate);
+    form.setValue("paymentTerms", value);
   }
 
   return (
