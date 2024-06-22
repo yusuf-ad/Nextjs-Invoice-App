@@ -1,6 +1,5 @@
 "use client";
 
-import { nanoid } from "nanoid";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -20,6 +19,8 @@ function EditInvoiceForm({ currentInvoice }) {
     resolver: zodResolver(InvoiceSchema),
     defaultValues: currentInvoice,
   });
+
+  console.log(currentInvoice.paymentTerms);
 
   const { fields, append, remove } = useFieldArray({
     name: "items",

@@ -20,6 +20,9 @@ export function PaymentTerms({ form }) {
     const paymentDueDate = new Date(Date.now());
     paymentDueDate.setDate(paymentDueDate.getDate() + paymentDays);
 
+    console.log(paymentDueDate);
+    console.log(form.getValues("paymentTerms"));
+
     form.setValue("paymentDue", paymentDueDate);
   }
 
@@ -35,7 +38,7 @@ export function PaymentTerms({ form }) {
             </FormLabel>
             <FormMessage />
           </div>
-          <Select onValueChange={handleValueChange} defaultValue={"Net 7 Days"}>
+          <Select onValueChange={handleValueChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger className="h-12 px-4 font-bold dark:bg-skin-mirage">
                 <SelectValue placeholder="Net 7 Days" />

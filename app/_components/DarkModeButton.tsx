@@ -10,11 +10,12 @@ function DarkModeButton() {
 
   return (
     <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-      {theme === "light" ? (
-        <Image width={24} height={24} src={sunIcon} alt={`sun icon`} />
-      ) : (
-        <Image width={24} height={24} src={moonIcon} alt={`moon icon`} />
-      )}
+      <Image
+        width={24}
+        height={24}
+        src={theme === "light" ? moonIcon : sunIcon}
+        alt={theme === "light" ? "moon icon" : "sun icon"}
+      />
     </button>
   );
 }
