@@ -5,15 +5,15 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
 import Address from "./Address";
 import PaymentDue from "./PaymentDue";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
-import { createDraftInvoice, createInvoice } from "@/lib/actions";
-import { InvoiceSchema } from "@/lib/auth/definitions";
+import { createDraftInvoice, createInvoice } from "@/server/actions";
+import { InvoiceSchema } from "@/lib/definitions";
 import { formatToFormData } from "@/lib/utils";
+import { Form } from "@/components/ui/form";
 
 const initialValues = {
   clientName: "",
@@ -91,13 +91,9 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
     toast.success("Invoice saved as draft.");
   }
 
-  function onError(errors) {
-    console.log(errors);
-  }
-
   return (
     <Form {...form}>
-      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit, onError)}>
+      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
           <h3 className="mb-4 mt-8 text-sm font-bold capitalize text-skin-purple">
             Bill from

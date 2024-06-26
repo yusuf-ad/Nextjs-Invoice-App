@@ -5,12 +5,16 @@ import {
   InvoiceSchema,
   LoginFormSchema,
   SignupFormSchema,
-} from "@/lib/auth/definitions";
+} from "@/lib/definitions";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
-import { createSession, deleteSession, verifySession } from "./auth/session";
+import {
+  createSession,
+  deleteSession,
+  verifySession,
+} from "@/server/auth/session";
 import { handlePrismaError } from "./handlePrismaError";
-import { generateInvoiceId } from "./utils";
+import { generateInvoiceId } from "../lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

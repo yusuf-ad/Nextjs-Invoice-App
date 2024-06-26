@@ -1,7 +1,7 @@
 import InvoicesCount from "../_components/InvoicesCount";
 import Filter from "../_components/Filter";
 import InvoicesList from "../_components/InvoicesList";
-import { getInvoices } from "../../lib/data-service";
+import { getInvoices } from "../../server/data-service";
 import NewInvoiceModal from "../_components/NewInvoiceModal";
 
 type SearchParams = {

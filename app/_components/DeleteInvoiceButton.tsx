@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { deleteInvoice } from "@/lib/actions";
+import { deleteInvoice } from "@/server/actions";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/lib/actions";
+import { logout } from "@/server/actions";
 import { forwardRef, useEffect, useRef, useTransition } from "react";
 import toast from "react-hot-toast";
 

@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { LoginFormSchema } from "@/lib/auth/definitions";
-import { login } from "@/lib/actions";
+import { login } from "@/server/actions";
 import toast from "react-hot-toast";
 
 function LoginForm() {

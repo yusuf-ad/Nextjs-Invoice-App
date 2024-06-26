@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { SignupFormSchema } from "@/lib/auth/definitions";
 
 import Link from "next/link";
-import { signup } from "@/lib/actions";
+import { signup } from "@/server/actions";
 import toast from "react-hot-toast";
 
 function SignupForm() {

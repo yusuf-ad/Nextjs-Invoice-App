@@ -1,6 +1,6 @@
 "use client";
 
-import { markAsPaid } from "@/lib/actions";
+import { markAsPaid } from "@/server/actions";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 

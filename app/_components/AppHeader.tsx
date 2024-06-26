@@ -1,7 +1,7 @@
 import DarkModeButton from "./DarkModeButton";
 import HeaderLogo from "./HeaderLogo";
 import UserAvatar from "./UserAvatar";
-import { hasAuth } from "@/lib/data-service";
+import { hasAuth } from "@/server/data-service";
 import clsx from "clsx";
 
 async function AppHeader() {

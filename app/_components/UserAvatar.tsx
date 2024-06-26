@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import UserMenu from "./UserMenu";
-import { logout } from "@/lib/actions";
+import { logout } from "@/server/actions";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 

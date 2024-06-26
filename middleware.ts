@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { decrypt, deleteSession } from "./lib/auth/session";
+import { decrypt } from "@/server/auth/session";
 
 // 1. Specify protected and public routes
 const protectedRoutes = ["/app"];

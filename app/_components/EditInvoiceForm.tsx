@@ -10,7 +10,7 @@ import PaymentDue from "./PaymentDue";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
-import { createInvoice } from "@/lib/actions";
+import { createInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/auth/definitions";
 import { formatToFormData } from "@/lib/utils";
 
