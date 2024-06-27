@@ -10,6 +10,7 @@ import {
 import ButtonNewInvoice from "./ButtonNewInvoice";
 import CreateInvoiceForm from "./CreateInvoiceForm";
 import { useState } from "react";
+import { Content, Modal, Open } from "./Modal";
 
 function NewInvoiceModal() {
   const [open, setOpen] = useState(false);
@@ -17,23 +18,32 @@ function NewInvoiceModal() {
   const handleClose = () => setOpen(false);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger>
+    <Modal>
+      <Open>
         <ButtonNewInvoice />
-      </SheetTrigger>
-      <SheetContent
-        className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 sm:max-w-xl lg:max-w-3xl xl:top-0 xl:pl-36"
-        side={"left"}
-      >
-        <SheetHeader>
-          <SheetTitle className="text-2xl font-bold text-skin-black">
-            New Invoice
-          </SheetTitle>
-        </SheetHeader>
+      </Open>
+      <Content className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 sm:max-w-xl lg:max-w-3xl xl:top-0 xl:pl-36">
+        <CreateInvoiceForm />
+      </Content>
+    </Modal>
 
-        <CreateInvoiceForm closeModal={handleClose} />
-      </SheetContent>
-    </Sheet>
+    // <Sheet open={open} onOpenChange={setOpen}>
+    //   <SheetTrigger>
+    //     <ButtonNewInvoice />
+    //   </SheetTrigger>
+    //   <SheetContent
+    //     className="top-20 w-full overflow-y-scroll bg-white pb-36 transition-all duration-300 dark:bg-skin-mirage2 sm:max-w-xl lg:max-w-3xl xl:top-0 xl:pl-36"
+    //     side={"left"}
+    //   >
+    //     <SheetHeader>
+    //       <SheetTitle className="text-2xl font-bold text-skin-black">
+    //         New Invoice
+    //       </SheetTitle>
+    //     </SheetHeader>
+
+    //     <CreateInvoiceForm closeModal={handleClose} />
+    //   </SheetContent>
+    // </Sheet>
   );
 }
 

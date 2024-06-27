@@ -43,7 +43,7 @@ const initialValues = {
   ],
 };
 
-function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
+function CreateInvoiceForm() {
   const form = useForm<z.output<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
     defaultValues: {
@@ -69,7 +69,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
       return toast.error(message);
     }
 
-    closeModal();
+    // closeModal();
 
     toast.success("Invoice created successfully.");
   }
@@ -86,7 +86,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
       return toast.error(message);
     }
 
-    closeModal();
+    // closeModal();
 
     toast.success("Invoice saved as draft.");
   }
@@ -131,7 +131,7 @@ function CreateInvoiceForm({ closeModal }: { closeModal: () => void }) {
 
         <div className="mt-10 flex items-center justify-between xs:mt-12">
           <button
-            onClick={closeModal}
+            // onClick={closeModal}
             type="button"
             className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
           >

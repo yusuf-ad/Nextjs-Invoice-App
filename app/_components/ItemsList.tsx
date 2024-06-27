@@ -84,7 +84,7 @@ function Item({ form, index, remove }) {
             </div>
             <FormControl>
               <Input
-                defaultValue={"New Item"}
+                placeholder="New Item"
                 className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
                 {...field}
               />
@@ -107,7 +107,6 @@ function Item({ form, index, remove }) {
             <FormControl>
               <Input
                 type="number"
-                defaultValue={1}
                 className="h-12 px-4 font-bold dark:bg-skin-mirage"
                 {...field}
               />
@@ -130,7 +129,6 @@ function Item({ form, index, remove }) {
             <FormControl>
               <Input
                 type="number"
-                defaultValue={0}
                 className="h-12 px-4 font-bold dark:bg-skin-mirage"
                 {...field}
               />
