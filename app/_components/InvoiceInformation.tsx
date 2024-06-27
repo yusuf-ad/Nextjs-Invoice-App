@@ -5,7 +5,7 @@ import InvoiceStatus from "@/app/_components/InvoiceStatus";
 import ItemsTable from "@/app/_components/ItemsTable";
 import InvoiceNotFound from "./InvoiceNotFound";
 
-import { getInvoice } from "@/lib/data-service";
+import { getInvoice } from "@/server/data-service";
 import EditInvoiceModal from "./EditInvoiceModal";
 import ButtonMarkAsPaid from "./ButtonMarkAsPaid";
 

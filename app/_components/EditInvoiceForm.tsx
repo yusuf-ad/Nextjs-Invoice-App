@@ -11,7 +11,7 @@ import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
 import { createInvoice } from "@/server/actions";
-import { InvoiceSchema } from "@/lib/auth/definitions";
+import { InvoiceSchema } from "@/lib/definitions";
 import { formatToFormData } from "@/lib/utils";
 
 function EditInvoiceForm({ currentInvoice }) {
