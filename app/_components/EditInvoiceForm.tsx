@@ -13,6 +13,7 @@ import InvoiceInput from "./InvoiceInput";
 import { createInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/definitions";
 import { formatToFormData } from "@/lib/utils";
+import { useModal } from "./Modal";
 
 function EditInvoiceForm({ currentInvoice }) {
   const form = useForm<z.output<typeof InvoiceSchema>>({
@@ -20,12 +21,12 @@ function EditInvoiceForm({ currentInvoice }) {
     defaultValues: currentInvoice,
   });
 
-  console.log(currentInvoice.paymentTerms);
-
   const { fields, append, remove } = useFieldArray({
     name: "items",
     control: form.control,
   });
+
+  const { close: closeModal } = useModal();
 
   async function onSubmit(data: z.output<typeof InvoiceSchema>) {
     const formData = formatToFormData(data);
@@ -39,7 +40,7 @@ function EditInvoiceForm({ currentInvoice }) {
       return toast.error(message);
     }
 
-    // closeModal();
+    closeModal();
 
     toast.success("Invoice created successfully.");
   }
@@ -89,7 +90,7 @@ function EditInvoiceForm({ currentInvoice }) {
         <div className="mt-10 flex items-center justify-end xs:mt-12">
           <div className="flex flex-col gap-4 xs:flex-row">
             <button
-              // onClick={closeModal}
+              onClick={closeModal}
               type="button"
               className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
             >

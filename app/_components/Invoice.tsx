@@ -26,7 +26,7 @@ function Invoice({ invoice }: { invoice: InvoiceProps }) {
             <p className="font-bold text-skin-shipCove">
               #<span className="text-skin-black">{invoice.invoiceId}</span>
             </p>
-            <p className="text-skin-baliHai">{invoice.clientName}</p>
+            <p className="capitalize text-skin-baliHai">{invoice.clientName}</p>
           </div>
           <div className="flex items-center justify-between">
             <div>
@@ -52,7 +52,9 @@ function Invoice({ invoice }: { invoice: InvoiceProps }) {
           </div>
           <div className="flex flex-1 justify-between gap-12">
             <div className="flex flex-1 items-center gap-4">
-              <p className="text-skin-baliHai">{invoice.clientName}</p>
+              <p className="capitalize text-skin-baliHai">
+                {invoice.clientName}
+              </p>
               <p className="ml-auto text-base font-bold text-skin-black">
                 ${formatMoney(invoice.total)}
               </p>

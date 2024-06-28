@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import Overlay from "./Overlay";
 
 type ModalContextType = {
   isOpen: boolean;
@@ -94,14 +95,7 @@ function Content({
   }, [close]);
 
   return createPortal(
-    <div
-      ref={overlay}
-      className={`${
-        isOpen
-          ? "pointer-events-auto opacity-100"
-          : "pointer-events-none opacity-0"
-      } fixed inset-0 z-30 h-screen w-full bg-black/50 transition-opacity duration-100 backdrop:blur-sm`}
-    >
+    <Overlay isOpen={isOpen} ref={overlay}>
       <div
         className={`${
           isOpen
@@ -111,7 +105,7 @@ function Content({
       >
         {children}
       </div>
-    </div>,
+    </Overlay>,
     document.getElementById("modal-root")!,
   );
 }
