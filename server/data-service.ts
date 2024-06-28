@@ -1,3 +1,5 @@
+import "server-only";
+
 import prisma from "@/prisma";
 import { cookies } from "next/headers";
 import { decrypt, verifySession } from "./auth/session";

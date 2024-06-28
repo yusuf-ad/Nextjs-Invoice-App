@@ -5,6 +5,7 @@ import {
   InvoiceSchema,
   LoginFormSchema,
   SignupFormSchema,
+  type InvoiceType,
 } from "@/lib/definitions";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
@@ -150,7 +151,7 @@ export async function createInvoice(formData: FormData) {
       invoiceId: generateInvoiceId(),
       ...validationResult.data,
       total: totalValue,
-      userId: session.userId,
+      userId: session.userId as string,
     },
   });
 
@@ -162,6 +163,46 @@ export async function createInvoice(formData: FormData) {
   }
 
   revalidatePath("/app");
+}
+
+export async function editInvoice(invoiceId: string, invoiceData: InvoiceType) {
+  // 1. validate the user input
+  const validationResult = InvoiceSchema.safeParse(invoiceData);
+
+  if (!validationResult.success) {
+    console.log("error 💩");
+
+    return {
+      status: "error",
+      message: "Invalid data. Please check the fields.",
+    };
+  }
+
+  const totalValue = validationResult.data.items.reduce(
+    (acc, cur) => acc + cur.totalPrice,
+    0,
+  );
+
+  // 2. check if the user is authenticated
+  const session = await verifySession();
+
+  // 3. edit invoice
+  const updatedInvoice = await prisma.invoice.updateMany({
+    where: {
+      invoiceId,
+      userId: session.userId,
+    },
+    data: { ...validationResult.data, total: totalValue },
+  });
+
+  if (!updatedInvoice) {
+    return {
+      status: "error",
+      message: "Failed to update invoice",
+    };
+  }
+
+  revalidatePath(`/app/invoice/${invoiceId}`);
 }
 
 export async function createDraftInvoice(formData: FormData) {

@@ -25,8 +25,8 @@ function ItemsList({ fields, form, append, remove }) {
             <Item key={field.id} remove={remove} index={index} form={form} />
           ))
         ) : (
-          <p className="text-lg font-medium text-skin-heliotrope">
-            No items added yet.
+          <p className="text-lg font-medium text-skin-burntSienna">
+            No items added yet. Please click the button below to add a new item.
           </p>
         )}
       </ul>
@@ -44,7 +44,7 @@ function ItemsList({ fields, form, append, remove }) {
         type="button"
         className="transition-colors-1 mt-8 flex w-full items-center justify-center gap-1 rounded-full border-2 border-transparent bg-skin-offWhite py-4 text-xs font-bold capitalize tracking-wide text-skin-baliHai hover:border-skin-purple dark:bg-skin-mirage"
       >
-        <PlusIcon className="mb-1 h-5 w-5 text-skin-mirage" />
+        <PlusIcon className="mb-1 h-5 w-5 text-skin-mirage dark:text-white" />
         Add new item
       </button>
     </div>

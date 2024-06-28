@@ -10,9 +10,8 @@ import PaymentDue from "./PaymentDue";
 import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
-import { createInvoice } from "@/server/actions";
+import { editInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/definitions";
-import { formatToFormData } from "@/lib/utils";
 import { useModal } from "./Modal";
 
 function EditInvoiceForm({ currentInvoice }) {
@@ -29,29 +28,16 @@ function EditInvoiceForm({ currentInvoice }) {
   const { close: closeModal } = useModal();
 
   async function onSubmit(data: z.output<typeof InvoiceSchema>) {
-    const formData = formatToFormData(data);
-
-    const { status, message } = (await createInvoice(formData)) ?? {
-      status: "",
-      message: "",
-    };
-
-    if (status === "error") {
-      return toast.error(message);
-    }
+    await editInvoice(currentInvoice.invoiceId, { ...currentInvoice, ...data });
 
     closeModal();
 
-    toast.success("Invoice created successfully.");
-  }
-
-  function onError(errors) {
-    console.log(errors);
+    toast.success("Invoice edited successfully.");
   }
 
   return (
     <Form {...form}>
-      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit, onError)}>
+      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
           <h3 className="mb-4 mt-8 text-sm font-bold capitalize text-skin-purple">
             Bill from

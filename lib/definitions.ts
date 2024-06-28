@@ -86,17 +86,17 @@ export type SessionPayload = {
   expiresAt: Date;
 };
 
-export type Invoice = {
-  description: string;
-  paymentDue: Date;
-  paymentTerms: string;
+export type InvoiceType = {
   clientName: string;
   clientEmail: string;
+  paymentDue: Date;
+  paymentTerms: string;
+  description: string;
   total: number;
-  clientAddress: Address;
   senderAddress: Address;
-  invoiceId: string;
+  clientAddress: Address;
   status: "paid" | "pending" | "draft";
+  invoiceId: string;
   items: Item[];
 };
 
