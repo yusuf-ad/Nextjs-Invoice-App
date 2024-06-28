@@ -61,9 +61,7 @@ function CreateInvoiceForm() {
   const { close: closeModal } = useModal();
 
   async function onSubmit(data: z.output<typeof InvoiceSchema>) {
-    const formData = formatToFormData(data);
-
-    const { status, message } = (await createInvoice(formData)) ?? {
+    const { status, message } = (await createInvoice(data)) ?? {
       status: "",
       message: "",
     };

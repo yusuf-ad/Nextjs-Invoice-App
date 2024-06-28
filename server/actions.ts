@@ -1,6 +1,10 @@
 "use server";
 
-import { InvoiceSchema, type InvoiceType } from "@/lib/definitions/invoice";
+import {
+  InvoiceSchema,
+  NewInvoiceType,
+  type InvoiceType,
+} from "@/lib/definitions/invoice";
 
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
@@ -109,23 +113,9 @@ export async function logout() {
 
 // * Invoice actions
 
-export async function createInvoice(formData: FormData) {
+export async function createInvoice(invoiceData: NewInvoiceType) {
   // 1. validate the user input
-  const { clientAddress, senderAddress, items, paymentDue, ...otherData } =
-    Object.fromEntries(formData);
-
-  const parsedClientAddress = JSON.parse(clientAddress as string);
-  const parsedSenderAddress = JSON.parse(senderAddress as string);
-  const parsedItems = JSON.parse(items as string);
-  const parsedPaymentDue = new Date(paymentDue as string); // Assuming paymentDue is a date string
-
-  const validationResult = InvoiceSchema.safeParse({
-    clientAddress: parsedClientAddress,
-    senderAddress: parsedSenderAddress,
-    items: parsedItems,
-    paymentDue: parsedPaymentDue,
-    ...otherData,
-  });
+  const validationResult = InvoiceSchema.safeParse(invoiceData);
 
   if (!validationResult.success) {
     return {
@@ -145,8 +135,9 @@ export async function createInvoice(formData: FormData) {
   // 3. create invoice
   const newInvoice = await prisma.invoice.create({
     data: {
-      invoiceId: generateInvoiceId(),
       ...validationResult.data,
+      invoiceId: generateInvoiceId(),
+      status: "pending",
       total: totalValue,
       userId: session.userId as string,
     },

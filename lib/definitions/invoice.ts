@@ -27,6 +27,18 @@ export const InvoiceSchema = z.object({
   items: z.array(ItemSchema).min(1, "At least one item is required!"),
 });
 
+export type NewInvoiceType = {
+  clientName: string;
+  clientEmail: string;
+  paymentDue: Date;
+  paymentTerms: string;
+  description: string;
+  senderAddress: Address;
+  clientAddress: Address;
+  status: "paid" | "pending" | "draft";
+  items: Item[];
+};
+
 export type InvoiceType = {
   clientName: string;
   clientEmail: string;
