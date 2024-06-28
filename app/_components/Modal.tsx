@@ -5,6 +5,8 @@ import {
   cloneElement,
   createContext,
   useContext,
+  useEffect,
+  useRef,
   useState,
   type ReactElement,
   type ReactNode,
@@ -57,7 +59,17 @@ function Modal({ children }: { children: ReactNode }) {
 function Open({ children }: { children: ReactNode }) {
   const { open } = useModal();
 
-  return <div onClick={open}>{children}</div>;
+  return (
+    <button className="cursor-pointer" onClick={open}>
+      {children}
+    </button>
+  );
+}
+
+function Close({ children }: { children: ReactElement }) {
+  const { close } = useModal();
+
+  return cloneElement(children, { onClick: close });
 }
 
 function Content({
@@ -66,22 +78,36 @@ function Content({
 }: { children: ReactNode } & ComponentPropsWithoutRef<"div">) {
   const { isOpen, close } = useModal();
 
-  console.log(isOpen);
+  const overlay = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (overlay.current && overlay.current === event.target) {
+        close();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [close]);
 
   return createPortal(
     <div
+      ref={overlay}
       className={`${
         isOpen
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0"
-      } fixed inset-0 z-30 h-screen w-full overflow-y-scroll bg-black/50 transition-opacity duration-100 backdrop:blur-sm`}
+      } fixed inset-0 z-30 h-screen w-full bg-black/50 transition-opacity duration-100 backdrop:blur-sm`}
     >
       <div
         className={`${
           isOpen
             ? "pointer-events-auto translate-x-0 opacity-100"
             : "pointer-events-none -translate-x-full opacity-0"
-        } ${className}`}
+        } relative ${className}`}
       >
         {children}
       </div>
@@ -90,4 +116,4 @@ function Content({
   );
 }
 
-export { Modal, Content, useModal, Open };
+export { Modal, Content, useModal, Open, Close };

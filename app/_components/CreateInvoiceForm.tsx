@@ -14,6 +14,7 @@ import { createDraftInvoice, createInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/definitions";
 import { formatToFormData } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
+import { useModal } from "./Modal";
 
 const initialValues = {
   clientName: "",
@@ -57,6 +58,8 @@ function CreateInvoiceForm() {
     control: form.control,
   });
 
+  const { close: closeModal } = useModal();
+
   async function onSubmit(data: z.output<typeof InvoiceSchema>) {
     const formData = formatToFormData(data);
 
@@ -69,7 +72,7 @@ function CreateInvoiceForm() {
       return toast.error(message);
     }
 
-    // closeModal();
+    closeModal();
 
     toast.success("Invoice created successfully.");
   }
@@ -86,7 +89,7 @@ function CreateInvoiceForm() {
       return toast.error(message);
     }
 
-    // closeModal();
+    closeModal();
 
     toast.success("Invoice saved as draft.");
   }
@@ -131,7 +134,7 @@ function CreateInvoiceForm() {
 
         <div className="mt-10 flex items-center justify-between xs:mt-12">
           <button
-            // onClick={closeModal}
+            onClick={closeModal}
             type="button"
             className="btn-sm bg-skin-offWhite text-skin-baliHai hover:bg-gray-300 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
           >
