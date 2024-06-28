@@ -1,12 +1,7 @@
 "use server";
 
-import {
-  DraftInvoiceSchema,
-  InvoiceSchema,
-  LoginFormSchema,
-  SignupFormSchema,
-  type InvoiceType,
-} from "@/lib/definitions";
+import { InvoiceSchema, type InvoiceType } from "@/lib/definitions/invoice";
+
 import bcrypt from "bcrypt";
 import prisma from "@/prisma";
 import {
@@ -18,6 +13,8 @@ import { handlePrismaError } from "./handlePrismaError";
 import { generateInvoiceId } from "../lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { SignupFormSchema, LoginFormSchema } from "@/lib/definitions/auth";
+import { DraftInvoiceSchema } from "@/lib/definitions/draftInvoice";
 
 // * Auth actions
 export async function signup(formData: FormData) {

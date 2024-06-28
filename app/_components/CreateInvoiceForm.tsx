@@ -11,7 +11,7 @@ import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
 import { createDraftInvoice, createInvoice } from "@/server/actions";
-import { InvoiceSchema } from "@/lib/definitions";
+import { InvoiceSchema } from "@/lib/definitions/invoice";
 import { formatToFormData } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { useModal } from "./Modal";

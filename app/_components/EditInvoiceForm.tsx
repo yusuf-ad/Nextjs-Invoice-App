@@ -11,10 +11,10 @@ import PaymentTerms from "./PaymentTerms";
 import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
 import { editInvoice } from "@/server/actions";
-import { InvoiceSchema } from "@/lib/definitions";
+import { InvoiceSchema, type InvoiceType } from "@/lib/definitions/invoice";
 import { useModal } from "./Modal";
 
-function EditInvoiceForm({ currentInvoice }) {
+function EditInvoiceForm({ currentInvoice }: { currentInvoice: InvoiceType }) {
   const form = useForm<z.output<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
     defaultValues: currentInvoice,

@@ -2,7 +2,7 @@
 "server-only";
 
 import { SignJWT, jwtVerify } from "jose";
-import type { SessionPayload } from "@/lib/auth/definitions";
+import type { SessionPayload } from "@/lib/definitions/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
