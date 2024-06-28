@@ -193,24 +193,9 @@ export async function editInvoice(invoiceId: string, invoiceData: InvoiceType) {
   revalidatePath(`/app/invoice/${invoiceId}`);
 }
 
-export async function createDraftInvoice(formData: FormData) {
+export async function createDraftInvoice(invoiceData: NewInvoiceType) {
   // 1. validate the user input
-  const { clientAddress, senderAddress, items, paymentDue, ...otherData } =
-    Object.fromEntries(formData);
-
-  const parsedClientAddress = JSON.parse(clientAddress as string);
-  const parsedSenderAddress = JSON.parse(senderAddress as string);
-  const parsedItems = JSON.parse(items as string);
-  const parsedPaymentDue = new Date(paymentDue as string); // Assuming paymentDue is a date string
-
-  const validationResult = DraftInvoiceSchema.safeParse({
-    ...otherData,
-    status: "draft",
-    clientAddress: parsedClientAddress,
-    senderAddress: parsedSenderAddress,
-    items: parsedItems,
-    paymentDue: parsedPaymentDue,
-  });
+  const validationResult = DraftInvoiceSchema.safeParse(invoiceData);
 
   if (!validationResult.success) {
     console.log(JSON.stringify(validationResult.error));
@@ -221,9 +206,10 @@ export async function createDraftInvoice(formData: FormData) {
     };
   }
 
-  const totalValue =
-    validationResult.data.items.reduce((acc, cur) => acc + cur.totalPrice, 0) ??
-    0;
+  const totalValue = validationResult.data.items.reduce(
+    (acc, cur) => acc + cur.totalPrice!,
+    0,
+  );
 
   // 2. check if the user is authenticated
   const session = await verifySession();
@@ -231,10 +217,11 @@ export async function createDraftInvoice(formData: FormData) {
   // 3. create draft invoice
   const newInvoice = await prisma.invoice.create({
     data: {
-      invoiceId: generateInvoiceId(),
       ...validationResult.data,
+      invoiceId: generateInvoiceId(),
       total: totalValue,
-      userId: session.userId,
+      userId: session.userId as string,
+      status: "draft",
     },
   });
 

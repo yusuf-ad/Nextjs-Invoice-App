@@ -23,6 +23,6 @@ export const DraftInvoiceSchema = z.object({
   description: z.string().max(30),
   senderAddress: DraftAddressSchema,
   clientAddress: DraftAddressSchema,
-  status: z.enum(["draft"]),
+  status: z.enum(["pending"]),
   items: z.array(DraftItemSchema).min(0).max(10),
 });

@@ -12,7 +12,6 @@ import ItemsList from "./ItemsList";
 import InvoiceInput from "./InvoiceInput";
 import { createDraftInvoice, createInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/definitions/invoice";
-import { formatToFormData } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { useModal } from "./Modal";
 
@@ -76,9 +75,9 @@ function CreateInvoiceForm() {
   }
 
   async function handleDraftInvoice() {
-    const formData = formatToFormData(form.getValues());
+    const data = form.getValues();
 
-    const { status, message } = (await createDraftInvoice(formData)) ?? {
+    const { status, message } = (await createDraftInvoice(data)) ?? {
       status: "",
       message: "",
     };
