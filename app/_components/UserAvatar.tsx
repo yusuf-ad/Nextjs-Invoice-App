@@ -7,7 +7,7 @@ import { logout } from "@/server/actions";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function UserAvatar() {
+function UserAvatar({ userImg }: { userImg: string }) {
   const [isActive, setIsActive] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -42,9 +42,7 @@ function UserAvatar() {
           height={40}
           onClick={() => setIsActive(!isActive)}
           className="z-50 h-10 w-10 cursor-pointer rounded-full border-transparent transition-all duration-100 hover:scale-105 hover:border-4 hover:border-skin-purple"
-          src={
-            "https://avatars.mds.yandex.net/i?id=330af41273106bca8572b59d7b643c611d32d2ee-12496338-images-thumbs&n=13"
-          }
+          src={userImg}
           alt="user avatar"
         />
       )}

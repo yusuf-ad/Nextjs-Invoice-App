@@ -18,6 +18,8 @@ export default async function middleware(req: NextRequest) {
 
   // 4. Redirect
   if (isProtectedRoute && !session?.userId) {
+    console.log("is it working??");
+
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 

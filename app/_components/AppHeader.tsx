@@ -1,11 +1,16 @@
 import DarkModeButton from "./DarkModeButton";
 import HeaderLogo from "./HeaderLogo";
 import UserAvatar from "./UserAvatar";
-import { hasAuth } from "@/server/data-service";
+import { getMyInfo, hasAuth } from "@/server/data-service";
 import clsx from "clsx";
 
 async function AppHeader() {
   const { userId } = await hasAuth();
+  let profile = null;
+
+  if (userId) {
+    profile = await getMyInfo();
+  }
 
   return (
     <header
@@ -21,7 +26,7 @@ async function AppHeader() {
       <div className={`relative flex items-center gap-8 xl:flex-col xl:gap-8`}>
         <DarkModeButton />
 
-        {userId && <UserAvatar />}
+        {userId && <UserAvatar userImg={profile?.photo} />}
       </div>
     </header>
   );
