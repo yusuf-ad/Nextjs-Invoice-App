@@ -11,18 +11,13 @@ function ProfileLayout({ children }: { children: ReactNode }) {
 
       <section>
         <div className="mt-8 w-full justify-between rounded-md bg-white px-6 py-8 text-sm text-skin-baliHai dark:bg-skin-mirage">
-          <div className="mb-8 flex items-center justify-between">
-            <h1 className="self- pl-4 text-xl font-bold text-skin-black">
-              Your profile
-            </h1>
+          <div className="mb-10 flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-skin-black">Your profile</h1>
 
             <ProfileTabs />
           </div>
 
           {/* tabs */}
-
-          {/* {activeTab === "General" && <GeneralProfileInfo />} */}
-          {/* {activeTab === "Advanced" && <AdvancedProfileInfo />} */}
           {children}
         </div>
       </section>

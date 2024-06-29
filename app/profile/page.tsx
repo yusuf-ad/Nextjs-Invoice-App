@@ -10,25 +10,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ProfileFormSchema } from "@/lib/definitions/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CameraIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-const ProfileFormSchema = z.object({
-  fullName: z.string({ message: "Can't be empty." }).min(2).max(30).trim(),
-  email: z.string({ message: "Can't be empty." }).email().trim(),
-  username: z.string({ message: "Can't be empty." }).min(2).max(30).trim(),
-});
 
 function ProfilePage() {
   const form = useForm<z.infer<typeof ProfileFormSchema>>({
     resolver: zodResolver(ProfileFormSchema),
   });
 
+  function onSubmit(data: z.output<typeof ProfileFormSchema>) {
+    console.log(data);
+  }
+
   return (
     <div className="grid grid-cols-4">
-      <div className="col-span-1 py-4 pl-4">
+      <div className="col-span-1 py-4 pl-2">
         <form className="relative">
           <label htmlFor="photo">
             <img
@@ -52,7 +51,10 @@ function ProfilePage() {
 
       <div className="col-span-3 p-4 pt-0">
         <Form {...form}>
-          <form>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col"
+          >
             <div className="space-y-4">
               <FormField
                 name="fullName"
@@ -65,7 +67,7 @@ function ProfilePage() {
                         type="text"
                         placeholder="John Doe"
                         {...field}
-                        value={field.value || ""}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -83,7 +85,7 @@ function ProfilePage() {
                         type="text"
                         placeholder="username"
                         {...field}
-                        value={field.value || ""}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -101,7 +103,7 @@ function ProfilePage() {
                         type="email"
                         placeholder="email"
                         {...field}
-                        value={field.value || ""}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -112,7 +114,7 @@ function ProfilePage() {
 
             <button
               type="submit"
-              className="btn-sm float-right mt-8 rounded-md bg-skin-purple font-bold tracking-wide text-white hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
+              className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-700"
             >
               Update Profile
             </button>
