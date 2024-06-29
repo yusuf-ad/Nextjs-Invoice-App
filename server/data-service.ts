@@ -86,3 +86,32 @@ export async function hasAuth(): Promise<{
     userId: session.userId as string,
   };
 }
+
+export async function getMyInfo() {
+  try {
+    // 1. Check authentication
+    const session = await verifySession();
+
+    if (!session) {
+      throw new Error("Unauthorized");
+    }
+
+    // 2. Fetch user from database
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.userId,
+      },
+      select: {
+        username: true,
+        email: true,
+        fullName: true,
+        photo: true,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to fetch user");
+  }
+}

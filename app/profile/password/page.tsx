@@ -39,7 +39,12 @@ function PasswordPage() {
                 <FormItem>
                   <FormLabel>Current Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} value={field.value} />
+                    <Input
+                      className="font-semibold text-skin-black"
+                      type="password"
+                      {...field}
+                      value={field.value}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -52,7 +57,12 @@ function PasswordPage() {
                 <FormItem>
                   <FormLabel>New Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} value={field.value} />
+                    <Input
+                      className="font-semibold text-skin-black"
+                      type="password"
+                      {...field}
+                      value={field.value}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
