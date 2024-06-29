@@ -16,7 +16,7 @@ model User {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   fullName String    @unique
   email    String    @unique
-  photo    String?   @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg")
+  photo    String?   @default("https://utfs.io/f/aee6c32a-77f7-40b8-ad4b-43d5e3ceba8c-vuqsxi.jpg")
   username String    @unique
   password String
   Invoice  Invoice[]

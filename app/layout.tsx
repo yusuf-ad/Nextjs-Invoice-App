@@ -1,9 +1,15 @@
+import "@/app/_styles/globals.css";
+import "@uploadthing/react/styles.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/app/_styles/globals.css";
 import AppHeader from "./_components/AppHeader";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/theme-provider";
+
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "@/app/api/uploadthing/core";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +28,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} relative flex min-h-screen flex-col bg-skin-whisper text-skin-black antialiased`}
       >
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
