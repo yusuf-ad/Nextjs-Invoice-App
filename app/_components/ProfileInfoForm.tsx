@@ -22,13 +22,24 @@ type ProfileInfoFormProps = {
   photo: string;
 };
 
-function ProfileInfoForm({ profile }: { profile: ProfileInfoFormProps }) {
+function ProfileInfoForm({
+  profile,
+  newAvatar,
+  clearAvatar,
+}: {
+  profile: ProfileInfoFormProps;
+  newAvatar: string;
+  clearAvatar: () => void;
+}) {
   const form = useForm<z.infer<typeof ProfileFormSchema>>({
     resolver: zodResolver(ProfileFormSchema),
     defaultValues: profile,
   });
 
+  const { dirtyFields } = form.formState;
+
   function onSubmit(data: z.output<typeof ProfileFormSchema>) {
+    console.log("avatar", newAvatar);
     console.log(data);
   }
 
@@ -44,7 +55,7 @@ function ProfileInfoForm({ profile }: { profile: ProfileInfoFormProps }) {
                 <FormLabel>Fullname</FormLabel>
                 <FormControl>
                   <Input
-                    className="font-semibold text-skin-black"
+                    className="font-semibold capitalize text-skin-black"
                     type="text"
                     {...field}
                     value={field.value}
@@ -94,7 +105,8 @@ function ProfileInfoForm({ profile }: { profile: ProfileInfoFormProps }) {
 
         <button
           type="submit"
-          className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-700"
+          disabled={!Object.keys(dirtyFields).length || newAvatar !== ""}
+          className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-purple-700 dark:hover:bg-purple-700"
         >
           Update Profile
         </button>
