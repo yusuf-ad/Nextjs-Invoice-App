@@ -47,6 +47,8 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
       </div>
 
       <div className="col-span-3 p-4 pt-0">
+        <h2 className="mb-6 text-lg">Make changes to your account here. </h2>
+
         <ProfileInfoForm
           newAvatar={avatar}
           profile={profile}

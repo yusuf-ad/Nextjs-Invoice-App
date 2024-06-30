@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { ProfileFormSchema } from "@/lib/definitions/profile";
+import {
+  MyProfileFormSchema,
+  ProfileFormSchema,
+} from "@/lib/definitions/profile";
+import { updateMyProfile } from "@/server/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,16 +35,17 @@ function ProfileInfoForm({
   newAvatar: string;
   clearAvatar: () => void;
 }) {
-  const form = useForm<z.infer<typeof ProfileFormSchema>>({
-    resolver: zodResolver(ProfileFormSchema),
+  const form = useForm<z.infer<typeof MyProfileFormSchema>>({
+    resolver: zodResolver(MyProfileFormSchema),
     defaultValues: profile,
   });
 
   const { dirtyFields } = form.formState;
 
-  function onSubmit(data: z.output<typeof ProfileFormSchema>) {
-    console.log("avatar", newAvatar);
-    console.log(data);
+  async function onSubmit(data: z.output<typeof MyProfileFormSchema>) {
+    await updateMyProfile({ ...data, photo: newAvatar });
+
+    clearAvatar();
   }
 
   return (
@@ -103,13 +108,14 @@ function ProfileInfoForm({
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={!Object.keys(dirtyFields).length || newAvatar !== ""}
-          className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-purple-700 dark:hover:bg-purple-700"
-        >
-          Update Profile
-        </button>
+        {newAvatar || Object.keys(dirtyFields).length ? (
+          <button
+            type="submit"
+            className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-purple-700 dark:hover:bg-purple-700"
+          >
+            {form.formState.isSubmitting ? "Updating..." : "Update Profile"}
+          </button>
+        ) : null}
       </form>
     </Form>
   );

@@ -19,6 +19,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { SignupFormSchema, LoginFormSchema } from "@/lib/definitions/auth";
 import { DraftInvoiceSchema } from "@/lib/definitions/draftInvoice";
+import { MyProfileFormSchema } from "@/lib/definitions/profile";
 
 // * Auth actions
 export async function signup(formData: FormData) {
@@ -109,6 +110,52 @@ export async function login(formData: FormData) {
 
 export async function logout() {
   await deleteSession();
+}
+
+type UpdateProfileType = {
+  fullName: string;
+  email: string;
+  username: string;
+  photo?: string;
+};
+
+export async function updateMyProfile(userInfo: UpdateProfileType) {
+  // 1. validate the user input
+  const validationResult = MyProfileFormSchema.safeParse(userInfo);
+
+  if (!validationResult.success) {
+    console.log(validationResult.error.errors[0].message);
+
+    return {
+      status: "error",
+      message: validationResult.error.errors[0].message,
+    };
+  }
+
+  // 2. check if the user is authenticated
+  const session = await verifySession();
+
+  // 3. update user profile
+  const updatedData = {
+    ...validationResult.data,
+    photo: validationResult.data.photo || undefined,
+  };
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: session.userId,
+    },
+    data: updatedData,
+  });
+
+  if (!updatedUser) {
+    return {
+      status: "error",
+      message: "Failed to update profile",
+    };
+  }
+
+  revalidatePath("/profile");
 }
 
 // * Invoice actions
