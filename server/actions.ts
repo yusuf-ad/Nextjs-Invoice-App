@@ -19,7 +19,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { SignupFormSchema, LoginFormSchema } from "@/lib/definitions/auth";
 import { DraftInvoiceSchema } from "@/lib/definitions/draftInvoice";
-import { MyProfileFormSchema } from "@/lib/definitions/profile";
+import {
+  MyProfileFormSchema,
+  PasswordSchema,
+  type UpdateProfileType,
+} from "@/lib/definitions/profile";
 
 // * Auth actions
 export async function signup(formData: FormData) {
@@ -80,7 +84,7 @@ export async function login(formData: FormData) {
   try {
     user = await prisma.user.findFirst({
       where: {
-        username: username,
+        username,
       },
     });
   } catch (error) {
@@ -111,13 +115,6 @@ export async function login(formData: FormData) {
 export async function logout() {
   await deleteSession();
 }
-
-type UpdateProfileType = {
-  fullName: string;
-  email: string;
-  username: string;
-  photo?: string;
-};
 
 export async function updateMyProfile(userInfo: UpdateProfileType) {
   // 1. validate the user input
@@ -156,6 +153,74 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
   }
 
   revalidatePath("/profile");
+}
+
+export async function changeMyPassword(passwordData: {
+  currentPassword: string;
+  newPassword: string;
+}) {
+  // 1. validate the user input
+  const validationResult = PasswordSchema.safeParse(passwordData);
+
+  if (!validationResult.success) {
+    return {
+      status: "error",
+      message: validationResult.error.errors[0].message,
+    };
+  }
+
+  const { currentPassword, newPassword } = validationResult.data;
+
+  // 2. check if the user is authenticated
+  const session = await verifySession();
+
+  // 3. change user password
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.userId,
+    },
+  });
+
+  if (!user) {
+    return {
+      status: "error",
+      message: "User not found",
+    };
+  }
+
+  // 4. Compare the password with the hashed password
+  const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+  if (!passwordMatch) {
+    return {
+      status: "error",
+      message: "The provided password does not match your current password!",
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: session.userId,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+
+  if (!updatedUser) {
+    return {
+      status: "error",
+      message: "Failed to update password",
+    };
+  }
+
+  // 5. logout user
+  await deleteSession();
+
+  // 6. redirect to homepage
+  redirect("/");
 }
 
 // * Invoice actions

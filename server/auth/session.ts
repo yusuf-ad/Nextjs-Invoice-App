@@ -73,6 +73,4 @@ export async function verifySession() {
 
 export async function deleteSession() {
   cookies().delete("session");
-
-  redirect("/");
 }

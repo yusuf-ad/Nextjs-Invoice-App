@@ -13,14 +13,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordSchema } from "@/lib/definitions/profile";
+import { changeMyPassword } from "@/server/actions";
+import toast from "react-hot-toast";
 
 function PasswordPage() {
   const form = useForm<z.infer<typeof PasswordSchema>>({
     resolver: zodResolver(PasswordSchema),
   });
 
-  function onSubmit(data: z.output<typeof PasswordSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.output<typeof PasswordSchema>) {
+    const { status, message } = (await changeMyPassword(data)) ?? {
+      status: "",
+      message: "",
+    };
+
+    if (status === "error") {
+      return toast.error(message);
+    }
+
+    toast.success("Password changed successfully. Logging out now.");
   }
 
   return (
@@ -68,13 +79,31 @@ function PasswordPage() {
                 </FormItem>
               )}
             />
+            <FormField
+              name="confirmPassword"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="font-semibold text-skin-black"
+                      type="password"
+                      {...field}
+                      value={field.value}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <button
             type="submit"
             className="btn-sm mt-8 self-end rounded-md bg-purple-600 font-bold tracking-wide text-white hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-700"
           >
-            Change Password
+            {form.formState.isSubmitting ? "Saving..." : "Change Password"}
           </button>
         </form>
       </Form>
