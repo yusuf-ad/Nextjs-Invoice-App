@@ -114,6 +114,8 @@ export async function login(formData: FormData) {
 
 export async function logout() {
   await deleteSession();
+
+  redirect("/");
 }
 
 export async function updateMyProfile(userInfo: UpdateProfileType) {

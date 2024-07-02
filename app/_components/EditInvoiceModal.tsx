@@ -1,3 +1,5 @@
+"use client";
+
 import EditInvoiceForm from "./EditInvoiceForm";
 import { Close, Content, Modal, Open } from "./Modal";
 import ButtonCloseModal from "./ButtonCloseModal";

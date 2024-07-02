@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 
 function withOpacity(variableName: string) {
   return ({ opacityValue }: { opacityValue?: number }): string => {
@@ -9,7 +9,7 @@ function withOpacity(variableName: string) {
   };
 }
 
-const config: Config = {
+export default withUt({
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -19,7 +19,17 @@ const config: Config = {
   ],
   prefix: "",
   theme: {
-    container: { center: true },
+    container: {
+      center: true,
+      screens: {
+        xs: "475px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
+    },
     extend: {
       colors: {
         skin: {
@@ -113,6 +123,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+});
 
-export default config;
+// export default config;

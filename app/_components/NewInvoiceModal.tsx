@@ -1,3 +1,5 @@
+"use client";
+
 import ButtonCloseModal from "./ButtonCloseModal";
 import ButtonNewInvoice from "./ButtonNewInvoice";
 import CreateInvoiceForm from "./CreateInvoiceForm";
