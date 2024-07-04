@@ -18,11 +18,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Control } from "react-hook-form";
 
-export function PaymentDue({ form }) {
+export function PaymentDue({ control }: { control: Control<any> }) {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name="paymentDue"
       render={({ field }) => (
         <FormItem className="flex flex-col">

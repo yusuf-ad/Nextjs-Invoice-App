@@ -43,24 +43,32 @@ function EditInvoiceForm({ currentInvoice }: { currentInvoice: InvoiceType }) {
             Bill from
           </h3>
 
-          <Address form={form} address={"clientAddress"} />
+          <Address control={form.control} address={"clientAddress"} />
 
           <h3 className="mb-4 mt-8 text-sm font-bold capitalize text-skin-purple">
             Bill to
           </h3>
 
-          <InvoiceInput form={form} name="clientName" label="Client's Name" />
+          <InvoiceInput
+            control={form.control}
+            name="clientName"
+            label="Client's Name"
+          />
 
-          <InvoiceInput form={form} name="clientEmail" label="Client's Email" />
+          <InvoiceInput
+            control={form.control}
+            name="clientEmail"
+            label="Client's Email"
+          />
 
-          <Address form={form} address={"senderAddress"} />
+          <Address control={form.control} address={"senderAddress"} />
 
-          <PaymentDue form={form} />
+          <PaymentDue control={form.control} />
 
           <PaymentTerms form={form} />
 
           <InvoiceInput
-            form={form}
+            control={form.control}
             name="description"
             label="Project Description"
           />

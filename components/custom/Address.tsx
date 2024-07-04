@@ -6,13 +6,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Control } from "react-hook-form";
 
-function Address({ form, address }) {
+type AddressProps = {
+  control: Control<any>;
+  address: string;
+};
+
+function Address({ control, address }: AddressProps) {
   return (
     <div className="space-y-4">
       <FormField
         name={`${address}.street`}
-        control={form.control}
+        control={control}
         render={({ field }) => (
           <FormItem className="space-y-3">
             <div className="flex justify-between">
@@ -34,7 +40,7 @@ function Address({ form, address }) {
       <div className="flex gap-3">
         <FormField
           name={`${address}.city`}
-          control={form.control}
+          control={control}
           render={({ field }) => (
             <FormItem className="space-y-3">
               <div className="flex justify-between">
@@ -54,7 +60,7 @@ function Address({ form, address }) {
         />
         <FormField
           name={`${address}.postCode`}
-          control={form.control}
+          control={control}
           render={({ field }) => (
             <FormItem className="space-y-3">
               <div className="flex justify-between">
@@ -74,7 +80,7 @@ function Address({ form, address }) {
         />
         <FormField
           name={`${address}.country`}
-          control={form.control}
+          control={control}
           render={({ field }) => (
             <FormItem className="space-y-3">
               <div className="flex justify-between">
