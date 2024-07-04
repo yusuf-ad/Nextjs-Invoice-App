@@ -1,4 +1,4 @@
-import type { Invoice as InvoiceType } from "@/lib/auth/definitions";
+import { InvoiceType } from "@/lib/definitions/invoice";
 import Invoice from "./Invoice";
 
 type InvoicesListProps = {

@@ -40,17 +40,18 @@ export type NewInvoiceType = {
 };
 
 export type InvoiceType = {
-  clientName: string;
-  clientEmail: string;
+  invoiceId: string;
+  status: "paid" | "pending" | "draft";
+  description: string;
   paymentDue: Date;
   paymentTerms: string;
-  description: string;
+  clientName: string;
+  clientEmail: string;
   total: number;
+  items: Item[];
   senderAddress: Address;
   clientAddress: Address;
-  status: "paid" | "pending" | "draft";
-  invoiceId: string;
-  items: Item[];
+  createdAt?: Date;
 };
 
 export type Address = {

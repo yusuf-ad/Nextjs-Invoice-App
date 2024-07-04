@@ -18,6 +18,20 @@ export async function getInvoices() {
       where: {
         userId: session.userId,
       },
+      select: {
+        invoiceId: true,
+        description: true,
+        status: true,
+        paymentDue: true,
+        paymentTerms: true,
+        clientName: true,
+        clientEmail: true,
+        total: true,
+        items: true,
+        senderAddress: true,
+        clientAddress: true,
+        createdAt: true,
+      },
     });
 
     return invoices;
@@ -87,19 +101,20 @@ export async function hasAuth(): Promise<{
   };
 }
 
-export async function getMyInfo() {
+export async function getMyInfo(): Promise<{
+  username: string;
+  email: string;
+  fullName: string;
+  photo: string;
+}> {
   try {
     // 1. Check authentication
     const session = await verifySession();
 
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
-
     // 2. Fetch user from database
     const user = await prisma.user.findUnique({
       where: {
-        id: session.userId,
+        id: session.userId as string,
       },
       select: {
         username: true,
@@ -108,6 +123,8 @@ export async function getMyInfo() {
         photo: true,
       },
     });
+
+    if (!user) throw new Error("User not found");
 
     return user;
   } catch (error) {
