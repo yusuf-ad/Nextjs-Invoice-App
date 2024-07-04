@@ -1,6 +1,6 @@
-import BackButton from "@/app/_components/BackButton";
-import InvoiceInformation from "@/app/_components/InvoiceInformation";
-import Loader from "@/app/_components/Loader";
+import BackButton from "@/components/custom/BackButton";
+import InvoiceInformation from "@/components/custom/InvoiceInformation";
+import Loader from "@/components/custom/Loader";
 import { Suspense } from "react";
 
 function Page({ params }: { params: { invoiceId: string } }) {

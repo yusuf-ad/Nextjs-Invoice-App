@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Check } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const menuItems = [
+  {
+    label: "Light",
+    value: "light",
+  },
+  {
+    label: "Dark",
+    value: "dark",
+  },
+  {
+    label: "System",
+    value: "system",
+  },
+];
+
 function DarkModeButton() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="bg-skin-ebony text-white hover:bg-skin-ebony hover:text-white"
+          className="border-0 bg-skin-ebony text-skin-selago hover:bg-skin-ebony hover:text-white"
           variant={"outline"}
           size="icon"
         >
@@ -29,15 +44,21 @@ function DarkModeButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
+        {menuItems.map((item) => (
+          <DropdownMenuItem
+            key={item.value}
+            onClick={() => setTheme(item.value)}
+          >
+            {item.label}
+
+            {item.value === theme && (
+              <Check
+                className="absolute right-2 h-[1rem] w-[1rem] text-skin-ebony dark:text-white"
+                style={{ top: "50%", transform: "translateY(-50%)" }}
+              />
+            )}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

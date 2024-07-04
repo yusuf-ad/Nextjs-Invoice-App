@@ -1,5 +1,5 @@
 import { getMyInfo } from "@/server/data-service";
-import ProfileInfo from "../_components/ProfileInfo";
+import ProfileInfo from "@/components/custom/ProfileInfo";
 
 async function ProfilePage() {
   const profileInfo = await getMyInfo();

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import BackButton from "../_components/BackButton";
-import ProfileTabs from "../_components/ProfileTabs";
+import BackButton from "@/components/custom/BackButton";
+import ProfileTabs from "@/components/custom/ProfileTabs";
 
 function ProfileLayout({ children }: { children: ReactNode }) {
   return (

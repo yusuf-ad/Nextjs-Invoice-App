@@ -1,4 +1,4 @@
-import Loader from "../_components/Loader";
+import Loader from "@/components/custom/Loader";
 
 function loading() {
   return (

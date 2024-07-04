@@ -1,8 +1,8 @@
-import InvoicesCount from "../_components/InvoicesCount";
-import Filter from "../_components/Filter";
-import InvoicesList from "../_components/InvoicesList";
+import InvoicesCount from "@/components/custom/InvoicesCount";
+import Filter from "@/components/custom/Filter";
+import InvoicesList from "@/components/custom/InvoicesList";
 import { getInvoices } from "../../server/data-service";
-import NewInvoiceModal from "../_components/NewInvoiceModal";
+import NewInvoiceModal from "@/components/custom/NewInvoiceModal";
 
 type SearchParams = {
   searchParams: { paid?: string; draft?: string; pending?: string };

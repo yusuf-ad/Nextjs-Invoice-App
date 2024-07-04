@@ -1,9 +1,9 @@
 // import "@uploadthing/react/styles.css";
-import "@/app/_styles/globals.css";
+import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import AppHeader from "./_components/AppHeader";
+import AppHeader from "@/components/custom/AppHeader";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/theme-provider";
 

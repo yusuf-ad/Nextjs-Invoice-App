@@ -1,13 +1,13 @@
-import DeleteInvoiceButton from "@/app/_components/DeleteInvoiceButton";
-import InvoiceAddress from "@/app/_components/InvoiceAddress";
-import InvoiceDetails from "@/app/_components/InvoiceDetails";
-import InvoiceStatus from "@/app/_components/InvoiceStatus";
-import ItemsTable from "@/app/_components/ItemsTable";
 import InvoiceNotFound from "./InvoiceNotFound";
-
-import { getInvoice } from "@/server/data-service";
 import EditInvoiceModal from "./EditInvoiceModal";
 import ButtonMarkAsPaid from "./ButtonMarkAsPaid";
+import InvoiceStatus from "./InvoiceStatus";
+import DeleteInvoiceButton from "./DeleteInvoiceButton";
+import InvoiceAddress from "./InvoiceAddress";
+import InvoiceDetails from "./InvoiceDetails";
+import ItemsTable from "./ItemsTable";
+
+import { getInvoice } from "@/server/data-service";
 
 async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
   const currentInvoice = await getInvoice(invoiceId);

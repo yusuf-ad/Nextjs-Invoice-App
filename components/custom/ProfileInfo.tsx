@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { UploadButton } from "../api/uploadthing/uploadthing";
 import ProfileInfoForm from "./ProfileInfoForm";
+import { UploadButton } from "@/app/api/uploadthing/uploadthing";
 
 type ProfileInfoProps = {
   profile: {

@@ -1,4 +1,4 @@
-import "@/app/_styles/loader.css";
+import "@/styles/loader.css";
 
 type LoaderProps = {
   type?: string;
