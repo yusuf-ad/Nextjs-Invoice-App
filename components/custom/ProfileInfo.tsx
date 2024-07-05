@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ProfileInfoForm from "./ProfileInfoForm";
 import { UploadButton } from "@/app/api/uploadthing/uploadthing";
+import Image from "next/image";
 
 type ProfileInfoProps = {
   profile: {
@@ -29,7 +30,9 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
       <div className="col-span-1 mr-2 py-4">
         <form className="relative">
           <div className="flex flex-col items-center justify-center gap-4">
-            <img
+            <Image
+              width={96}
+              height={96}
               className="h-24 w-24 rounded-full"
               src={avatar ? avatar : profile.photo}
               alt={`profile image`}
