@@ -2,7 +2,6 @@
 
 import {
   ComponentPropsWithoutRef,
-  cloneElement,
   createContext,
   useContext,
   useEffect,
@@ -70,7 +69,7 @@ function Open({ children }: { children: ReactNode }) {
 function Close({ children }: { children: ReactElement }) {
   const { close } = useModal();
 
-  return cloneElement(children, { onClick: close });
+  return <div onClick={close}>{children}</div>;
 }
 
 function Content({

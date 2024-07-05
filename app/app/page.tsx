@@ -32,7 +32,11 @@ async function Page({ searchParams }: SearchParams) {
         <NewInvoiceModal />
       </header>
 
-      <InvoicesList invoices={filteredInvoices} />
+      {filteredInvoices.length > 0 ? (
+        <InvoicesList invoices={filteredInvoices} />
+      ) : (
+        <p className="mt-16 text-xl">No invoices found by this status!</p>
+      )}
     </div>
   );
 }

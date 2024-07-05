@@ -1,4 +1,6 @@
-import { verifySession } from "@/server/auth/session";
+import { decrypt, verifySession } from "@/server/auth/session";
+import { hasAuth } from "@/server/data-service";
+import { cookies } from "next/headers";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
@@ -11,10 +13,10 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
-      const session = await verifySession();
+      const session = await hasAuth();
 
       // If you throw, the user will not be able to upload
-      if (!session.userId) throw new UploadThingError("Unauthorized");
+      if (!session?.userId) throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: session.userId };

@@ -95,7 +95,7 @@ function EditInvoiceForm({ currentInvoice }: { currentInvoice: InvoiceType }) {
               type="submit"
               className="btn-sm order-1 bg-skin-purple text-xs font-bold text-white disabled:cursor-not-allowed disabled:opacity-90 xs:order-4"
             >
-              Save & Send
+              {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </div>
