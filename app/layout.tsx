@@ -38,7 +38,7 @@ export default function RootLayout({
           <Toaster />
           <AppHeader />
 
-          <div className="grid flex-1 px-8 py-12">
+          <div className="grid flex-1 px-4 md:px-8 md:py-12">
             <main className="relative mx-auto w-full max-w-3xl">
               {children}
             </main>

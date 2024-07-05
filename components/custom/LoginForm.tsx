@@ -46,7 +46,7 @@ function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-8 flex flex-col rounded-md bg-white px-8 py-6 dark:bg-skin-mirage"
+        className="mt-8 flex flex-col rounded-md bg-white px-4 py-5 dark:bg-skin-mirage sm:px-8 sm:py-6"
       >
         <div className="flex flex-col gap-4">
           <FormField

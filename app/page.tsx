@@ -18,7 +18,7 @@ function Page() {
         </a>
       </p>
 
-      <div className="flex flex-col justify-around gap-4 px-0 xs:px-8 md:flex-row">
+      <div className="flex flex-col justify-around gap-4 px-0 text-skin-offWhite xs:px-8 md:flex-row">
         <Link
           className="btn-md flex w-full items-center justify-center bg-skin-purple"
           href={"/login"}
