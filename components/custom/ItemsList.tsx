@@ -70,77 +70,95 @@ function Item({ form, index, remove }) {
   }, [qty, price, form, index]);
 
   return (
-    <li className="flex gap-4">
-      <FormField
-        name={`items.${index}.name`}
-        control={form.control}
-        render={({ field }) => (
-          <FormItem className="flex-[2] space-y-3">
-            <div className="flex justify-between">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                Item Name
-              </FormLabel>
-              <FormMessage />
-            </div>
-            <FormControl>
-              <Input
-                placeholder="New Item"
-                className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
-                {...field}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
+    <li className="flex flex-col gap-6">
+      <div className="flex gap-4">
+        <FormField
+          name={`items.${index}.name`}
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex-[2] space-y-3">
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  Item Name
+                </FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input
+                  placeholder="New Item"
+                  className="h-12 px-4 font-bold capitalize dark:bg-skin-mirage"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name={`items.${index}.qty`}
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex-1 space-y-3">
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  Qty.
+                </FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input
+                  type="number"
+                  className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name={`items.${index}.price`}
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex-1 space-y-3">
+              <div className="flex justify-between">
+                <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
+                  Price
+                </FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input
+                  type="number"
+                  className="h-12 px-4 font-bold dark:bg-skin-mirage"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className="hidden flex-[2] flex-col sm:col-span-3 sm:flex">
+          <label className="mb-6 ml-8 mt-1 text-sm font-normal capitalize text-skin-baliHai">
+            Total
+          </label>
+          <div className="flex justify-around gap-7">
+            <span className="mb-3 font-bold text-skin-shipCove">
+              {total.toFixed(2)}
+            </span>
+            <button
+              onClick={() => remove(index)}
+              className="col-span-1 hidden sm:flex"
+              type="button"
+            >
+              <TrashIcon className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
 
-      <FormField
-        name={`items.${index}.qty`}
-        control={form.control}
-        render={({ field }) => (
-          <FormItem className="flex-1 space-y-3">
-            <div className="flex justify-between">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                Qty.
-              </FormLabel>
-              <FormMessage />
-            </div>
-            <FormControl>
-              <Input
-                type="number"
-                className="h-12 px-4 font-bold dark:bg-skin-mirage"
-                {...field}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        name={`items.${index}.price`}
-        control={form.control}
-        render={({ field }) => (
-          <FormItem className="flex-1 space-y-3">
-            <div className="flex justify-between">
-              <FormLabel className="text-sm font-normal capitalize text-skin-baliHai">
-                Price
-              </FormLabel>
-              <FormMessage />
-            </div>
-            <FormControl>
-              <Input
-                type="number"
-                className="h-12 px-4 font-bold dark:bg-skin-mirage"
-                {...field}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-      <div className="flex flex-[2] flex-col sm:col-span-3">
-        <label className="mb-6 ml-8 mt-1 text-sm font-normal capitalize text-skin-baliHai">
+      <div className="mr-8 flex flex-col items-end justify-center sm:col-span-3 sm:hidden">
+        <label className="text-sm font-normal capitalize text-skin-baliHai">
           Total
         </label>
-        <div className="flex justify-around gap-7">
+        <div className="">
           <span className="mb-3 font-bold text-skin-shipCove">
             {total.toFixed(2)}
           </span>
