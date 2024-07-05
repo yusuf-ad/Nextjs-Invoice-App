@@ -16,7 +16,7 @@ async function Page({ searchParams }: SearchParams) {
     : invoices;
 
   return (
-    <div className="container mt-4 max-w-3xl xs:px-4 xl:mt-0">
+    <div className="container mt-4 max-w-3xl px-4 xl:mt-0">
       <header className="flex items-center justify-between gap-5">
         <div>
           <InvoicesCount numInvoices={filteredInvoices.length} />

@@ -33,7 +33,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
         </div>
 
         <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
-          <EditInvoiceModal />
+          <EditInvoiceModal currentInvoice={currentInvoice} />
 
           <DeleteInvoiceButton invoiceId={currentInvoice?.invoiceId} />
 
