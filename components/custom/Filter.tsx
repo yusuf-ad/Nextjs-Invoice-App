@@ -11,6 +11,24 @@ import iconDown from "@/public/assets/icon-arrow-down.svg";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+const filters = [
+  {
+    id: 1,
+    name: "Draft",
+    value: "draft",
+  },
+  {
+    id: 2,
+    name: "Pending",
+    value: "pending",
+  },
+  {
+    id: 3,
+    name: "Paid",
+    value: "paid",
+  },
+];
+
 function Filter() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -19,11 +37,11 @@ function Filter() {
   function handleFilter(filter: string) {
     const params = new URLSearchParams(searchParams);
 
-    // 1. add or remove the filter from the search params
-    if (searchParams.has(filter)) {
-      params.delete(filter);
+    // 1. add the filter to the search params
+    if (params.get("status") === filter) {
+      params.delete("status");
     } else {
-      params.set(filter, "true");
+      params.set("status", filter);
     }
 
     // 2. update the URL with the new search params
@@ -45,28 +63,18 @@ function Filter() {
             />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-12 mt-2 w-48 p-4 text-xs font-bold text-skin-black">
-          <DropdownMenuCheckboxItem
-            checked={searchParams.get("draft") === "true"}
-            defaultChecked={searchParams.get("draft") === "true"}
-            onCheckedChange={() => handleFilter("draft")}
-          >
-            <span className="ml-2">Draft</span>
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={searchParams.get("pending") === "true"}
-            defaultChecked={searchParams.get("pending") === "true"}
-            onCheckedChange={() => handleFilter("pending")}
-          >
-            <span className="ml-2">Pending</span>
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={searchParams.get("paid") === "true"}
-            defaultChecked={searchParams.get("paid") === "true"}
-            onCheckedChange={() => handleFilter("paid")}
-          >
-            <span className="ml-2">Paid</span>
-          </DropdownMenuCheckboxItem>
+
+        <DropdownMenuContent className="mr-12 mt-2 flex w-48 flex-col gap-1 px-4 py-4 text-xs font-bold text-skin-black">
+          {filters.map((filter) => (
+            <DropdownMenuCheckboxItem
+              key={filter.id}
+              checked={searchParams.get("status") === filter.value}
+              defaultChecked={searchParams.get("status") === filter.value}
+              onCheckedChange={() => handleFilter(filter.value)}
+            >
+              <span className="ml-2">{filter.name}</span>
+            </DropdownMenuCheckboxItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

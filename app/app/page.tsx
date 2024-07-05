@@ -11,31 +11,19 @@ type SearchParams = {
 async function Page({ searchParams }: SearchParams) {
   const invoices = await getInvoices();
 
-  // 1) get active filters
-  const activeFilters = Object.entries(searchParams)
-    .filter(([key, value]) => value === "true")
-    .map(([key]) => key);
-
-  // 2) filter invoices
-  const filteredInvoices = invoices.filter((invoice) => {
-    if (activeFilters.length === 0) return true;
-
-    return activeFilters.includes(invoice.status);
-  });
-
   return (
     <div className="container mt-4 max-w-3xl xl:mt-0">
       <header className="flex items-center gap-5">
-        <InvoicesCount numInvoices={filteredInvoices.length} />
+        <InvoicesCount numInvoices={invoices.length} />
 
         <Filter />
         <NewInvoiceModal />
       </header>
 
-      {filteredInvoices.length > 0 ? (
-        <InvoicesList invoices={filteredInvoices} />
+      {invoices.length > 0 ? (
+        <InvoicesList invoices={invoices} />
       ) : (
-        <p className="mt-16 text-xl">No invoices found by this status!</p>
+        <p className="mt-16 text-xl">There is no invoice!</p>
       )}
     </div>
   );
