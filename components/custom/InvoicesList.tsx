@@ -1,11 +1,6 @@
-import { InvoiceType } from "@/lib/definitions/invoice";
 import Invoice from "./Invoice";
 
-type InvoicesListProps = {
-  invoices: InvoiceType[];
-};
-
-function InvoicesList({ invoices }: InvoicesListProps) {
+function InvoicesList({ invoices }: { invoices: any[] }) {
   return (
     <ul className="space-y-4 py-10">
       {invoices.map((invoice) => (

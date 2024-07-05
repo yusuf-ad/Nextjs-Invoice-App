@@ -88,7 +88,7 @@ export async function hasAuth(): Promise<{
 
   const session = await decrypt(cookie);
 
-  if (!session) {
+  if (!session?.userId) {
     return {
       status: "error",
       message: "Unauthorized",
