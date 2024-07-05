@@ -10,6 +10,7 @@ import {
 import iconDown from "@/public/assets/icon-arrow-down.svg";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ComponentPropsWithoutRef, PropsWithoutRef } from "react";
 
 const filters = [
   {
@@ -29,7 +30,7 @@ const filters = [
   },
 ];
 
-function Filter() {
+function Filter({ className }: ComponentPropsWithoutRef<"div">) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -49,7 +50,9 @@ function Filter() {
   }
 
   return (
-    <div className="ml-auto flex items-center text-sm font-bold text-skin-black">
+    <div
+      className={`ml-auto flex items-center text-sm font-bold text-skin-black ${className}`}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex select-none items-center">
