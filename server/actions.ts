@@ -142,7 +142,7 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
 
   const updatedUser = await prisma.user.update({
     where: {
-      id: session.userId,
+      id: session.userId as string,
     },
     data: updatedData,
   });
@@ -179,7 +179,7 @@ export async function changeMyPassword(passwordData: {
   // 3. change user password
   const user = await prisma.user.findUnique({
     where: {
-      id: session.userId,
+      id: session.userId as string,
     },
   });
 
@@ -204,7 +204,7 @@ export async function changeMyPassword(passwordData: {
 
   const updatedUser = await prisma.user.update({
     where: {
-      id: session.userId,
+      id: session.userId as string,
     },
     data: {
       password: hashedPassword,

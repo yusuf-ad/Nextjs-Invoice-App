@@ -12,7 +12,7 @@ import { PlusIcon, TrashIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
-function ItemsList({ fields, form, append, remove }) {
+function ItemsList({ fields, form, append, remove }: any) {
   return (
     <div>
       <h3 className="mb-6 mt-8 text-lg font-bold capitalize text-skin-baliHai">
@@ -21,7 +21,7 @@ function ItemsList({ fields, form, append, remove }) {
 
       <ul className="space-y-5">
         {fields.length > 0 ? (
-          fields.map((field, index) => (
+          fields.map((field: any, index: number) => (
             <Item key={field.id} remove={remove} index={index} form={form} />
           ))
         ) : (
@@ -53,7 +53,7 @@ function ItemsList({ fields, form, append, remove }) {
 
 export default ItemsList;
 
-function Item({ form, index, remove }) {
+function Item({ form, index, remove }: any) {
   const [total, setTotal] = useState(0);
 
   const qty = form.watch(`items.${index}.qty`);

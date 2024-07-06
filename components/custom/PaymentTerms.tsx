@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export function PaymentTerms({ form }) {
+export function PaymentTerms({ form }: any) {
   function handleValueChange(value: string) {
     const paymentDays = parseInt(value.split(" ")[1], 10);
     const paymentDueDate = new Date(Date.now());

@@ -3,7 +3,7 @@ import Link from "next/link";
 import rightChevron from "@/public/assets/icon-arrow-right.svg";
 import Image from "next/image";
 import InvoiceStatus from "./InvoiceStatus";
-import { formatDate, formatMoney } from "../../lib/utils";
+import { formatDate } from "../../lib/utils";
 
 export type InvoiceProps = {
   invoiceId: string;
@@ -34,7 +34,7 @@ function Invoice({ invoice }: { invoice: InvoiceProps }) {
                 Due {formatDate(new Date(invoice.paymentDue))}
               </p>
               <p className="text-lg font-bold text-skin-black">
-                ${formatMoney(invoice.total)}
+                ${invoice.total.toFixed(2)}
               </p>
             </div>
             <InvoiceStatus status={invoice.status} />
@@ -56,7 +56,7 @@ function Invoice({ invoice }: { invoice: InvoiceProps }) {
                 {invoice.clientName}
               </p>
               <p className="ml-auto text-base font-bold text-skin-black">
-                ${formatMoney(invoice.total)}
+                ${invoice.total.toFixed(2)}
               </p>
             </div>
             <div className="flex items-center gap-4">

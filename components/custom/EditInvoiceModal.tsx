@@ -4,7 +4,7 @@ import EditInvoiceForm from "./EditInvoiceForm";
 import { Close, Content, Modal, Open } from "./Modal";
 import ButtonCloseModal from "./ButtonCloseModal";
 
-function EditInvoiceModal({ currentInvoice }) {
+function EditInvoiceModal({ currentInvoice }: { currentInvoice: any }) {
   return (
     <Modal>
       <Open>

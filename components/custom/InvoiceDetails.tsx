@@ -1,13 +1,13 @@
 import { formatDate } from "@/lib/utils";
 import InvoiceAddress from "./InvoiceAddress";
 
-function InvoiceDetails({ currentInvoice }) {
+function InvoiceDetails({ currentInvoice }: { currentInvoice: any }) {
   return (
     <div className="mt-12 flex items-start gap-6 capitalize sm:gap-4">
       <div className="hidden basis-1/4 sm:block">
         <h3 className="mb-2 text-sm text-skin-baliHai">Invoice Date</h3>
         <p className="mb-6 text-lg font-bold text-skin-black">
-          {formatDate(new Date(currentInvoice.createdAt))}
+          {formatDate(new Date(currentInvoice.createdAt!))}
         </p>
         <h3 className="mb-2 text-sm text-skin-baliHai">Payment due</h3>
         <p className="mb-6 text-lg font-bold text-skin-black">
@@ -34,7 +34,7 @@ function InvoiceDetails({ currentInvoice }) {
         <div className="block basis-1/4 sm:hidden">
           <h3 className="mb-2 text-sm text-skin-baliHai">Invoice Date</h3>
           <p className="mb-6 text-lg font-bold text-skin-black">
-            {formatDate(new Date(currentInvoice.createdAt))}
+            {formatDate(new Date(currentInvoice.createdAt!))}
           </p>
           <h3 className="mb-2 text-sm text-skin-baliHai">Payment due</h3>
           <p className="mb-6 text-lg font-bold text-skin-black">

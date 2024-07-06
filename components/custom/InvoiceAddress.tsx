@@ -1,4 +1,4 @@
-function InvoiceAddress({ address }) {
+function InvoiceAddress({ address }: { address: any }) {
   return (
     <div className={`space-y-2 text-left text-xs text-skin-baliHai`}>
       <p>{address.street}</p>

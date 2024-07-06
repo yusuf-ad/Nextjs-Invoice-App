@@ -1,15 +1,15 @@
-import { formatMoney } from "@/lib/utils";
+import { Item } from "@/lib/definitions/invoice";
 
-function TableItem({ item }) {
+function TableItem({ item }: { item: Item }) {
   return (
     <tr className="text-sm font-bold">
       <td className="pb-4 capitalize text-skin-black">{item.name}</td>
       <td className="pb-4 text-right text-skin-baliHai">{item.qty} </td>
       <td className="pb-4 text-right text-skin-baliHai">
-        ${formatMoney(item.price)}
+        ${item.price.toFixed(2)}
       </td>
       <td className="pb-4 text-right text-skin-black">
-        ${formatMoney(item.totalPrice)}
+        ${item.totalPrice.toFixed(2)}
       </td>
     </tr>
   );
