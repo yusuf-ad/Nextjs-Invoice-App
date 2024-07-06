@@ -39,9 +39,9 @@ function LoginForm() {
       return toast.error(message);
     }
 
-    console.log(status, message);
-
-    toast.success("Logged in succesfully.");
+    if (status === "success") {
+      toast.success(message);
+    }
   }
 
   return (
