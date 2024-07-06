@@ -1,6 +1,5 @@
-import { decrypt, verifySession } from "@/server/auth/session";
 import { hasAuth } from "@/server/data-service";
-import { cookies } from "next/headers";
+import { ratelimit } from "@/server/rate-limit";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
@@ -17,6 +16,12 @@ export const ourFileRouter = {
 
       // If you throw, the user will not be able to upload
       if (!session?.userId) throw new UploadThingError("Unauthorized");
+
+      const { success } = await ratelimit.limit(session.userId);
+
+      if (!success) {
+        throw new UploadThingError("Rate limit exceeded!");
+      }
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: session.userId };

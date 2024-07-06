@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProfileInfoForm from "./ProfileInfoForm";
 import { UploadButton } from "@/app/api/uploadthing/uploadthing";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 type ProfileInfoProps = {
   profile: {
@@ -41,9 +42,15 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
             <UploadButton
               endpoint="imageUploader"
               onClientUploadComplete={([data]) => {
+                toast.success("Upload successful!");
+
                 updateAvatar(data.serverData.fileUrl);
               }}
-              onUploadError={clearAvatar}
+              onUploadError={(data) => {
+                toast.error(data.message || "Upload failed!");
+
+                clearAvatar();
+              }}
             />
           </div>
         </form>

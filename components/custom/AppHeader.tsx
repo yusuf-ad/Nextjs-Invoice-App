@@ -26,7 +26,7 @@ async function AppHeader() {
       <div className={`relative flex items-center gap-8 xl:flex-col xl:gap-8`}>
         <DarkModeButton />
 
-        {userId && <UserAvatar userImg={profile?.photo} />}
+        {userId && <UserAvatar userImg={profile?.photo!} />}
       </div>
     </header>
   );
