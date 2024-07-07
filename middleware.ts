@@ -2,16 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { decrypt } from "@/server/auth/session";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://next-invoice-app-vert.vercel.app"
-    : "";
-
-// 1. Specify protected and public routes with BASE_URL prepended
-const protectedRoutes = ["/app", "/profile"].map((route) => BASE_URL + route);
-const publicRoutes = ["/login", "/signup", "/"].map(
-  (route) => BASE_URL + route,
-);
+// 1. Specify protected and public routes
+const protectedRoutes = ["/app", "/profile"];
+const publicRoutes = ["/login", "/signup", "/"];
 
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
@@ -22,16 +15,6 @@ export default async function middleware(req: NextRequest) {
   // 3. Decrypt the session from the cookie
   const cookie = cookies().get("session")?.value;
   const session = await decrypt(cookie);
-
-  console.log(
-    "path",
-    path,
-    "isProtectedRoute",
-    isProtectedRoute,
-    "isPublicRoute",
-    isPublicRoute,
-    !req.nextUrl.pathname.startsWith("/app"),
-  );
 
   // 4. Redirect
   if (isProtectedRoute && !session?.userId) {

@@ -44,13 +44,13 @@ function SignupForm() {
         message: "",
       };
 
+      console.log(status, message);
+
       if (status === "error") {
         return toast.error(message);
       }
 
-      if (status === "success") {
-        toast.success("Signed up succesfully.");
-      }
+      toast.success("Signed up succesfully.");
     } catch (error) {
       console.log(error);
       toast.error("An error occurred. Please try again.");
