@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { decrypt } from "@/server/auth/session";
 
-// 1. Specify protected and public routes
-const protectedRoutes = ["/app", "/profile"];
-const publicRoutes = ["/login", "/signup", "/"];
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://next-invoice-app-vert.vercel.app"
+    : "";
+
+// 1. Specify protected and public routes with BASE_URL prepended
+const protectedRoutes = ["/app", "/profile"].map((route) => BASE_URL + route);
+const publicRoutes = ["/login", "/signup", "/"].map(
+  (route) => BASE_URL + route,
+);
 
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public

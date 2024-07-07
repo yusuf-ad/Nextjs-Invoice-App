@@ -48,9 +48,12 @@ function SignupForm() {
         return toast.error(message);
       }
 
-      toast.success("Signed up succesfully.");
+      if (status === "success") {
+        toast.success("Signed up succesfully.");
+      }
     } catch (error) {
       console.log(error);
+      toast.error("An error occurred. Please try again.");
     }
   }
 
