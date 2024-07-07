@@ -44,8 +44,6 @@ function SignupForm() {
         message: "",
       };
 
-      console.log(status, message);
-
       if (status === "error") {
         return toast.error(message);
       }

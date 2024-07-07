@@ -35,13 +35,11 @@ function LoginForm() {
       message: "",
     };
 
-    console.log(status, message);
-
     if (status === "error") {
       return toast.error(message);
     }
 
-    toast.success(message);
+    toast.success("Logged in succesfully");
   }
 
   return (
