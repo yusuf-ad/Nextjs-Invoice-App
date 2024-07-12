@@ -58,7 +58,7 @@ function SignupForm() {
   return (
     <Form {...form}>
       <form
-        className="mt-8 flex flex-col rounded-md bg-white px-6 py-4 dark:bg-skin-mirage sm:px-10 sm:py-8"
+        className="mt-8 flex w-full flex-col rounded-md bg-white px-6 py-4 dark:bg-skin-mirage sm:px-10 sm:py-8"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-5">
