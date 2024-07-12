@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { testInvoices } from "@/lib/mockup-data";
 import { generateInvoiceId } from "@/lib/utils";
 import prisma from "@/prisma";
