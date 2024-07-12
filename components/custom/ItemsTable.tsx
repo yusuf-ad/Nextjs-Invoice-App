@@ -6,7 +6,7 @@ function ItemsTable({ currentInvoice }: { currentInvoice: any }) {
     <div className="mt-12 overflow-hidden rounded-md shadow-sm">
       <div className="bg-skin-offWhite px-6 py-10 pb-6 dark:bg-skin-ebony">
         <table className="w-full">
-          <thead className="text-xs text-skin-baliHai">
+          <thead className="hidden text-xs text-skin-baliHai md:table-header-group">
             <tr>
               <th className="pb-6 text-left">Item Name</th>
               <th className="pb-6 text-right">QTY.</th>
@@ -14,6 +14,7 @@ function ItemsTable({ currentInvoice }: { currentInvoice: any }) {
               <th className="pb-6 text-right">Total</th>
             </tr>
           </thead>
+
           <tbody>
             {currentInvoice.items.map((item: Item, index: number) => (
               <TableItem key={index} item={item} />

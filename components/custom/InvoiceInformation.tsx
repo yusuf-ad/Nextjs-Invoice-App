@@ -46,7 +46,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
       </div>
 
       <div className="mt-4 w-full rounded-md bg-white px-6 py-8 dark:bg-skin-mirage">
-        <div className="grid grid-cols-3 gap-8">
+        <div className="flex flex-col gap-6 md:flex-row md:justify-between">
           <div className="col-span-2">
             <p className="text-xs font-bold text-skin-shipCove">
               #
@@ -58,6 +58,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
               {currentInvoice.description}
             </p>
           </div>
+
           <InvoiceAddress address={currentInvoice.senderAddress} />
         </div>
 
