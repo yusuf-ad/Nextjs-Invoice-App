@@ -12,7 +12,7 @@ function Page({ params }: { params: { invoiceId: string } }) {
         <BackButton />
       </header>
 
-      <section className="mb-20 md:mb-4">
+      <section className="mb-28 md:mb-4">
         <Suspense
           fallback={
             <div className="center-x absolute top-1/4 justify-center">
