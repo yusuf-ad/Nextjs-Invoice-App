@@ -25,7 +25,7 @@ function ItemsTable({ currentInvoice }: { currentInvoice: any }) {
       </div>
       <div className="flex items-center justify-between bg-skin-gray px-6 py-6 text-white dark:bg-skin-vulcan">
         <p className="text-sm">Amount Due</p>
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold md:text-xl">
           ${formatPrice(currentInvoice.total)}
         </h2>
       </div>
