@@ -22,6 +22,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
           <InvoiceStatus status={currentInvoice.status} />
         </div>
 
+        {/* desktop buttons */}
         <div className="hidden items-center space-x-3 md:flex">
           <EditInvoiceModal currentInvoice={currentInvoice} />
 
@@ -32,6 +33,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
           )}
         </div>
 
+        {/* mobile  buttons*/}
         <div className="fixed bottom-0 left-0 flex h-20 w-full items-center justify-center gap-3 bg-white shadow-2xl shadow-slate-600 dark:bg-skin-mirage md:hidden">
           <EditInvoiceModal currentInvoice={currentInvoice} />
 
@@ -43,7 +45,7 @@ async function InvoiceInformation({ invoiceId }: { invoiceId: string }) {
         </div>
       </div>
 
-      <div className="mt-4 rounded-md bg-white px-6 py-8 dark:bg-skin-mirage">
+      <div className="mt-4 w-full rounded-md bg-white px-6 py-8 dark:bg-skin-mirage">
         <div className="grid grid-cols-3 gap-8">
           <div className="col-span-2">
             <p className="text-xs font-bold text-skin-shipCove">

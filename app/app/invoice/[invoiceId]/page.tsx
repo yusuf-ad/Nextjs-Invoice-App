@@ -7,7 +7,7 @@ function Page({ params }: { params: { invoiceId: string } }) {
   const { invoiceId } = params;
 
   return (
-    <div className="container mt-4 max-w-3xl xl:mt-0">
+    <div className="container mt-4 max-w-3xl px-4 py-6 md:py-0 xl:mt-0">
       <header>
         <BackButton />
       </header>

@@ -38,7 +38,7 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(
     return (
       <div
         ref={ref}
-        className={`absolute right-5 top-[40px] z-30 flex w-40 flex-col overflow-hidden rounded-md bg-white px-3 text-sm font-bold transition-all duration-200 dark:bg-skin-mirage ${
+        className={`absolute right-5 top-[40px] z-30 flex w-40 flex-col overflow-hidden rounded-md bg-white px-3 text-sm font-bold transition-all duration-200 dark:bg-skin-mirage xl:-right-28 xl:-top-5 xl:translate-y-0 ${
           isActive
             ? "pointer-events-auto translate-y-8 opacity-100 xl:translate-x-8"
             : "pointer-events-none -translate-y-0 opacity-0 xl:-translate-x-0"
