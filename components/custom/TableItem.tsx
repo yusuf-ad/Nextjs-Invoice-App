@@ -1,4 +1,5 @@
 import { Item } from "@/lib/definitions/invoice";
+import { formatPrice } from "@/lib/utils";
 
 function TableItem({ item }: { item: Item }) {
   return (
@@ -8,10 +9,10 @@ function TableItem({ item }: { item: Item }) {
         <td className="pb-4 capitalize text-skin-black">{item.name}</td>
         <td className="pb-4 text-right text-skin-baliHai">{item.qty} </td>
         <td className="pb-4 text-right text-skin-baliHai">
-          ${item.price.toFixed(2)}
+          ${formatPrice(item.price)}
         </td>
         <td className="pb-4 text-right text-skin-black">
-          ${item.totalPrice.toFixed(2)}
+          ${formatPrice(item.totalPrice)}
         </td>
       </tr>
 
@@ -21,13 +22,13 @@ function TableItem({ item }: { item: Item }) {
           <div>
             {item.name}
             <p className="mt-2 lowercase text-skin-shipCove">
-              {item.qty} x ${item.price.toFixed(2)}
+              {item.qty} x ${formatPrice(item.price)}
             </p>
           </div>
         </td>
 
         <td className="pb-4 text-right text-skin-black">
-          ${item.totalPrice.toFixed(2)}
+          ${formatPrice(item.totalPrice)}
         </td>
       </tr>
     </>

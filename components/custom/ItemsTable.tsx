@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/utils";
 import TableItem from "./TableItem";
 import { Item } from "@/lib/definitions/invoice";
 
@@ -25,7 +26,7 @@ function ItemsTable({ currentInvoice }: { currentInvoice: any }) {
       <div className="flex items-center justify-between bg-skin-gray px-6 py-6 text-white dark:bg-skin-vulcan">
         <p className="text-sm">Amount Due</p>
         <h2 className="text-xl font-bold">
-          ${currentInvoice.total.toFixed(2)}
+          ${formatPrice(currentInvoice.total)}
         </h2>
       </div>
     </div>
