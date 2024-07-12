@@ -32,8 +32,8 @@ function DeleteInvoiceButton({ invoiceId }: { invoiceId: string }) {
           Delete
         </div>
       </DialogTrigger>
-      <DialogContent className="p-10">
-        <DialogTitle className="text-4xl font-bold tracking-wide text-skin-black">
+      <DialogContent className="w-3/4 max-w-xl p-10">
+        <DialogTitle className="text-3xl font-bold tracking-wide text-skin-black sm:text-4xl">
           Confirm Deletion
         </DialogTitle>
         <DialogDescription className="text-sm leading-6 text-skin-baliHai">
