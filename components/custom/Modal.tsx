@@ -79,6 +79,12 @@ function Content({
   const { isOpen, close } = useModal();
 
   const overlay = useRef(null);
+  // State to control the rendering of the portal only on the client side
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true); // Component has mounted, set isMounted to true
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -93,20 +99,23 @@ function Content({
     };
   }, [close]);
 
-  return createPortal(
-    <Overlay isOpen={isOpen} ref={overlay}>
-      <div
-        className={`${
-          isOpen
-            ? "pointer-events-auto translate-x-0 opacity-100"
-            : "pointer-events-none -translate-x-full opacity-0"
-        } relative ${className}`}
-      >
-        {children}
-      </div>
-    </Overlay>,
-    document.getElementById("modal-root")!,
-  );
+  // Only render the portal if isMounted is true
+  return isMounted
+    ? createPortal(
+        <Overlay isOpen={isOpen} ref={overlay}>
+          <div
+            className={`${
+              isOpen
+                ? "pointer-events-auto translate-x-0 opacity-100"
+                : "pointer-events-none -translate-x-full opacity-0"
+            } relative ${className}`}
+          >
+            {children}
+          </div>
+        </Overlay>,
+        document.getElementById("modal-root")!,
+      )
+    : null;
 }
 
 export { Modal, Content, useModal, Open, Close };
