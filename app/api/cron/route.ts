@@ -2,7 +2,7 @@
 import { testInvoices } from "@/lib/mockup-data";
 import { generateInvoiceId } from "@/lib/utils";
 import prisma from "@/prisma";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
