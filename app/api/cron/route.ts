@@ -6,6 +6,12 @@ import prisma from "@/prisma";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
+    if (
+      req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
+    ) {
+      return res.status(401).end("Unauthorized");
+    }
+
     // delete all the invoices
     await prisma.invoice.deleteMany({
       where: {
