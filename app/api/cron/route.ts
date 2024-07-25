@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { NextApiRequest, NextApiResponse } from "next";
 import { testInvoices } from "@/lib/mockup-data";
 import { generateInvoiceId } from "@/lib/utils";
 import prisma from "@/prisma";
+import { NextRequest } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
   try {
     if (
       req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
     ) {
-      return res.status(401).end("Unauthorized");
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     // delete all the invoices
@@ -32,15 +32,28 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       }),
     );
 
-    // Return a success response
-    res
-      .status(200)
-      .json({ message: "Invoices reset and populated successfully." });
+    return new NextResponse(
+      JSON.stringify({ message: "Invoices reset and populated successfully." }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   } catch (error) {
     // Return an error response
-    res.status(500).json({
-      error: "Failed to reset and populate invoices",
-      details: error.message,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        error: "Failed to reset and populate invoices",
+        details: error.message,
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   }
 }
