@@ -10,6 +10,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
 
 type InvoicePaginationProps = {
   totalPages: number;
@@ -19,7 +21,10 @@ function InvoicePagination({ totalPages }: InvoicePaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.toString());
+  const params = useMemo(
+    () => new URLSearchParams(searchParams.toString()),
+    [searchParams],
+  );
 
   const currentPage = parseInt(params.get("page") || "1");
 
@@ -40,6 +45,15 @@ function InvoicePagination({ totalPages }: InvoicePaginationProps) {
       handlePageChange(currentPage + 1);
     }
   }
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      toast.error("Invalid page number. Redirecting to the last page.");
+
+      params.set("page", totalPages.toString());
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  }, [currentPage, params, pathname, router, totalPages]);
 
   return (
     <Pagination>

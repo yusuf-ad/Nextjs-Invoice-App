@@ -17,6 +17,12 @@ export const ourFileRouter = {
       // If you throw, the user will not be able to upload
       if (!session?.userId) throw new UploadThingError("Unauthorized");
 
+      if (session.userId === process.env.TEST_ID) {
+        throw new UploadThingError(
+          "You can't upload images as a test user! For security reasons 😂, you can upload images by signing up a new user.",
+        );
+      }
+
       const { success } = await ratelimit.limit(session.userId);
 
       if (!success) {

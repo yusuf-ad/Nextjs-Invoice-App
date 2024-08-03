@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     // delete all the invoices
     await prisma.invoice.deleteMany({
       where: {
-        userId: "66915101d4c35573c9731dcf",
+        userId: process.env.TEST_ID,
       },
     });
 
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
           // @ts-ignore
           data: {
             ...invoice,
-            userId: "66915101d4c35573c9731dcf",
+            userId: process.env.TEST_ID,
             invoiceId: generateInvoiceId(),
           },
         });

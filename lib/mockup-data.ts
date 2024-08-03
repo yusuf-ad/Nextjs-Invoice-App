@@ -1,6 +1,5 @@
 export const testInvoices = [
   {
-    id: "64b8f3928f8f3a1e4c1b4a01",
     invoiceId: "INV001",
     description: "Web development services",
     status: "pending",
@@ -40,7 +39,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a02",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a03",
     invoiceId: "INV002",
     description: "Graphic design services",
     status: "paid",
@@ -80,7 +78,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a04",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a05",
     invoiceId: "INV003",
     description: "Consulting services",
     status: "pending",
@@ -113,7 +110,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a06",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a07",
     invoiceId: "INV004",
     description: "Marketing services",
     status: "draft",
@@ -146,7 +142,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a08",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a09",
     invoiceId: "INV005",
     description: "IT support services",
     status: "pending",
@@ -179,7 +174,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a10",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a11",
     invoiceId: "INV006",
     description: "Content writing services",
     status: "paid",
@@ -212,7 +206,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a12",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a13",
     invoiceId: "INV007",
     description: "Data analysis services",
     status: "draft",
@@ -245,7 +238,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a14",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a15",
     invoiceId: "INV008",
     description: "App development",
     status: "pending",
@@ -278,7 +270,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a16",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a17",
     invoiceId: "INV009",
     description: "E-commerce development",
     status: "paid",
@@ -311,7 +302,6 @@ export const testInvoices = [
     userId: "64b8f3928f8f3a1e4c1b4a18",
   },
   {
-    id: "64b8f3928f8f3a1e4c1b4a19",
     invoiceId: "INV010",
     description: "Cybersecurity audit",
     status: "draft",

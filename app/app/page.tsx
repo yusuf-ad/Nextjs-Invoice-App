@@ -13,7 +13,7 @@ type SearchParams = {
 async function Page({ searchParams }: SearchParams) {
   const invoices = await getInvoices();
 
-  const currentPage = searchParams.page || 1;
+  let currentPage = searchParams.page || 1;
   const filter = searchParams.status || "all";
 
   // filter
