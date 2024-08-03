@@ -14,6 +14,7 @@ import { createDraftInvoice, createInvoice } from "@/server/actions";
 import { InvoiceSchema } from "@/lib/definitions/invoice";
 import { Form } from "@/components/ui/form";
 import { useModal } from "./Modal";
+import { useState } from "react";
 
 const initialValues = {
   clientName: "",
@@ -44,6 +45,8 @@ const initialValues = {
 };
 
 function CreateInvoiceForm() {
+  const [isSubmittingDraft, setIsSubmittingDraft] = useState(false);
+
   const form = useForm<z.output<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
     defaultValues: {
@@ -75,6 +78,8 @@ function CreateInvoiceForm() {
   }
 
   async function handleDraftInvoice() {
+    setIsSubmittingDraft(true);
+
     const data = form.getValues();
 
     const { status, message } = (await createDraftInvoice(data)) ?? {
@@ -85,6 +90,8 @@ function CreateInvoiceForm() {
     if (status === "error") {
       return toast.error(message);
     }
+
+    setIsSubmittingDraft(false);
 
     closeModal();
 
@@ -152,7 +159,7 @@ function CreateInvoiceForm() {
               type="button"
               className="btn-sm order-2 bg-skin-gray font-bold text-skin-baliHai hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-skin-gray dark:hover:bg-skin-gray dark:hover:opacity-70"
             >
-              Save as Draft
+              {isSubmittingDraft ? "Saving..." : "Save as Draft"}
             </button>
             <button
               type="submit"

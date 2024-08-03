@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { testInvoices } from "@/lib/mockup-data";
 import { generateInvoiceId } from "@/lib/utils";
 import prisma from "@/prisma";
@@ -23,6 +22,7 @@ export async function GET(req: NextRequest) {
     await Promise.all(
       testInvoices.map(async (invoice) => {
         await prisma.invoice.create({
+          // @ts-ignore
           data: {
             ...invoice,
             userId: "66915101d4c35573c9731dcf",
@@ -32,28 +32,17 @@ export async function GET(req: NextRequest) {
       }),
     );
 
-    return new NextResponse(
-      JSON.stringify({ message: "Invoices reset and populated successfully." }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+    return NextResponse.json(
+      { message: "Invoices reset and populated successfully." },
+      { status: 200 },
     );
-  } catch (error) {
-    // Return an error response
-    return new NextResponse(
-      JSON.stringify({
+  } catch (error: any) {
+    return NextResponse.json(
+      {
         error: "Failed to reset and populate invoices",
         details: error.message,
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
       },
+      { status: 500 },
     );
   }
 }
