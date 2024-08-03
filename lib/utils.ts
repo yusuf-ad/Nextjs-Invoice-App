@@ -24,3 +24,5 @@ export function formatPrice(price: number) {
     maximumFractionDigits: 2,
   });
 }
+
+export const DISPLAY_LIMIT = 5;
