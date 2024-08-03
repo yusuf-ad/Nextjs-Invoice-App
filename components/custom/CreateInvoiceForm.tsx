@@ -87,11 +87,11 @@ function CreateInvoiceForm() {
       message: "",
     };
 
+    setIsSubmittingDraft(false);
+
     if (status === "error") {
       return toast.error(message);
     }
-
-    setIsSubmittingDraft(false);
 
     closeModal();
 

@@ -24,6 +24,7 @@ import {
   PasswordSchema,
   type UpdateProfileType,
 } from "@/lib/definitions/profile";
+import { ratelimit } from "./rate-limit";
 
 // * Auth actions
 export async function signup(formData: FormData) {
@@ -123,8 +124,6 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
   const validationResult = MyProfileFormSchema.safeParse(userInfo);
 
   if (!validationResult.success) {
-    console.log(validationResult.error.errors[0].message);
-
     return {
       status: "error",
       message: validationResult.error.errors[0].message,
@@ -140,6 +139,8 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
     photo: validationResult.data.photo || undefined,
   };
 
+  console.log(updatedData);
+
   try {
     const updatedUser = await prisma.user.update({
       where: {
@@ -147,10 +148,8 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
       },
       data: updatedData,
     });
-
-    console.log(updatedUser);
   } catch (err) {
-    console.log("error", err);
+    return handlePrismaError(err);
   }
 
   revalidatePath("/profile");
@@ -242,6 +241,15 @@ export async function createInvoice(invoiceData: NewInvoiceType) {
     0,
   );
 
+  const { success } = await ratelimit.limit("create");
+
+  if (!success) {
+    return {
+      status: "error",
+      message: "Failed to create invoice",
+    };
+  }
+
   // 2. check if the user is authenticated
   const session = await verifySession();
 
@@ -323,6 +331,15 @@ export async function createDraftInvoice(invoiceData: NewInvoiceType) {
     (acc, cur) => acc + cur.totalPrice!,
     0,
   );
+
+  const { success } = await ratelimit.limit("draft");
+
+  if (!success) {
+    return {
+      status: "error",
+      message: "Rate limit exceeded. Please try again 15 minutes later.",
+    };
+  }
 
   // 2. check if the user is authenticated
   const session = await verifySession();

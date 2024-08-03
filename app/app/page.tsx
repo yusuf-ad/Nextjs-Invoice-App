@@ -30,7 +30,7 @@ async function Page({ searchParams }: SearchParams) {
       {filteredInvoices.length > 0 ? (
         <InvoicesList invoices={filteredInvoices} />
       ) : (
-        <p className="mt-16 text-xl">There is no invoice!</p>
+        <p className="mt-16 text-xl">There is no invoices yet.</p>
       )}
     </div>
   );

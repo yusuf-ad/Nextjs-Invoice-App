@@ -14,6 +14,7 @@ import { MyProfileFormSchema } from "@/lib/definitions/profile";
 import { updateMyProfile } from "@/server/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 type ProfileInfoFormProps = {
@@ -40,7 +41,14 @@ function ProfileInfoForm({
   const { dirtyFields } = form.formState;
 
   async function onSubmit(data: z.output<typeof MyProfileFormSchema>) {
-    await updateMyProfile({ ...data, photo: newAvatar });
+    const { status, message } = (await updateMyProfile({
+      ...data,
+      photo: newAvatar,
+    })) ?? { status: "", message: "" };
+
+    if (status === "error") {
+      toast.error(message);
+    }
 
     clearAvatar();
   }
