@@ -3,6 +3,7 @@ import Filter from "@/components/custom/Filter";
 import InvoicesList from "@/components/custom/InvoicesList";
 import { getInvoices } from "../../server/data-service";
 import NewInvoiceModal from "@/components/custom/NewInvoiceModal";
+import InvoicePagination from "@/components/custom/InvoicePagination";
 
 type SearchParams = {
   searchParams: { status: string };
@@ -28,7 +29,11 @@ async function Page({ searchParams }: SearchParams) {
       </header>
 
       {filteredInvoices.length > 0 ? (
-        <InvoicesList invoices={filteredInvoices} />
+        <>
+          <InvoicesList invoices={filteredInvoices.slice(0, 5)} />
+
+          {filteredInvoices.length > 5 && <InvoicePagination />}
+        </>
       ) : (
         <p className="mt-16 text-xl">There is no invoices yet.</p>
       )}
