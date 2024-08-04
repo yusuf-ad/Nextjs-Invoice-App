@@ -3,6 +3,7 @@ import HeaderLogo from "./HeaderLogo";
 import UserAvatar from "./UserAvatar";
 import { getMyInfo, hasAuth } from "@/server/data-service";
 import clsx from "clsx";
+import ButtonLogout from "./ButtonLogout";
 
 async function AppHeader() {
   const { userId } = await hasAuth();
@@ -10,6 +11,22 @@ async function AppHeader() {
 
   if (userId) {
     profile = await getMyInfo();
+
+    if ("status" in profile) {
+      return (
+        <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-75">
+          <div className="rounded-lg bg-white p-8 text-center shadow-lg dark:bg-skin-mirage">
+            <h1 className="text-2xl font-bold text-red-600">User not found!</h1>
+            <p className="mb-10 mt-4 text-skin-black">
+              The user you are looking for does not exist. Please logout and try
+              again.
+            </p>
+
+            <ButtonLogout />
+          </div>
+        </div>
+      );
+    }
   }
 
   return (

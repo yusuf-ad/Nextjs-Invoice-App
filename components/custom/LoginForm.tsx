@@ -21,6 +21,10 @@ import toast from "react-hot-toast";
 function LoginForm() {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
+    defaultValues: {
+      username: "test",
+      password: "test",
+    },
   });
 
   const { isSubmitting } = form.formState;

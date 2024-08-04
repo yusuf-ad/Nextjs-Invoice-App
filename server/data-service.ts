@@ -101,12 +101,15 @@ export async function hasAuth(): Promise<{
   };
 }
 
-export async function getMyInfo(): Promise<{
-  username: string;
-  email: string;
-  fullName: string;
-  photo: string;
-}> {
+export async function getMyInfo(): Promise<
+  | {
+      username: string;
+      email: string;
+      fullName: string;
+      photo: string;
+    }
+  | { status: string; message: string }
+> {
   try {
     // 1. Check authentication
     const session = await verifySession();
@@ -129,6 +132,10 @@ export async function getMyInfo(): Promise<{
     return user;
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch user");
+
+    return {
+      status: "error",
+      message: "User not found. You are being logged out.",
+    };
   }
 }
