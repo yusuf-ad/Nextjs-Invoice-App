@@ -15,6 +15,13 @@ function Page() {
           href="https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl"
         >
           Front End Mentor challenge
+        </a>{" "}
+        by{" "}
+        <a
+          className="transition-1 text-skin-heliotrope hover:underline"
+          href="https://github.com/yusuf-ad/Nextjs-Invoice-App"
+        >
+          Yusuf Ad
         </a>
       </p>
 

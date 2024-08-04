@@ -16,13 +16,21 @@ async function Page({ searchParams }: SearchParams) {
   let currentPage = searchParams.page || 1;
   const filter = searchParams.status || "all";
 
-  // filter
+  // Sort invoices by paymentDue in ascending order
+  const sortedInvoices = invoices.sort(
+    (a, b) =>
+      new Date(b.paymentDue).getTime() - new Date(a.paymentDue).getTime(),
+  );
+
+  // Filter
   const filteredInvoices =
     filter !== "all"
-      ? invoices.filter((invoice) => invoice.status === searchParams.status)
-      : invoices;
+      ? sortedInvoices.filter(
+          (invoice) => invoice.status === searchParams.status,
+        )
+      : sortedInvoices;
 
-  // pagination
+  // Pagination
   const totalPages = Math.ceil(filteredInvoices.length / DISPLAY_LIMIT);
 
   let paginatedInvoices = filteredInvoices;

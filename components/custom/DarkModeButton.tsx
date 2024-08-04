@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Moon, Sun, Check } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -11,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEffect } from "react";
 
 const menuItems = [
   {
@@ -29,6 +29,12 @@ const menuItems = [
 
 function DarkModeButton() {
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    if (!theme) {
+      setTheme("light");
+    }
+  }, [theme, setTheme]);
 
   return (
     <DropdownMenu>
