@@ -4,6 +4,10 @@ import ProfileInfo from "@/components/custom/ProfileInfo";
 async function ProfilePage() {
   const profileInfo = await getMyInfo();
 
+  if ("status" in profileInfo) {
+    return <div>{profileInfo.message}</div>;
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4">
       <ProfileInfo profile={profileInfo} />

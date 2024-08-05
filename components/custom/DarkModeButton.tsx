@@ -49,7 +49,7 @@ function DarkModeButton() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="ml-4" align="end">
         {menuItems.map((item) => (
           <DropdownMenuItem
             key={item.value}
