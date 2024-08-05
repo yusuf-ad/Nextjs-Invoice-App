@@ -18,6 +18,7 @@ function Page() {
         </a>{" "}
         by{" "}
         <a
+          target="blank"
           className="transition-1 text-skin-heliotrope hover:underline"
           href="https://github.com/yusuf-ad/Nextjs-Invoice-App"
         >

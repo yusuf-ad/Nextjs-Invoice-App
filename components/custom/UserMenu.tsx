@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useRef, MutableRefObject } from "react";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, GithubIcon } from "lucide-react";
 import Link from "next/link";
 
 interface UserMenuProps {
@@ -15,6 +15,7 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(
   ({ isActive, setIsActive, handleLogout, isPending }, ref) => {
     const logOutButtonRef = useRef<HTMLButtonElement>(null);
     const profileButtonRef = useRef<HTMLAnchorElement>(null);
+    const githubButtonRef = useRef<HTMLAnchorElement>(null);
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -44,6 +45,16 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(
             : "pointer-events-none -translate-y-0 opacity-0 xl:-translate-x-0"
         }`}
       >
+        <a
+          target="_blank"
+          href="https://github.com/yusuf-ad/Nextjs-Invoice-App"
+          className="flex items-center justify-center gap-2 border-b-[1px] border-b-gray-400 py-4 text-center hover:underline hover:decoration-skin-purple hover:decoration-1 hover:underline-offset-4"
+          ref={githubButtonRef}
+          onClick={() => setIsActive(!isActive)}
+        >
+          <GithubIcon className="h-4 w-4" />
+          Github repo
+        </a>
         <Link
           href="/profile"
           className="flex items-center justify-center gap-2 border-b-[1px] border-b-gray-400 py-4 text-center hover:underline hover:decoration-skin-purple hover:decoration-1 hover:underline-offset-4"

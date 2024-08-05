@@ -25,4 +25,4 @@ export function formatPrice(price: number) {
   });
 }
 
-export const DISPLAY_LIMIT = 5;
+export const DISPLAY_LIMIT = 6;

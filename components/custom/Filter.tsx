@@ -42,6 +42,7 @@ function Filter({ className }: ComponentPropsWithoutRef<"div">) {
     if (params.get("status") === filter) {
       params.delete("status");
     } else {
+      params.delete("page");
       params.set("status", filter);
     }
 
