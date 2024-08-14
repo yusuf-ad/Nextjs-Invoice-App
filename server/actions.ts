@@ -139,8 +139,6 @@ export async function updateMyProfile(userInfo: UpdateProfileType) {
     photo: validationResult.data.photo || undefined,
   };
 
-  console.log(updatedData);
-
   try {
     const updatedUser = await prisma.user.update({
       where: {
@@ -279,8 +277,6 @@ export async function editInvoice(invoiceId: string, invoiceData: InvoiceType) {
   const validationResult = InvoiceSchema.safeParse(invoiceData);
 
   if (!validationResult.success) {
-    console.log("error 💩");
-
     return {
       status: "error",
       message: "Invalid data. Please check the fields.",
@@ -319,8 +315,6 @@ export async function createDraftInvoice(invoiceData: NewInvoiceType) {
   const validationResult = DraftInvoiceSchema.safeParse(invoiceData);
 
   if (!validationResult.success) {
-    console.log(JSON.stringify(validationResult.error));
-
     return {
       status: "error",
       message: "Invalid data. Please check the fields.",

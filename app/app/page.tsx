@@ -10,6 +10,10 @@ type SearchParams = {
   searchParams: { status: string; page: number };
 };
 
+export const metadata = {
+  title: "Home",
+};
+
 async function Page({ searchParams }: SearchParams) {
   const invoices = await getInvoices();
 

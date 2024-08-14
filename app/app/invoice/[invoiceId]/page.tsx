@@ -3,6 +3,16 @@ import InvoiceInformation from "@/components/custom/InvoiceInformation";
 import Loader from "@/components/custom/Loader";
 import { Suspense } from "react";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { invoiceId: string };
+}) {
+  return {
+    title: `Invoice #${params.invoiceId}`,
+  };
+}
+
 function Page({ params }: { params: { invoiceId: string } }) {
   const { invoiceId } = params;
 

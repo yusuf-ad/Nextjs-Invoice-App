@@ -2,6 +2,8 @@
 
 ![Design preview for the Invoice app coding challenge](./public/preview.jpg)
 
+![Design preview for the Invoice app coding challenge](./public/preview-2.png)
+
 ## Intro
 
 Hello, there! 👋

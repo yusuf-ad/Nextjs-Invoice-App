@@ -14,7 +14,10 @@ import { ourFileRouter } from "@/app/api/uploadthing/core";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Invoice App",
+  title: {
+    template: "%s - Invoice App",
+    default: "Invoice App",
+  },
   description: "Invoice App",
 };
 

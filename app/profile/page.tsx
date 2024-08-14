@@ -1,6 +1,10 @@
 import { getMyInfo } from "@/server/data-service";
 import ProfileInfo from "@/components/custom/ProfileInfo";
 
+export const metadata = {
+  title: "Profile",
+};
+
 async function ProfilePage() {
   const profileInfo = await getMyInfo();
 

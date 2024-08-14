@@ -1,5 +1,9 @@
 import SignupForm from "@/components/custom/SignupForm";
 
+export const metadata = {
+  title: "Signup",
+};
+
 function Page() {
   return (
     <div className="container top-1/4 flex min-h-max max-w-xl flex-col items-center justify-center px-4 py-12">
