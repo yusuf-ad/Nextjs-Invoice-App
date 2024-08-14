@@ -12,7 +12,7 @@ Thank you for checking out my solution to the [invoice app challenge](https://ww
 
 Feel free to look around and explore! 😉
 
-[Live demo](https://next-invoice-cl5q24yyx-yusuf-ads-projects.vercel.app)
+[Live demo](https://next-invoice-app-vert.vercel.app/)
 
 ## Installation
 
